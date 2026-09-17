@@ -29,7 +29,9 @@ symon() {
     local v=${1:-}; shift 2>/dev/null
     case "$v" in
         "")       echo "scripts/ :"; for f in "$SYMON_REPO"/scripts/*; do [ -x "$f" ] && [ -f "$f" ] && printf '  %s\n' "$(basename "$f")"; done
-                  echo "tools    :  build prove test verify scan tree env"; return 0 ;;
+                  echo "tools    :  cmake build prove test verify scan tree env"; return 0 ;;
+        # the two branches: cmake what is already symoneural source, or build sources with symoneural-build
+        cmake)    cmake -S "$SYMON_REPO" -B "$SYMON_OUT/cmake" -DCMAKE_BUILD_TYPE=Release "$@" && cmake --build "$SYMON_OUT/cmake" -j ;;
         build)    symonbake "$@" ;;
         prove)    clean-root-proof "$@" ;;
         test)     run-all-tests "$@" ;;
