@@ -29,13 +29,12 @@ symon() {
     local v=${1:-}; shift 2>/dev/null
     case "$v" in
         "")       echo "scripts/ :"; for f in "$SYMON_REPO"/scripts/*; do [ -x "$f" ] && [ -f "$f" ] && printf '  %s\n' "$(basename "$f")"; done
-                  echo "tools    :  build prove test verify scan audit tree env"; return 0 ;;
+                  echo "tools    :  build prove test verify scan tree env"; return 0 ;;
         build)    symonbake "$@" ;;
         prove)    clean-root-proof "$@" ;;
         test)     run-all-tests "$@" ;;
         verify)   python3 -B "$SYMON_REPO/work/tools/verify-acquisition.py" "$@" ;;
         scan)     python3 -B "$SYMON_REPO/work/tools/scan-acquisition.py" "$@" && python3 -B "$SYMON_REPO/work/tools/scan-dependencies.py" "$@" ;;
-        audit)    "$SYMON_REPO/work/tools/pre-publish-audit.sh" "$@" ;;
         tree)     tree -L "${1:-3}" -d --noreport -I 'output|.gitpins|__pycache__|.git' "$SYMON_REPO" ;;
         env)      printf 'SYMON_REPO=%s\nSYMON_OUT=%s\nOEROOT=%s\nBITBAKEDIR=%s\nSYMON_META_OE=%s\nSYMON_MODELS_DIR=%s\n' \
                       "$SYMON_REPO" "$SYMON_OUT" "$OEROOT" "$BITBAKEDIR" "$SYMON_META_OE" "$SYMON_MODELS_DIR" ;;
