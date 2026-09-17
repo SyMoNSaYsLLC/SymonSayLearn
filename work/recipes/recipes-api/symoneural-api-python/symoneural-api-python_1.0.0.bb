@@ -11,7 +11,7 @@ HOMEPAGE = "https://symoneural.com"
 LICENSE = "CLOSED"
 
 inherit symoneural-firstparty python_flit_core
-SYMON_FP_PATH = "Symoneural-API/app"
+SYMON_FP_PATH = "production/runtimes/api/app"
 
 RDEPENDS:${PN} += " \
     symoneural-fastapi \
