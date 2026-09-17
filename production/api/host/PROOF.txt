@@ -1,0 +1,16 @@
+libsymoneural-api host build — 2026-09-17T12:33Z
+built by: symon cmake  (root CMakeLists.txt -> work/runtimes/api/app)
+source  : HEAD 98bfad405eef  work/runtimes/api/app
+
+tests   : test_api rc=0  test_gpulock rc=0  test_rack rc=0  test_unit rc=0
+selftest: selftest PASS: 0 failure(s), abi 1.0.0
+abi     : 1.0.0  (65536)
+caps    : gpu-lock priority-table rack-telemetry unit-supervisor
+NEEDED  : libc.so.6 
+
+8b98cfd91201630ddbb057270da19e4c0f461a41e873dfb4d6aeef1a419d4f88  libsymoneural-api.a
+3b776c297e0eaea7d79633a0ce93d587de9926f215f9e1981c9d9ceffb0a21e5  libsymoneural-api.so
+3b776c297e0eaea7d79633a0ce93d587de9926f215f9e1981c9d9ceffb0a21e5  libsymoneural-api.so.1
+3b776c297e0eaea7d79633a0ce93d587de9926f215f9e1981c9d9ceffb0a21e5  libsymoneural-api.so.1.0.0
+f2c6ca92d7b89955809f403610370b8ff69c54c0ac654ec672d910cee33ad080  PROOF.txt
+07da2a4d2554c2afc90f37f3f3bb34194e6d959e7440f8977de25fc8f721515f  symoneural-api-util
