@@ -99,6 +99,8 @@
   "check-native-linkage.py": "186846eea29ecc9294fff8eb4a4708572c21db1ea09341a5c7be004744d63a1f",
   "check-python-runtime-closures.py": "6a5707bb1e71804ecf9db943a5be762fd7ded40f1facfecd36ea56a2053e2c85",
   "estate_processes.py": "bc98a96b2052922befed6c689b00aabec6e079ccbc24fd4b00d42aca429367fe",
+  "generate-api-map.py": "17c7003b8c9e5d4952212025e02be950d08c6d2db4cb010178b9ee81fb7a533d",
+  "generate-folder-maps.py": "57b97b895b9e89f708418a370ae53e0f6e8214f579b3e54990d061b4f07257b6",
   "generate-runtime-acquisition.py": "4367b005b7036802a64cee80cf3b297d5033bf733b3d8dfff2961bd852e584ba",
   "git_tree_identity.py": "90d33d04140fe98c2dbf0ac1c5f5151a39db3a229a0216a295072609142db964",
   "lib_acq.py": "d6b297150d6b1017b53ae62de6660d57125e7d3481f92082c10bc226943c8971",
