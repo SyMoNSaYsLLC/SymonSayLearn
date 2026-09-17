@@ -27,7 +27,8 @@ class MainTest(unittest.TestCase):
     def test_health_and_status_public(self):
         self.assertEqual(self.c.get("/api/health").json()["status"], "ready")
         states = {u["unit"]: u["state"] for u in self._units()}
-        self.assertEqual(len(states), 8)
+        # the registry is the count; hardcoding 8 broke when image and sigils landed
+        self.assertEqual(set(states), set(self.main.units.REGISTRY))
         self.assertTrue(all(s == "UNCONFIGURED" for s in states.values()), states)
 
     def test_status_reflects_token_enabled_and_lock(self):

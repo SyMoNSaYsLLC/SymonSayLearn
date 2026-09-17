@@ -187,9 +187,7 @@ REGISTRY: tuple[Endpoint, ...] = (
 # "why does this unit have no endpoint"; an entry here is a recorded decision, and a
 # unit that is in neither this dict nor REGISTRY fails the proof.
 UNROUTED: dict[str, str] = {
-    "sigils": "no recorded definition anywhere in the repository (docs/diffuse/"
-              "ARCHITECTURE.md section 1). It has a port and a rank; giving it a route "
-              "would be inventing the product.",
+    "sigils": "no recorded definition anywhere in this repository. It has a port and a rank; giving it a route would be inventing the product. See runtimes/diffuse/README.md.",
     "ravencalc": "reached on its own port 8801; the frozen tree routes inference and "
                  "control, not every unit's surface.",
     "coder": "reached on its own port 8803; speaks MCP, not an HTTP dialect the gateway "
