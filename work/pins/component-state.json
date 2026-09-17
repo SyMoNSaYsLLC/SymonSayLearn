@@ -1,0 +1,563 @@
+{
+ "components": [
+  {
+   "component": "annotated-doc",
+   "runtime": "API",
+   "source_path": "upstream/api/model/annotated-doc",
+   "state": "TARGET"
+  },
+  {
+   "component": "annotated-types",
+   "runtime": "API",
+   "source_path": "upstream/api/model/annotated-types",
+   "state": "TARGET"
+  },
+  {
+   "component": "anyio",
+   "runtime": "API",
+   "source_path": "upstream/api/http/anyio",
+   "state": "TARGET"
+  },
+  {
+   "component": "certifi",
+   "runtime": "API",
+   "source_path": "upstream/api/http/certifi",
+   "state": "TARGET"
+  },
+  {
+   "component": "click",
+   "runtime": "API",
+   "source_path": "upstream/api/web/click",
+   "state": "TARGET"
+  },
+  {
+   "component": "fastapi",
+   "runtime": "API",
+   "source_path": "upstream/api/web/fastapi",
+   "state": "TARGET"
+  },
+  {
+   "component": "h11",
+   "runtime": "API",
+   "source_path": "upstream/api/http/h11",
+   "state": "TARGET"
+  },
+  {
+   "component": "httpcore",
+   "runtime": "API",
+   "source_path": "upstream/api/http/httpcore",
+   "state": "TARGET"
+  },
+  {
+   "component": "httpx",
+   "runtime": "API",
+   "source_path": "upstream/api/http/httpx",
+   "state": "TARGET"
+  },
+  {
+   "component": "idna",
+   "runtime": "API",
+   "source_path": "upstream/api/http/idna",
+   "state": "TARGET"
+  },
+  {
+   "component": "pydantic",
+   "runtime": "API",
+   "source_path": "upstream/api/model/pydantic",
+   "state": "TARGET"
+  },
+  {
+   "component": "sniffio",
+   "runtime": "API",
+   "source_path": "upstream/api/http/sniffio",
+   "state": "TARGET"
+  },
+  {
+   "component": "starlette",
+   "runtime": "API",
+   "source_path": "upstream/api/web/starlette",
+   "state": "TARGET"
+  },
+  {
+   "component": "typing-extensions",
+   "runtime": "API",
+   "source_path": "upstream/api/model/typing-extensions",
+   "state": "TARGET"
+  },
+  {
+   "component": "typing-inspection",
+   "runtime": "API",
+   "source_path": "upstream/api/model/typing-inspection",
+   "state": "TARGET"
+  },
+  {
+   "component": "uvicorn",
+   "runtime": "API",
+   "source_path": "upstream/api/web/uvicorn",
+   "state": "TARGET"
+  },
+  {
+   "component": "FreeToken",
+   "open_ruling": "unresolved.json:FreeToken/torch (OPEN-OWNED-BY-PHASE-19)",
+   "runtime": "Adaptive-Fabric",
+   "source_path": "upstream/adaptive-fabric/freetoken/FreeToken",
+   "state": "TARGET"
+  },
+  {
+   "component": "autoconf",
+   "provider": "OE-CORE",
+   "reason": "Build tool, never shipped; OE-Core provides the identical version. Recipe moved to meta-symoneural/retired/, tree stays pinned.",
+   "ruling": "acquisition/provider-decisions.json (D2) + unresolved.json:direct-vs-oe-core",
+   "runtime": "Build",
+   "source_path": "upstream/build/autotools/autoconf",
+   "state": "RETIRED_TO_PROVIDER"
+  },
+  {
+   "component": "automake",
+   "provider": "OE-CORE",
+   "reason": "Build tool, never shipped; OE-Core provides the identical version. Recipe moved to meta-symoneural/retired/, tree stays pinned.",
+   "ruling": "acquisition/provider-decisions.json (D2) + unresolved.json:direct-vs-oe-core",
+   "runtime": "Build",
+   "source_path": "upstream/build/autotools/automake",
+   "state": "RETIRED_TO_PROVIDER"
+  },
+  {
+   "component": "bitbake",
+   "reason": "The build stack is run from ~/symoneural-bootstrap-master at the same pin; the tree is held as source authority, never packaged for a target.",
+   "ruling": "acquisition/source-manifest.json (notes) + DECISIONS D3",
+   "runtime": "Build",
+   "source_path": "upstream/build/bitbake/bitbake",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "libtool",
+   "provider": "OE-CORE",
+   "reason": "Build tool, never shipped; OE-Core provides the identical version. Recipe moved to meta-symoneural/retired/, tree stays pinned.",
+   "ruling": "acquisition/provider-decisions.json (D2) + unresolved.json:direct-vs-oe-core",
+   "runtime": "Build",
+   "source_path": "upstream/build/autotools/libtool",
+   "state": "RETIRED_TO_PROVIDER"
+  },
+  {
+   "component": "m4",
+   "provider": "OE-CORE",
+   "reason": "Build tool, never shipped; OE-Core provides the identical version. Recipe moved to meta-symoneural/retired/, tree stays pinned.",
+   "ruling": "acquisition/provider-decisions.json (D2) + unresolved.json:direct-vs-oe-core",
+   "runtime": "Build",
+   "source_path": "upstream/build/autotools/m4",
+   "state": "RETIRED_TO_PROVIDER"
+  },
+  {
+   "component": "ninja",
+   "provider": "OE-CORE",
+   "reason": "Build tool, never shipped; OE-Core provides the identical version. Recipe moved to meta-symoneural/retired/, tree stays pinned.",
+   "ruling": "acquisition/provider-decisions.json (D2) + unresolved.json:direct-vs-oe-core",
+   "runtime": "Build",
+   "source_path": "upstream/build/ninja/ninja",
+   "state": "RETIRED_TO_PROVIDER"
+  },
+  {
+   "component": "openembedded-core",
+   "reason": "Same role as bitbake: the estate's own copy of the build stack, pinned identically to the bootstrap.",
+   "ruling": "acquisition/source-manifest.json + DECISIONS D3",
+   "runtime": "Build",
+   "source_path": "upstream/build/devtools/openembedded-core",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "anthropic-sdk-python",
+   "runtime": "CLI",
+   "source_path": "upstream/cli/anthropic/anthropic-sdk-python",
+   "state": "TARGET"
+  },
+  {
+   "component": "anthropic-sdk-typescript",
+   "reason": "No consumer; building it forces Node onto the target. Recipe retired.",
+   "ruling": "unresolved.json:anthropic-sdk-typescript",
+   "runtime": "CLI",
+   "source_path": "upstream/cli/anthropic/anthropic-sdk-typescript",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "python-sdk",
+   "runtime": "CLI",
+   "source_path": "upstream/cli/mcp/python-sdk",
+   "state": "TARGET"
+  },
+  {
+   "component": "typescript-sdk",
+   "reason": "pnpm catalog: protocol unsupported by npm / OE npm class. Coder and Studio run on the Python SDK.",
+   "ruling": "unresolved.json:mcp-typescript-sdk",
+   "runtime": "CLI",
+   "source_path": "upstream/cli/mcp/typescript-sdk",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "accelerate",
+   "reason": "Shipped in packagegroup-symoneural-common since P7 C7 (2026-09-14). Was DEFERRED against the USE_DISTRIBUTED=0 torch because Accelerator.prepare() imports torch.distributed.tensor; on the C7 torch (USE_DISTRIBUTED=1 + Gloo, CUDA 13.4.1 sm_120, cuDNN 9.25.1.1) prepare() + one SGD epoch pass in CPU and S2/GPU modes of the Common clean-root proof. Pristine source not patched.",
+   "ruling": "unresolved.json:accelerate-torch-distributed (RESOLVED BY EVIDENCE, P7 C7) + docs/common/COMMON-CLOSURE.md",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/accelerate",
+   "state": "TARGET"
+  },
+  {
+   "component": "filelock",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/filelock",
+   "state": "TARGET"
+  },
+  {
+   "component": "fsspec",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/fsspec",
+   "state": "TARGET"
+  },
+  {
+   "component": "hf-xet",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/hf-xet",
+   "state": "TARGET"
+  },
+  {
+   "component": "huggingface-hub",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/huggingface-hub",
+   "state": "TARGET"
+  },
+  {
+   "component": "jinja2",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/jinja2",
+   "state": "TARGET"
+  },
+  {
+   "component": "markdown-it-py",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/markdown-it-py",
+   "state": "TARGET"
+  },
+  {
+   "component": "markupsafe",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/markupsafe",
+   "state": "TARGET"
+  },
+  {
+   "component": "mdurl",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/mdurl",
+   "state": "TARGET"
+  },
+  {
+   "component": "networkx",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/networkx",
+   "state": "TARGET"
+  },
+  {
+   "component": "packaging",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/packaging",
+   "state": "TARGET"
+  },
+  {
+   "component": "psutil",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/psutil",
+   "state": "TARGET"
+  },
+  {
+   "component": "pygments",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/pygments",
+   "state": "TARGET"
+  },
+  {
+   "component": "pytorch",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/pytorch",
+   "state": "TARGET"
+  },
+  {
+   "component": "pyyaml",
+   "runtime": "Common",
+   "source_path": "upstream/common/data/pyyaml",
+   "state": "TARGET"
+  },
+  {
+   "component": "regex",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/regex",
+   "state": "TARGET"
+  },
+  {
+   "component": "rich",
+   "runtime": "Common",
+   "source_path": "upstream/common/text/rich",
+   "state": "TARGET"
+  },
+  {
+   "component": "safetensors",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/safetensors",
+   "state": "TARGET"
+  },
+  {
+   "component": "setuptools",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/setuptools",
+   "state": "TARGET"
+  },
+  {
+   "component": "shellingham",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/shellingham",
+   "state": "TARGET"
+  },
+  {
+   "component": "tokenizers",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/tokenizers",
+   "state": "TARGET"
+  },
+  {
+   "component": "tqdm",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/tqdm",
+   "state": "TARGET"
+  },
+  {
+   "component": "transformers",
+   "runtime": "Common",
+   "source_path": "upstream/common/ml/transformers",
+   "state": "TARGET"
+  },
+  {
+   "component": "typer",
+   "runtime": "Common",
+   "source_path": "upstream/common/util/typer",
+   "state": "TARGET"
+  },
+  {
+   "component": "stratum",
+   "runtime": "Crypto",
+   "source_path": "upstream/crypto/stratum/stratum",
+   "state": "TARGET"
+  },
+  {
+   "component": "sv2-apps",
+   "runtime": "Crypto",
+   "source_path": "upstream/crypto/stratum/sv2-apps",
+   "state": "TARGET"
+  },
+  {
+   "component": "sv2-spec",
+   "reason": "A specification (markdown), not software; BSD-3-Clause OR CC0-1.0 per its License/ directory.",
+   "ruling": "acquisition/source-manifest.json required_by ('REFERENCE-ONLY')",
+   "runtime": "Crypto",
+   "source_path": "upstream/crypto/stratum/sv2-spec",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "ggml",
+   "runtime": "LLM",
+   "source_path": "upstream/llm/inference/ggml",
+   "state": "TARGET"
+  },
+  {
+   "component": "llama.cpp",
+   "runtime": "LLM",
+   "source_path": "upstream/llm/inference/llama.cpp",
+   "state": "TARGET"
+  },
+  {
+   "component": "triton",
+   "reason": "Arrives via torch at build time; not a target package of its own until Phase 13 decides otherwise.",
+   "ruling": "reports/PHASE-INDEX.md 'Reference-only components' (Phase 13 S2)",
+   "runtime": "LLM",
+   "source_path": "upstream/llm/inference/triton",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "vllm",
+   "reason": "Inference server held as reference; Chat is served through the native LLM path.",
+   "ruling": "reports/PHASE-INDEX.md 'Reference-only components' (Phase 13 S2)",
+   "runtime": "LLM",
+   "source_path": "upstream/llm/inference/vllm",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "gstreamer",
+   "runtime": "Live",
+   "source_path": "upstream/live/gstreamer/gstreamer",
+   "state": "TARGET"
+  },
+  {
+   "component": "AWCC",
+   "reason": "GPL-3.0 executable approved by Garrett 2026-09-14 ('you can do the awcc'); built as symoneural-awcc (Platform, cmake, symoneural-pristine + SYMON_DEP_TREES) with its six FetchContent dependencies pinned as separate components and libevdev from oe-core; staged-install + --version/--help proof in generated/evidence/platform/AWCC-PROOF.txt. Needs the acpi_call kernel module at run time (not acquired).",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/AWCC",
+   "state": "TARGET"
+  },
+  {
+   "component": "glfw",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/glfw",
+   "state": "TARGET"
+  },
+  {
+   "component": "imgui",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/imgui",
+   "state": "TARGET"
+  },
+  {
+   "component": "json",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/json",
+   "state": "TARGET"
+  },
+  {
+   "component": "libusb-cmake",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/libusb-cmake",
+   "state": "TARGET"
+  },
+  {
+   "component": "loguru",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/loguru",
+   "state": "TARGET"
+  },
+  {
+   "component": "open-gpu-kernel-modules",
+   "reason": "NVIDIA open GPU kernel modules 615.71.09, built from the pinned tree for two kernel targets: Debian 6.12.107+deb13-amd64 (symoneural-nvidia-open-kernel-debian, .deb, HOST-CONDITIONED toolchain) and the estate linux-yocto 6.18.48 qemux86-64 kernel (symoneural-nvidia-open-kernel, kernel-module-nvidia-* ipks). Kernel modules only; NVIDIA driver userspace and GSP firmware are separate external dependencies (deployment blockers for the estate profile).",
+   "ruling": "docs/platform/NVIDIA-OPEN-KERNEL.md (Garrett's charter 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/kernel/open-gpu-kernel-modules",
+   "state": "TARGET"
+  },
+  {
+   "component": "stb",
+   "reason": "Dependency tree of symoneural-awcc: compiled INTO the awcc executable through symoneural-pristine SYMON_DEP_TREES (FETCHCONTENT_SOURCE_DIR_*, fully disconnected). No package of its own; the pin is the lock entry, verified at AWCC's do_unpack.",
+   "ruling": "docs/platform/AWCC.md (Garrett's approval 2026-09-14)",
+   "runtime": "Platform",
+   "source_path": "upstream/platform/alienware/stb",
+   "state": "TARGET"
+  },
+  {
+   "component": "cython",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/devtools/cython",
+   "state": "TARGET"
+  },
+  {
+   "component": "joblib",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/util/joblib",
+   "state": "TARGET"
+  },
+  {
+   "component": "mpmath",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/symbolic/mpmath",
+   "state": "TARGET"
+  },
+  {
+   "component": "narwhals",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/dataframe/narwhals",
+   "state": "TARGET"
+  },
+  {
+   "component": "numpy",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/numerics/numpy",
+   "state": "TARGET"
+  },
+  {
+   "component": "openblas",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/blas/openblas",
+   "state": "TARGET"
+  },
+  {
+   "component": "pybind11",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/devtools/pybind11",
+   "state": "TARGET"
+  },
+  {
+   "component": "scikit-learn",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/ml/scikit-learn",
+   "state": "TARGET"
+  },
+  {
+   "component": "scipy",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/numerics/scipy",
+   "state": "TARGET"
+  },
+  {
+   "component": "sympy",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/symbolic/sympy",
+   "state": "TARGET"
+  },
+  {
+   "component": "threadpoolctl",
+   "runtime": "Ravencalc",
+   "source_path": "upstream/ravencalc/util/threadpoolctl",
+   "state": "TARGET"
+  },
+  {
+   "component": "librespot",
+   "runtime": "Remix",
+   "source_path": "upstream/remix/librespot/librespot",
+   "state": "TARGET"
+  },
+  {
+   "component": "hls.js",
+   "runtime": "Streamer",
+   "source_path": "upstream/streamer/hls/hls.js",
+   "state": "TARGET"
+  },
+  {
+   "component": "workerd",
+   "reason": "REFERENCE-ONLY as a SOURCE BUILD (Bazel/V8/capnproto). Edge belongs to the planned Gateway runtime.",
+   "ruling": "unresolved.json:symoneural-workerd",
+   "runtime": "Web",
+   "source_path": "upstream/web/runtime/workerd",
+   "state": "REFERENCE_ONLY"
+  },
+  {
+   "component": "workers-sdk",
+   "reason": "pnpm catalog: protocol; wrangler consumed as the published npm package wrangler@4.131.1 (kind PACKAGE) in Phase 15.",
+   "ruling": "unresolved.json:symoneural-workerd (same row)",
+   "runtime": "Web",
+   "source_path": "upstream/web/tooling/workers-sdk",
+   "state": "REFERENCE_ONLY"
+  }
+ ],
+ "provenance": "CURATED. The one machine-readable place a component's TARGET / REFERENCE_ONLY / RETIRED_TO_PROVIDER / DEFERRED state lives. tools/audit-workscope.sh reads it; nothing else special-cases names. Every non-TARGET row cites the ruling it comes from.",
+ "rule": "Own what you ship; borrow what you only build with. (provider-decisions.json)",
+ "schema": "symoneural-component-state/1",
+ "states": {
+  "DEFERRED": "a target in principle whose build is deferred by a recorded ruling; exempt until the ruling changes",
+  "REFERENCE_ONLY": "acquired, pinned, committed; never built for a target; exempt from package proof BY RECORDED RULING",
+  "RETIRED_TO_PROVIDER": "acquired, pinned, committed; a layer provides the identical component; recipe retired; exempt BY RECORDED RULING",
+  "TARGET": "owed as a symoneural-* package on the target; counted by the audit"
+ }
+}

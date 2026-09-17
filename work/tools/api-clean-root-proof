@@ -1,0 +1,151 @@
+#!/bin/bash
+# api-clean-root-proof - the §37/§42 proof: a root filesystem installed by opkg from the
+# package feed (symoneural-image-api), NO source tree, NO PYTHONPATH, NO pip, NO devtool.
+# Extracts the image tarball, runs the TARGET interpreter through the target loader and
+# imports every distribution in the API runtime closure, checking exact versions the
+# consumers require. Exit 0 only if every import and check passes.
+set -uo pipefail
+ROOT=/home/google/SymonSaysLLC/Projects/SymonSayLearn
+if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
+  echo 'Usage: tools/api-clean-root-proof [NEW absolute destination]'; exit 0
+fi
+[ "$#" -le 1 ] || { echo 'FAIL: use --help for usage' >&2; exit 2; }
+IMG=$(ls -t $ROOT/Symoneural-API/build/devtool-master/tmp/deploy/images/*/symoneural-image-api-*.rootfs.tar.gz 2>/dev/null | head -1)
+[ -n "$IMG" ] || { echo "FAIL: no symoneural-image-api rootfs tarball; run: tools/symonbake Symoneural-API symoneural-image-api"; exit 1; }
+IMG=$(readlink -f "$IMG") || exit 1
+MANI="${IMG%.tar.gz}.manifest"
+[ -f "$MANI" ] || { echo "FAIL: missing image manifest: $MANI" >&2; exit 1; }
+R=$(python3 -B "$ROOT/tools/proof_support.py" new-root API "$@") || exit 1
+tar -xzf "$IMG" -C "$R" --no-same-owner --no-same-permissions || { echo "FAIL: extraction failed; preserved $R" >&2; exit 1; }
+echo "image   : $IMG"
+echo "manifest: $MANI"
+echo "root    : $R  ($(find "$R" -type f | wc -l) files)"
+LD=$(ls "$R"/lib/ld-linux-x86-64.so.2 "$R"/lib64/ld-linux-x86-64.so.2 2>/dev/null | head -1)
+PY=$(ls "$R"/usr/bin/python3.14 "$R"/usr/bin/python3 2>/dev/null | head -1)
+[ -n "$LD" ] && [ -n "$PY" ] || { echo "FAIL: loader or python missing in root (ld=$LD py=$PY)"; exit 1; }
+# proof that nothing outside the root is used: no PYTHONPATH, home pointed inside the root,
+# library path inside the root, and the interpreter's own prefix must resolve inside the root
+run() { env -i HOME="$R" PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
+        "$LD" --library-path "$R/lib:$R/usr/lib:$R/usr/lib/python3.14/lib-dynload" "$PY" -I "$@"; }
+echo "--- interpreter"
+run -c 'import sys; print("python", sys.version.split()[0], "prefix", sys.prefix); assert not any("SymonSaysLLC/Symoneural-API/app" in p for p in sys.path), sys.path' || { echo "FAIL: interpreter"; exit 1; }
+echo "--- imports (17 upstream runtime sources)"
+run - <<'PYEOF'
+import importlib, sys
+want = {"fastapi":None,"starlette":None,"uvicorn":None,"pydantic":None,"httpx":None,"httpcore":None,
+        "pydantic_core":"2.46.5","typing_extensions":None,"typing_inspection":None,"annotated_types":None,
+        "annotated_doc":None,"anyio":None,"sniffio":None,"idna":None,"certifi":None,"h11":None,"click":None}
+from importlib.metadata import version, PackageNotFoundError
+bad = []
+for mod, exact in want.items():
+    try:
+        m = importlib.import_module(mod)
+    except Exception as e:
+        bad.append("%s: import failed: %r" % (mod, e)); continue
+    dist = mod.replace("_", "-")
+    try: v = version(dist)
+    except PackageNotFoundError:
+        try: v = version(mod)
+        except PackageNotFoundError: v = getattr(m, "__version__", "?")
+    ok = (exact is None) or (v == exact)
+    print("  %-20s %-12s %s" % (mod, v, "PASS" if ok else "FAIL (want %s)" % exact))
+    if not ok: bad.append("%s version %s != %s" % (mod, v, exact))
+# forbidden on a clean runtime: build frontends
+for f in ("maturin", "hatchling", "pdm", "flit_core", "setuptools_scm"):
+    try:
+        importlib.import_module(f); bad.append("build frontend %s present on target" % f)
+    except Exception:
+        pass
+# one meaningful operation: a pydantic model validates through the Rust core, a FastAPI app builds
+from pydantic import BaseModel
+class M(BaseModel):
+    n: int
+assert M(n="7").n == 7
+import pydantic_core; assert pydantic_core.__version__ == "2.46.5", pydantic_core.__version__
+from fastapi import FastAPI; FastAPI().openapi()
+print("  meaningful op: pydantic validation via pydantic_core %s + FastAPI openapi() PASS" % pydantic_core.__version__)
+if bad:
+    print("FAIL:"); [print("   -", b) for b in bad]; sys.exit(1)
+print("CLEAN ROOT IMPORT PROOF: PASS")
+PYEOF
+rc1=$?
+echo "--- first-party packages (symoneural-api, symoneural-api-util, symoneural-api-python)"
+LIB="$R/usr/lib/libsymoneural-api.so.1"; UTIL="$R/usr/bin/symoneural-api-util"
+fail=0
+[ -e "$LIB" ] || { echo "  FAIL: $LIB missing"; fail=1; }
+[ -x "$UTIL" ] || { echo "  FAIL: $UTIL missing"; fail=1; }
+[ -f "$R/usr/lib/python3.14/site-packages/symoneural_api/main.py" ] || { echo "  FAIL: symoneural_api package missing"; fail=1; }
+[ -f "$R/usr/bin/symoneural-api" ] || { echo "  FAIL: symoneural-api console script missing"; fail=1; }
+echo "  SOURCE-TREE: $(cat "$R/usr/share/symoneural-api/SOURCE-TREE" 2>/dev/null || echo MISSING)"
+# linkage: the library needs libc and nothing else; the util needs the library and libc
+need_lib=$(readelf -d "$LIB" 2>/dev/null | awk '/NEEDED/ {gsub(/[\[\]]/,"",$5); print $5}' | sort | tr '\n' ' ')
+need_util=$(readelf -d "$UTIL" 2>/dev/null | awk '/NEEDED/ {gsub(/[\[\]]/,"",$5); print $5}' | sort | tr '\n' ' ')
+soname=$(readelf -d "$LIB" 2>/dev/null | awk '/SONAME/ {gsub(/[\[\]]/,"",$5); print $5}')
+echo "  libsymoneural-api.so.1  SONAME=$soname  NEEDED=[$need_lib]"
+echo "  symoneural-api-util     NEEDED=[$need_util]"
+[ "$need_lib" = "libc.so.6 " ] || { echo "  FAIL: library NEEDED is not exactly libc.so.6"; fail=1; }
+[ "$need_util" = "libc.so.6 libsymoneural-api.so.1 " ] || { echo "  FAIL: util NEEDED unexpected"; fail=1; }
+[ "$soname" = "libsymoneural-api.so.1" ] || { echo "  FAIL: SONAME"; fail=1; }
+# A14 is a claim about the SHIPPED library, so read it out of the shipped library.
+# rack.c must reach nvidia-smi with posix_spawn and a fixed argv; a popen/pclose
+# import would mean the shell path is still in the package no matter what the
+# source says. Also assert the package is built from the current committed subtree.
+st_pkg=$(cat "$R/usr/share/symoneural-api/SOURCE-TREE" 2>/dev/null | awk '{print $1}')
+st_head=$(git -C "$ROOT" rev-parse HEAD:Symoneural-API/app)
+[ "$st_pkg" = "$st_head" ] || { echo "  FAIL: packaged subtree $st_pkg != HEAD:Symoneural-API/app $st_head (STALE PACKAGE)"; fail=1; }
+n_popen=$(nm -D --undefined-only "$LIB" 2>/dev/null | grep -cE " (popen|pclose)$")
+n_spawn=$(nm -D --undefined-only "$LIB" 2>/dev/null | grep -cE "posix_spawn")
+echo "  A14 in the shipped library: popen/pclose imported=$n_popen (must be 0), posix_spawn imported=$n_spawn (must be >0)"
+[ "$n_popen" -eq 0 ] && [ "$n_spawn" -gt 0 ] || { echo "  FAIL: rack.c shell path still present in the packaged library"; fail=1; }
+# the native utility, run through the target loader, with the GPU lock pointed inside the root
+mkdir -p "$R/run/symoneural"
+urun() { env -i HOME="$R" TMPDIR="$R/tmp" SYM_GPU_LOCK="$R/run/symoneural/gpu.lock" "$LD" --library-path "$R/lib:$R/usr/lib" "$UTIL" "$@"; }
+v=$(urun version); a=$(urun abi); c=$(urun capabilities); st=$(urun selftest); strc=$?
+# threads_total was declared in rack.h and never set before A14; the shipped
+# telemetry must now carry it, and it must be at least procs_running.
+rack=$(urun rack 2>/dev/null || true)
+case "$rack" in
+  *'"threads_total"'*) echo "  rack telemetry carries threads_total: $(printf '%s' "$rack" | tr ',' '\n' | grep -E 'threads_total|procs_running' | tr '\n' ' ')" ;;
+  *) echo "  NOT TESTED: symoneural-api-util has no 'rack' subcommand; threads_total checked through the C tests instead" ;;
+esac
+echo "  util version=$v abi=$a capabilities=$c selftest=$st (rc=$strc)"
+[ "$v" = "1.0.0" ] && [ "$a" = "65536" ] && [ $strc -eq 0 ] || { echo "  FAIL: util version/abi/selftest"; fail=1; }
+# the Python package: import, ctypes binding to the packaged library, application registry,
+# and the FastAPI service answering through the in-process test client against the real opkg status
+SYM_API_NATIVE="$LIB" SYM_GPU_LOCK="$R/run/symoneural/gpu.lock" SYM_OPKG_STATUS="$R/var/lib/opkg/status" \
+env -i HOME="$R" PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 SYM_API_NATIVE="$LIB" SYM_GPU_LOCK="$R/run/symoneural/gpu.lock" SYM_OPKG_STATUS="$R/var/lib/opkg/status" \
+  "$LD" --library-path "$R/lib:$R/usr/lib:$R/usr/lib/python3.14/lib-dynload" "$PY" -I - <<'PYEOF'
+import sys, json
+import symoneural_api
+from symoneural_api import native, applications
+from symoneural_api import apps  # registers every shipped application, exactly as main.py does
+from importlib.metadata import version
+print("  symoneural_api", symoneural_api.__version__, "dist", version("symoneural-api"))
+n = native.load()
+assert n.version() == "1.0.0", n.version()
+caps = n.capabilities(); tab = n.priority_table()
+print("  native via ctypes: version", n.version(), "capabilities", caps, "priority table", len(tab), "units")
+h = n.lock_acquire("api"); assert n.lock_current() is not None; assert n.lock_release("api")
+assert n.lock_current() is None
+print("  native gpu lock acquire/release through the packaged library: PASS")
+reg = [a.application_id for a in applications.REGISTRY.values()]
+d = applications.application("dispatchos"); assert d.page == "/demo/dispatchos.html" and d.public_demo, d
+print("  applications registered:", reg, "; dispatchos page", d.page, "public_demo", d.public_demo)
+from symoneural_api.main import app
+from starlette.testclient import TestClient
+c = TestClient(app)
+r = c.get("/api/apps"); assert r.status_code == 200, r.text
+ids = [a["application_id"] for a in r.json()["applications"]]
+assert "dispatchos" in ids, r.json()
+# browser-safe descriptors only: no filesystem paths, no secrets in the public list
+txt = json.dumps(r.json()); assert "/home/" not in txt and "/usr/" not in txt and "token" not in txt.lower(), txt[:200]
+rp = c.get("/api/apps", params={"page": "/demo/dispatchos.html"}); assert rp.status_code == 200 and rp.json()["applications"][0]["application_id"] == "dispatchos"
+r2 = c.get("/api/apps/dispatchos/status"); assert r2.status_code == 200, r2.text
+print("  GET /api/apps ->", r.status_code, ids, "; GET /api/apps/dispatchos/status ->", r2.status_code, json.dumps(r2.json())[:160])
+r3 = c.get("/api/health"); print("  GET /api/health ->", r3.status_code, json.dumps(r3.json())[:120])
+print("FIRST-PARTY CLEAN ROOT PROOF: PASS")
+PYEOF
+rc2=$?
+[ $rc2 -eq 0 ] || { echo "  FAIL: first-party python block rc=$rc2"; fail=1; }
+rc=$(( rc1 != 0 || fail != 0 ))
+echo "rc=$rc  (upstream closure rc=$rc1, first-party fail=$fail)"; exit $rc

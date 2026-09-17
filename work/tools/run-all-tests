@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""run-all-tests - the ONE entry point that runs every test suite in the estate.
+
+This exists because of a real failure. On 2026-09-17 two units were added to
+symoneural_api/units.py; tools/test-estate-operators.py passed 44 tests, the API
+clean-root proof passed, and the work was pushed - while three assertions in
+Symoneural-API/app/tests/python had been broken by the change. Nothing ran them,
+because nothing knew they existed.
+
+The rule that follows: when there is a set of things, there is one thing that
+enumerates the set. This is that thing for tests. It DISCOVERS suites rather than
+listing them, so a new suite is covered the day it appears.
+
+  tools/run-all-tests            everything that can run here
+  tools/run-all-tests --list     what exists, run nothing
+
+Exit 0 only if every suite that ran, passed. A suite that cannot run here is
+reported as SKIPPED with the reason and the command that would run it - never as
+a pass.
+"""
+import argparse, os, re, subprocess, sys
+
+ROOT = os.path.dirname(os.path.abspath(os.path.join(__file__, "..", "..")))
+rel = lambda p: os.path.relpath(p, ROOT)
+
+
+def discover():
+    """Every suite in the estate, found by walking - never a hand-kept list."""
+    s = []
+    # 1. first-party Python suites: <runtime>/app/tests/python
+    for d in sorted(os.listdir(ROOT)):
+        for sub in ("tests/python", "tests"):
+            t = os.path.join(ROOT, d, "app", sub)
+            if not os.path.isdir(t):
+                continue
+            if not any(f.startswith("test_") and f.endswith(".py") for f in os.listdir(t)):
+                continue
+            s.append(dict(name=rel(t), kind="unittest", cwd=os.path.join(ROOT, d, "app"),
+                          cmd=[sys.executable, "-m", "unittest", "discover",
+                               "-s", sub, "-t", "."]))
+            break
+    # 2. first-party native suites: <runtime>/app/tests/native
+    for d in sorted(os.listdir(ROOT)):
+        t = os.path.join(ROOT, d, "app/tests/native")
+        if os.path.isdir(t) and any(f.endswith(".c") for f in os.listdir(t)):
+            mk = os.path.join(t, "Makefile")
+            target = None
+            if os.path.exists(mk):
+                body = open(mk, errors="replace").read()
+                for cand in ("check", "test", "run", "all"):
+                    if re.search(r"^%s\s*:" % cand, body, re.M):
+                        target = cand
+                        break
+            s.append(dict(name=rel(t), kind="native-c", cwd=t,
+                          cmd=["make", "-s", target] if target else None,
+                          why=None if target else "no runnable Makefile target; built via CMake in the recipe"))
+    # 3. estate-wide operator tests and the deterministic checkers
+    for tool, kind in (("test-estate-operators.py", "unittest"),
+                       ("check-determinism.py", "checker"),
+                       ("verify-acquisition.py", "checker"),
+                       ("check-python-runtime-closures.py", "checker")):
+        p = os.path.join(ROOT, "tools", tool)
+        if os.path.exists(p):
+            extra = ["--all"] if "closures" in tool else []
+            s.append(dict(name="tools/" + tool, kind=kind, cwd=ROOT,
+                          cmd=[sys.executable, "-B", p] + extra))
+    # 4. clean-root proofs - they need a built image, so they are LISTED, not run
+    pd = os.path.join(ROOT, "tools/proofs")
+    if os.path.isdir(pd):
+        for f in sorted(os.listdir(pd)):
+            if f.endswith(".py") and not f.startswith("_"):
+                rt = f[:-3]
+                s.append(dict(name="tools/proofs/" + f, kind="clean-root", cwd=ROOT, cmd=None,
+                              why="needs a built image: tools/clean-root-proof %s symoneural-image-%s"
+                                  % (rt.capitalize(), rt)))
+    return s
+
+
+COUNT = re.compile(r"Ran (\d+) tests?")
+
+def run(s, timeout=1800):
+    if s["cmd"] is None:
+        return "SKIPPED", s.get("why", "not runnable here"), 0
+    try:
+        r = subprocess.run(s["cmd"], cwd=s["cwd"], capture_output=True, text=True, timeout=timeout)
+    except FileNotFoundError as e:
+        return "SKIPPED", "missing tool: %s" % e.filename, 0
+    except subprocess.TimeoutExpired:
+        return "FAIL", "timed out after %ds" % timeout, 0
+    out = (r.stdout or "") + (r.stderr or "")
+    m = COUNT.search(out)
+    n = int(m.group(1)) if m else 0
+    if r.returncode == 0:
+        note = ""
+        sk = re.search(r"OK \(([^)]*)\)", out)
+        if sk:
+            note = sk.group(1)
+        for key in ("RESULT: PASS", "PASS-WITH-WARNINGS", "AUDIT PASS", "RUN_A_SHA256 == RUN_B_SHA256 : YES"):
+            if key in out:
+                note = (note + "; " if note else "") + key
+        return "OK", note, n
+    fails = re.findall(r"^(?:FAIL|ERROR): (\S+)", out, re.M)
+    return "FAIL", ", ".join(fails[:4]) or "rc=%d" % r.returncode, n
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--list", action="store_true")
+    a = ap.parse_args()
+    suites = discover()
+
+    print("%-46s %-11s %6s  %s" % ("SUITE", "KIND", "TESTS", "RESULT"))
+    print("-" * 100)
+    bad = ran = total = 0
+    for s in suites:
+        if a.list:
+            print("%-46s %-11s %6s  %s" % (s["name"], s["kind"], "-",
+                                           "would run" if s["cmd"] else s.get("why", "")))
+            continue
+        status, note, n = run(s)
+        total += n
+        if status == "OK":
+            ran += 1
+        elif status == "FAIL":
+            bad += 1
+        print("%-46s %-11s %6s  %-7s %s" % (s["name"], s["kind"], n or "-", status, note))
+    if a.list:
+        print("\n%d suites discovered" % len(suites))
+        return 0
+    print("-" * 100)
+    print("%d suites passed, %d failed, %d skipped; %d individual tests run"
+          % (ran, bad, len(suites) - ran - bad, total))
+    return 1 if bad else 0
+
+
+sys.exit(main())

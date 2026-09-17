@@ -18,15 +18,15 @@
 **/.gitpins/
 
 # ALL build output, then re-admit the devtool workspace (our recipes/appends)
-Symoneural-*/build/*
+work/output/*/build/*
 
 # Fetch + sstate caches
-Symoneural-*/downloads/
-Symoneural-*/sstate-cache*/
+work/output/*/downloads/
+work/output/*/sstate-cache*/
 
 # Staged product output
-Symoneural-*/prod/bin/*
-Symoneural-*/prod/lib/*
+runtimes/*/prod/bin/*
+runtimes/*/prod/lib/*
 
 # Generated tree inventories - large and regenerable
 *.tree.txt
@@ -144,11 +144,11 @@ developer_settings.json
 *seats*.csv
 ops/*.csv
 !ops/*-usage-*.csv
-# host regression binaries built in place by Symoneural-API/app/tests/native/Makefile
-Symoneural-API/app/tests/native/test_gpulock
-Symoneural-API/app/tests/native/test_rack
-Symoneural-API/app/tests/native/test_unit
-Symoneural-API/app/tests/native/test_api
+# host regression binaries built in place by runtimes/api/app/tests/native/Makefile
+runtimes/api/app/tests/native/test_gpulock
+runtimes/api/app/tests/native/test_rack
+runtimes/api/app/tests/native/test_unit
+runtimes/api/app/tests/native/test_api
 
 # ---------------------------------------------------------------------------
 # LOCAL MODEL STORE AND WORKING TREES (2026-09-17) - deny the DIRECTORY, not the
@@ -163,14 +163,14 @@ Symoneural-API/app/tests/native/test_api
 # model cards and, for the cache shape, the weights themselves. Whether the
 # partition should be re-mounted outside the repository is an fstab decision for
 # Garrett; this line makes the git hazard zero either way.
-/models/
 
 # FreeToken/ is a 6.8 GB working clone of FlashML-org/FreeToken at 0.1.3 with a
 # .venv - NOT the acquired tree (that is Symoneural-Adaptive-Fabric/src/freetoken/
 # source/FreeToken at pin 9db1a39455a3). It is deliberately left in place rather
 # than moved: its console scripts carry absolute shebangs into this path, so a
 # move breaks a tool the 17 Sep test plan (T0) invokes.
-/FreeToken/
 
 # Chat-output archives dropped in the root while moving files between machines.
-/files*.zip
+
+# work/output/ is bitbake's world: tmp, downloads, sstate. Nothing in it is committed.
+work/output/

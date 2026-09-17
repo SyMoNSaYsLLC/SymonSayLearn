@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Launch BitBake in one existing runtime build directory at background priority.
+set -uo pipefail
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P) || exit 1
+OUT="$ROOT/work/output"
+BOOT=/home/google/symoneural-bootstrap-master
+usage() {
+    echo 'Usage: work/tools/symonbake <runtime> [--build-dir <name>] <BitBake arguments...>'
+    echo '       tools/symonbake --list'
+    echo '       work/tools/symonbake --show-path <runtime> [--build-dir <name>]'
+    echo 'Example: work/tools/symonbake ravencalc symoneural-sympy'
+    echo '         work/tools/symonbake platform --build-dir debian-6.12.107-deb13-amd64 symoneural-nvidia-open-kernel-debian'
+    echo 'Pass BitBake help after the runtime: symonbake ravencalc --help'
+    echo 'Uses an existing build/<name> configuration (default devtool-master); never changes source pins.'
+}
+case "${1:-}" in
+    -h|--help) usage; exit 0 ;;
+    '') usage >&2; exit 2 ;;
+    --list)
+        [ "$#" -eq 1 ] || { usage >&2; exit 2; }
+        for conf in "$OUT"/*/build/*/conf; do
+            [ -d "$conf" ] || continue
+            rt=${conf#"$OUT/"}; bd=${rt#*/build/}; bd=${bd%/conf}
+            if [ "$bd" = devtool-master ]; then printf '%s\n' "${rt%%/*}"; else printf '%s --build-dir %s\n' "${rt%%/*}" "$bd"; fi
+        done
+        exit 0 ;;
+esac
+show=0
+if [ "$1" = --show-path ]; then show=1; shift; fi
+RT=${1:-}; [ "$#" -eq 0 ] || shift
+[[ "$RT" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || {
+    echo "symonbake: invalid runtime name; use --list" >&2; exit 2;
+}
+# A runtime may hold more than one configured build directory (Symoneural-Platform: one per
+# kernel target). The default stays devtool-master; --build-dir names a sibling, one path
+# component, no traversal.
+BUILD=devtool-master
+if [ "${1:-}" = --build-dir ]; then
+    BUILD=${2:-}
+    shift 2 2>/dev/null || { usage >&2; exit 2; }
+    [[ "$BUILD" =~ ^[A-Za-z0-9][A-Za-z0-9.+_-]*$ ]] || {
+        echo "symonbake: invalid --build-dir name; one path component, no traversal" >&2; exit 2;
+    }
+fi
+BD="$OUT/$RT/build/$BUILD"
+[ -d "$BD/conf" ] || { echo "symonbake: no configured build directory: $BD" >&2; exit 1; }
+if [ "$show" -eq 1 ]; then
+    [ "$#" -eq 0 ] || { usage >&2; exit 2; }
+    printf '%s\n' "$BD"; exit 0
+fi
+[ "$#" -gt 0 ] || { usage >&2; exit 2; }
+python3 -B "$ROOT/work/tools/estate_processes.py" check-build --build-dir "$BD"
+rc=$?; [ "$rc" -eq 0 ] || exit "$rc"
+# Cooperating launches serialize here; BitBake's own lock remains authoritative.
+exec 9>"$BD/.symonbake.lock" || exit 1
+flock -n 9 || { echo "symonbake: another wrapper owns $BD" >&2; exit 1; }
+cd "$BOOT" || exit 1
+set +u
+source openembedded-core/oe-init-build-env "$BD"
+rc=$?
+set -u
+[ "$rc" -eq 0 ] || { echo "symonbake: build environment setup failed (rc=$rc)" >&2; exit "$rc"; }
+command -v bitbake >/dev/null || { echo 'symonbake: BitBake not found after setup' >&2; exit 1; }
+# Forked children inherit nice/IO priority; never renice unrelated processes.
+nice -n 10 ionice -c3 bitbake "$@"
+rc=$?
+exit "$rc"

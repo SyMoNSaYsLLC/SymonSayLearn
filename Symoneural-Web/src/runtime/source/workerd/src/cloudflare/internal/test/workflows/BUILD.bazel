@@ -1,6 +1,0 @@
-load("//:build/wd_test.bzl", "wd_test")
-
-wd_test(
-    src = "workflows-api-test.wd-test",
-    data = glob(["*.js"]),
-)
