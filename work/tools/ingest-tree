@@ -40,8 +40,8 @@ from pathlib import Path
 from git_tree_identity import rebuilt_tree, TreeIdentityError
 
 ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
-LOCK = ROOT / "work", "pins" / "source-lock.json"
-SUBLOCK = ROOT / "work", "pins" / "submodule-lock.json"
+LOCK = ROOT / "work" / "pins" / "source-lock.json"
+SUBLOCK = ROOT / "work" / "pins" / "submodule-lock.json"
 PIN_ENV = {
     "GIT_AUTHOR_NAME": "symoneural-pin", "GIT_AUTHOR_EMAIL": "pin@symoneural.invalid",
     "GIT_COMMITTER_NAME": "symoneural-pin", "GIT_COMMITTER_EMAIL": "pin@symoneural.invalid",

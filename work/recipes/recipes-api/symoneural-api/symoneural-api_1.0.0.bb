@@ -11,7 +11,7 @@ HOMEPAGE = "https://symoneural.com"
 LICENSE = "CLOSED"
 
 inherit symoneural-firstparty cmake
-SYMON_FP_PATH = "production/runtimes/api/app"
+SYMON_FP_PATH = "work/runtimes/api/app"
 
 # -Werror is upstream's (ours); cross builds get the same treatment as the host run
 EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo"

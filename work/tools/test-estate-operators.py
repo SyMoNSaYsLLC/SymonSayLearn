@@ -21,7 +21,7 @@ from unittest.mock import patch
 TOOLS = Path(__file__).resolve().parent
 REPO = TOOLS.parent.parent   # work/tools -> repo root
 sys.path.insert(0, str(TOOLS))
-sys.path.insert(0, str(REPO / "production/runtimes/build/bin"))   # estate_processes ships with the build runtime
+sys.path.insert(0, str(REPO / "work/runtimes/build/bin"))   # estate_processes ships with the build runtime
 import estate_processes as processes
 import proof_support as proof
 import git_tree_identity as trees
@@ -97,9 +97,9 @@ class Launcher(unittest.TestCase):
         (self.bd / "conf").mkdir(parents=True)
         self.boot = self.root / "bootstrap"
         write(self.boot / "openembedded-core/oe-init-build-env", 'return 42\n')
-        write(self.root / "production/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(0)\n')
-        text = (REPO / "production/runtimes/build/bin/symonbake").read_text().replace("/home/google/symoneural-bootstrap-master", str(self.boot))
-        self.launcher = write(self.root / "production/runtimes/build/bin/symonbake", text)
+        write(self.root / "work/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(0)\n')
+        text = (REPO / "work/runtimes/build/bin/symonbake").read_text().replace("/home/google/symoneural-bootstrap-master", str(self.boot))
+        self.launcher = write(self.root / "work/runtimes/build/bin/symonbake", text)
         self.binary = write(self.root / "bin/bitbake", '#!/bin/sh\necho MOCK_BUILD\nexit 7\n')
         self.env = {"PATH": str(self.binary.parent) + os.pathsep + os.environ["PATH"],
                     "SYMON_REPO": str(self.root), "SYMON_OUT": str(self.root / "work/output")}
@@ -130,7 +130,7 @@ class Launcher(unittest.TestCase):
         self.assertIn("MOCK_BUILD", result.stdout)
 
     def test_probe_failure_never_initializes(self):
-        write(self.root / "production/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(2)\n')
+        write(self.root / "work/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(2)\n')
         self.assertEqual(run(str(self.launcher), "common", "recipe", env=self.env).returncode, 2)
 
     def test_build_dir_option_selects_sibling_directory(self):
@@ -159,7 +159,7 @@ class BuildAll(unittest.TestCase):
     def setUp(self):
         self.root = Path(tempfile.mkdtemp(prefix="build-all-", dir=FIXTURE))
         self.launcher = write(self.root / "work/tools/build-all", (TOOLS / "build-all").read_text())
-        self.mock = write(self.root / "production/runtimes/build/bin/symonbake", '#!/bin/sh\nexit 7\n')
+        self.mock = write(self.root / "work/runtimes/build/bin/symonbake", '#!/bin/sh\nexit 7\n')
         for rt in ("Common", "Build", "Live"):
             (self.root / f"work/output/{rt.lower()}/build/devtool-master/conf").mkdir(parents=True)
             write(self.root / f"work/recipes/recipes-{rt.lower()}/symoneural-test/symoneural-test_1.bb", "# fixture\n")

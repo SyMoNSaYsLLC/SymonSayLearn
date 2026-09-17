@@ -21,7 +21,7 @@ import argparse, json, os, re, sys, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # scripts/x -> repo root
 LAYER = os.path.join(ROOT, "work", "recipes")
-sys.path.insert(0, os.path.join(ROOT, "production/runtimes/api/app"))
+sys.path.insert(0, os.path.join(ROOT, "work/runtimes/api/app"))
 from symoneural_api import endpoints as EP, units as UN            # noqa: E402
 
 load = lambda n: json.load(open(os.path.join(ROOT, "work", "pins", n)))

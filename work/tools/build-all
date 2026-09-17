@@ -22,7 +22,7 @@ if [ "$dry" -eq 0 ]; then
 fi
 run_one() {
     local rt=$1; shift
-    "$ROOT/production/runtimes/build/bin/symonbake" "$rt" "$@" > "$LOGS/$rt.log" 2>&1
+    "$ROOT/work/runtimes/build/bin/symonbake" "$rt" "$@" > "$LOGS/$rt.log" 2>&1
     local rc=$?
     printf '%s\n' "$rc" > "$LOGS/$rt.rc"
     if [ "$rc" -eq 0 ]; then echo "OK $rt"; else echo "FAIL $rt (rc=$rc; $LOGS/$rt.log)"; fi

@@ -9,7 +9,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f6737acf372c75a15aaeb6e6eca2c340"
 
 inherit symoneural-firstparty cmake pkgconfig
-SYMON_FP_PATH = "production/runtimes/llm/app"
+SYMON_FP_PATH = "work/runtimes/llm/app"
 
 DEPENDS += "symoneural-llama-cpp symoneural-ggml"
 EXTRA_OECMAKE += "-DCMAKE_BUILD_TYPE=RelWithDebInfo"

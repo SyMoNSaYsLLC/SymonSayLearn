@@ -11,7 +11,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f6737acf372c75a15aaeb6e6eca2c340"
 
 inherit symoneural-firstparty python_flit_core
-SYMON_FP_PATH = "production/runtimes/llm/app"
+SYMON_FP_PATH = "work/runtimes/llm/app"
 
 # stdlib modules the runtime imports, mapped through oe-core's python3-manifest.json:
 #   http.server/hmac/uuid/base64 -> netclient; socketserver -> netserver;

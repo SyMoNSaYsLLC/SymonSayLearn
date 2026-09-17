@@ -16,8 +16,8 @@ import argparse, ast, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # scripts/x -> repo root
 # works before and after the runtimes/ reorganisation
-APP = next((p for p in (os.path.join(ROOT, "production/runtimes/api/app"),
-                        os.path.join(ROOT, "production/runtimes/api/app")) if os.path.isdir(p)), None)
+APP = next((p for p in (os.path.join(ROOT, "work/runtimes/api/app"),
+                        os.path.join(ROOT, "work/runtimes/api/app")) if os.path.isdir(p)), None)
 if APP is None:
     sys.exit("FAIL: cannot find the API app tree")
 PKG = os.path.join(APP, "symoneural_api")
