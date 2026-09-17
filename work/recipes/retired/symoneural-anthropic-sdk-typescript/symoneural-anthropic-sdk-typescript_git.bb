@@ -29,7 +29,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2453eb85b33e21e22cb4fa811c650d75"
 
 inherit symoneural-pristine npm
 
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/anthropic/anthropic-sdk-typescript"
+SYMON_TREE = "upstream/cli/anthropic/anthropic-sdk-typescript"
 SRCREV = "135f71e9297683e14614d4307081c0273ed0a09c"
 
 # E4: five package tags share this commit (sdk-v0.125.0, aws-sdk-v0.7.1,

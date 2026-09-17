@@ -24,7 +24,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/remix/librespot/librespot"
+SYMON_TREE = "upstream/remix/librespot/librespot"
 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=98b2b0c9a6081259c441045ca68b640f \

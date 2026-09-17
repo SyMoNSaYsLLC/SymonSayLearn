@@ -4,7 +4,7 @@
 # the shipped provider. Tag 0.0.32 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/http/python-multipart"
+SYMON_TREE = "upstream/cli/http/python-multipart"
 
 SUMMARY = "python-multipart for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/Kludex/python-multipart"

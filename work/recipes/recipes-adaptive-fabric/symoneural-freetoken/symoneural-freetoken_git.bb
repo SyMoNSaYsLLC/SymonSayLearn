@@ -8,7 +8,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/adaptive-fabric/freetoken/FreeToken"
+SYMON_TREE = "upstream/adaptive-fabric/freetoken/FreeToken"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=25efce27fa98f89e99bb6e11f55bf8e8"

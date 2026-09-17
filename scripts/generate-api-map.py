@@ -14,10 +14,10 @@ API layer, the unit registry, and the operator tools.
 """
 import argparse, ast, os, re, sys
 
-ROOT = os.path.dirname(os.path.abspath(os.path.join(__file__, "..", "..")))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # scripts/x -> repo root
 # works before and after the runtimes/ reorganisation
-APP = next((p for p in (os.path.join(ROOT, "runtimes/api/app"),
-                        os.path.join(ROOT, "runtimes/api/app")) if os.path.isdir(p)), None)
+APP = next((p for p in (os.path.join(ROOT, "production/runtimes/api/app"),
+                        os.path.join(ROOT, "production/runtimes/api/app")) if os.path.isdir(p)), None)
 if APP is None:
     sys.exit("FAIL: cannot find the API app tree")
 PKG = os.path.join(APP, "symoneural_api")
@@ -137,7 +137,7 @@ def tool_lines():
     """(name, one-liner) for every executable in tools/."""
     out = []
     for n in sorted(os.listdir(os.path.join(ROOT, "work", "tools"))):
-        p = os.path.join(ROOT, "tools", n)
+        p = os.path.join(ROOT, "work", "tools", n)
         if not os.path.isfile(p) or not os.access(p, os.X_OK):
             continue
         try:

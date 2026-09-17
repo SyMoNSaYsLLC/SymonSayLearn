@@ -9,7 +9,7 @@ LICENSE = "Apache-2.0 AND MIT"
 LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
                     file://LICENSE-MIT;md5=abd40148cf3f5fc7a8052c45980fa081 \
                     file://LICENSE.md;md5=14ecc01e3adadf9652f355df43b4855f"
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/crypto/stratum/sv2-apps"
+SYMON_TREE = "upstream/crypto/stratum/sv2-apps"
 SRC_URI = "git://github.com/stratum-mining/sv2-apps;protocol=https;branch=release/v0.7.0"
 SRCREV = "d7d556d1a3c7e1c26dfccd076b491a38c038a5e0"
 PV = "0.7.0"

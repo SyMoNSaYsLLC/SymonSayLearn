@@ -5,7 +5,7 @@
 # provider. Tag networkx-3.6.1 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/util/networkx"
+SYMON_TREE = "upstream/common/util/networkx"
 
 SUMMARY = "NetworkX for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/networkx/networkx"

@@ -12,7 +12,7 @@
 # vocabulary fixtures (models/ggml-vocab-*.gguf from the PINNED tree), copied into the
 # throwaway root's registry - test data, never weights, never committed.
 set -uo pipefail
-ROOT=/home/google/SymonSaysLLC/Projects/SymonSayLearn
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")/../.." && pwd -P) || exit 1
 if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
   echo 'Usage: tools/llm-clean-root-proof [NEW absolute destination]'; exit 0
 fi

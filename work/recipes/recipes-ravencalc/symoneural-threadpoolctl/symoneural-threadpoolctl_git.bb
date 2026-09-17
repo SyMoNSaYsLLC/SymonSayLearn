@@ -1,7 +1,7 @@
 # threadpoolctl - a RUNTIME dependency of the scikit-learn wheel (scikit-learn threadpoolctl>=3.5.0). Acquired
 # 2026-09-13 under "own what you ship"; licence read from the tree at the pin.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/util/threadpoolctl"
+SYMON_TREE = "upstream/ravencalc/util/threadpoolctl"
 
 SUMMARY = "threadpoolctl for the SyMoNeuRaL Ravencalc runtime"
 HOMEPAGE = "https://github.com/joblib/threadpoolctl"

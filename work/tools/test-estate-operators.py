@@ -19,7 +19,9 @@ import unittest
 from unittest.mock import patch
 
 TOOLS = Path(__file__).resolve().parent
+REPO = TOOLS.parent.parent   # work/tools -> repo root
 sys.path.insert(0, str(TOOLS))
+sys.path.insert(0, str(REPO / "production/runtimes/build/bin"))   # estate_processes ships with the build runtime
 import estate_processes as processes
 import proof_support as proof
 import git_tree_identity as trees
@@ -46,8 +48,11 @@ def write(path, value):
 
 
 def run(*args, env=None):
+    # The fixture IS a fake estate. Every SYMON_* variable a sourced symonlearn exported
+    # would point the tool under test at the REAL repository instead, so they are dropped.
+    base = {k: v for k, v in os.environ.items() if not k.startswith("SYMON_")}
     return subprocess.run(args, text=True, capture_output=True, timeout=15,
-        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **(env or {})})
+        env={**base, "PYTHONDONTWRITEBYTECODE": "1", **(env or {})})
 
 
 class Processes(unittest.TestCase):
@@ -58,7 +63,7 @@ class Processes(unittest.TestCase):
         self.assertFalse(processes.is_bitbake(["node", "/srv/server.js", "bitbake"], "node"))
 
     def test_existing_build_identified_by_cwd(self):
-        bd = Path("/estate/Symoneural-Common/build/devtool-master")
+        bd = Path("/estate/work/output/common/build/devtool-master")
         row = dict(pid=42, ppid=1, start="1", cwd=bd, comm="python3", bake=True)
         with contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(processes.check({42: row}, bd), 1)
@@ -67,8 +72,8 @@ class Processes(unittest.TestCase):
     def test_descendants_excludes_unrelated_node(self):
         root = Path("/estate")
         rows = {
-            1: dict(bake=True, cwd=root / "Symoneural-Common/build/devtool-master", ppid=0),
-            2: dict(bake=False, cwd=root / "Symoneural-Common/build", ppid=1),
+            1: dict(bake=True, cwd=root / "work/output/common/build/devtool-master", ppid=0),
+            2: dict(bake=False, cwd=root / "work/output/common/build", ppid=1),
             3: dict(bake=False, cwd=Path("/srv"), ppid=0),
             4: dict(bake=True, cwd=Path("/other/build"), ppid=0),
         }
@@ -88,63 +93,64 @@ class Processes(unittest.TestCase):
 class Launcher(unittest.TestCase):
     def setUp(self):
         self.root = Path(tempfile.mkdtemp(prefix="launcher-", dir=FIXTURE))
-        self.bd = self.root / "Symoneural-Common/build/devtool-master"
+        self.bd = self.root / "work/output/common/build/devtool-master"
         (self.bd / "conf").mkdir(parents=True)
         self.boot = self.root / "bootstrap"
         write(self.boot / "openembedded-core/oe-init-build-env", 'return 42\n')
-        write(self.root / "tools/estate_processes.py", 'import sys; sys.exit(0)\n')
-        text = (TOOLS / "symonbake").read_text().replace("/home/google/symoneural-bootstrap-master", str(self.boot))
-        self.launcher = write(self.root / "tools/symonbake", text)
+        write(self.root / "production/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(0)\n')
+        text = (REPO / "production/runtimes/build/bin/symonbake").read_text().replace("/home/google/symoneural-bootstrap-master", str(self.boot))
+        self.launcher = write(self.root / "production/runtimes/build/bin/symonbake", text)
         self.binary = write(self.root / "bin/bitbake", '#!/bin/sh\necho MOCK_BUILD\nexit 7\n')
-        self.env = {"PATH": str(self.binary.parent) + os.pathsep + os.environ["PATH"]}
+        self.env = {"PATH": str(self.binary.parent) + os.pathsep + os.environ["PATH"],
+                    "SYMON_REPO": str(self.root), "SYMON_OUT": str(self.root / "work/output")}
 
     def test_help_and_no_arguments(self):
-        self.assertEqual(run(str(self.launcher), "--help").returncode, 0)
-        self.assertEqual(run(str(self.launcher)).returncode, 2)
+        self.assertEqual(run(str(self.launcher), "--help", env=self.env).returncode, 0)
+        self.assertEqual(run(str(self.launcher), env=self.env).returncode, 2)
 
     def test_list_and_path_do_not_initialize(self):
-        self.assertIn("Symoneural-Common", run(str(self.launcher), "--list").stdout)
-        result = run(str(self.launcher), "--show-path", "Symoneural-Common")
+        self.assertIn("common", run(str(self.launcher), "--list", env=self.env).stdout)
+        result = run(str(self.launcher), "--show-path", "common", env=self.env)
         self.assertEqual(result.returncode, 0)
         self.assertEqual(result.stdout.strip(), str(self.bd))
 
     def test_rejects_traversal_and_unknown_runtime(self):
-        self.assertEqual(run(str(self.launcher), "../elsewhere", "x").returncode, 2)
-        self.assertNotEqual(run(str(self.launcher), "Symoneural-Unknown", "x").returncode, 0)
+        self.assertEqual(run(str(self.launcher), "../elsewhere", "x", env=self.env).returncode, 2)
+        self.assertNotEqual(run(str(self.launcher), "Unknown-Runtime", "x", env=self.env).returncode, 0)
 
     def test_setup_failure_never_builds(self):
-        result = run(str(self.launcher), "Symoneural-Common", "recipe", env=self.env)
+        result = run(str(self.launcher), "common", "recipe", env=self.env)
         self.assertEqual(result.returncode, 42, result.stderr)
         self.assertNotIn("MOCK_BUILD", result.stdout)
 
     def test_child_failure_propagates(self):
         write(self.boot / "openembedded-core/oe-init-build-env", 'return 0\n')
-        result = run(str(self.launcher), "Symoneural-Common", "recipe", env=self.env)
+        result = run(str(self.launcher), "common", "recipe", env=self.env)
         self.assertEqual(result.returncode, 7, result.stderr)
         self.assertIn("MOCK_BUILD", result.stdout)
 
     def test_probe_failure_never_initializes(self):
-        write(self.root / "tools/estate_processes.py", 'import sys; sys.exit(2)\n')
-        self.assertEqual(run(str(self.launcher), "Symoneural-Common", "recipe").returncode, 2)
+        write(self.root / "production/runtimes/build/bin/estate_processes.py", 'import sys; sys.exit(2)\n')
+        self.assertEqual(run(str(self.launcher), "common", "recipe", env=self.env).returncode, 2)
 
     def test_build_dir_option_selects_sibling_directory(self):
-        other = self.root / "Symoneural-Common/build/other-target"
+        other = self.root / "work/output/common/build/other-target"
         (other / "conf").mkdir(parents=True)
-        result = run(str(self.launcher), "--show-path", "Symoneural-Common", "--build-dir", "other-target")
+        result = run(str(self.launcher), "--show-path", "common", "--build-dir", "other-target", env=self.env)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.strip(), str(other))
-        self.assertIn("Symoneural-Common --build-dir other-target", run(str(self.launcher), "--list").stdout)
-        self.assertEqual(run(str(self.launcher), "Symoneural-Common", "--build-dir", "../evil", "x").returncode, 2)
-        self.assertEqual(run(str(self.launcher), "Symoneural-Common", "--build-dir").returncode, 2)
-        self.assertEqual(run(str(self.launcher), "Symoneural-Common", "--build-dir", "missing", "x").returncode, 1)
+        self.assertIn("common --build-dir other-target", run(str(self.launcher), "--list", env=self.env).stdout)
+        self.assertEqual(run(str(self.launcher), "common", "--build-dir", "../evil", "x", env=self.env).returncode, 2)
+        self.assertEqual(run(str(self.launcher), "common", "--build-dir", env=self.env).returncode, 2)
+        self.assertEqual(run(str(self.launcher), "common", "--build-dir", "missing", "x", env=self.env).returncode, 1)
         # the default directory is unchanged when the option is absent
-        self.assertEqual(run(str(self.launcher), "--show-path", "Symoneural-Common").stdout.strip(), str(self.bd))
+        self.assertEqual(run(str(self.launcher), "--show-path", "common", env=self.env).stdout.strip(), str(self.bd))
 
     def test_cooperating_wrapper_lock(self):
         import fcntl
         with (self.bd / ".symonbake.lock").open("w") as lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            result = run(str(self.launcher), "Symoneural-Common", "recipe")
+            result = run(str(self.launcher), "common", "recipe", env=self.env)
             self.assertEqual(result.returncode, 1)
             self.assertIn("another wrapper", result.stderr)
 
@@ -152,11 +158,11 @@ class Launcher(unittest.TestCase):
 class BuildAll(unittest.TestCase):
     def setUp(self):
         self.root = Path(tempfile.mkdtemp(prefix="build-all-", dir=FIXTURE))
-        self.launcher = write(self.root / "tools/build-all", (TOOLS / "build-all").read_text())
-        self.mock = write(self.root / "tools/symonbake", '#!/bin/sh\nexit 7\n')
+        self.launcher = write(self.root / "work/tools/build-all", (TOOLS / "build-all").read_text())
+        self.mock = write(self.root / "production/runtimes/build/bin/symonbake", '#!/bin/sh\nexit 7\n')
         for rt in ("Common", "Build", "Live"):
-            (self.root / f"Symoneural-{rt}/build/devtool-master/conf").mkdir(parents=True)
-            write(self.root / f"meta-symoneural/recipes-{rt.lower()}/symoneural-test/symoneural-test_1.bb", "# fixture\n")
+            (self.root / f"work/output/{rt.lower()}/build/devtool-master/conf").mkdir(parents=True)
+            write(self.root / f"work/recipes/recipes-{rt.lower()}/symoneural-test/symoneural-test_1.bb", "# fixture\n")
         self.env = {"BUILD_ALL_LOGS": str(self.root), "BUILD_ALL_JOBS": "2"}
 
     def test_child_failure_and_per_run_logs(self):
@@ -172,7 +178,7 @@ class BuildAll(unittest.TestCase):
         result = run(str(self.launcher), "--dry-run", env=self.env)
         self.assertEqual(result.returncode, 0)
         for rt in ("Common", "Build", "Live"):
-            self.assertIn("Symoneural-" + rt, result.stdout)
+            self.assertIn(rt.lower(), result.stdout)
         self.assertFalse(list(self.root.glob("symoneural-build-all.*")))
 
     def test_invalid_job_count(self):
@@ -330,7 +336,7 @@ class Evidence(unittest.TestCase):
 
 class TorchRpath(unittest.TestCase):
     def test_gloo_hook_flag_scope_and_missing_input(self):
-        recipe = (TOOLS.parent / "meta-symoneural/recipes-common/symoneural-pytorch/symoneural-pytorch_git.bb").read_text()
+        recipe = (REPO / "work/recipes/recipes-common/symoneural-pytorch/symoneural-pytorch_git.bb").read_text()
         hook = recipe.split('    gloo_hook = """\\\n', 1)[1].split('\n"""', 1)[0]
         directory = FIXTURE / 'gloo-hook'
         hook_path = write(directory / 'gloo-hook.cmake', hook)
@@ -359,7 +365,7 @@ endif()
         library = directory / "libfixture.so"
         result = run("cc", "-shared", "-fPIC", str(source), "-Wl,-rpath,$ORIGIN:" + str(directory), "-o", str(library))
         self.assertEqual(result.returncode, 0, result.stderr)
-        recipe = (TOOLS.parent / "meta-symoneural/recipes-common/symoneural-pytorch/symoneural-pytorch_git.bb").read_text()
+        recipe = (REPO / "work/recipes/recipes-common/symoneural-pytorch/symoneural-pytorch_git.bb").read_text()
         body = recipe.split('do_install:append() {', 1)[1].split('\n}', 1)[0]
         body = body.replace('${D}${PYTHON_SITEPACKAGES_DIR}/torch/lib', str(directory))
         body = body.replace('${WORKDIR}', str(directory)).replace('${TMPDIR}', str(directory.parent))
@@ -375,7 +381,7 @@ endif()
 
 class CudaBoundaryQa(unittest.TestCase):
     def setUp(self):
-        source = (TOOLS.parent / 'meta-symoneural/classes/symoneural-cuda.bbclass').read_text()
+        source = (REPO / 'work/recipes/classes/symoneural-cuda.bbclass').read_text()
         body = source.split('python symon_cuda_qa_s2() {\n', 1)[1].split('\n}', 1)[0]
         namespace = {}
         exec('def qa(d, bb):\n' + body, namespace)

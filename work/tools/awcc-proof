@@ -24,7 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from proof_support import new_root  # noqa: E402
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 PLATFORM = ROOT / "Symoneural-Platform"
 FAILS = []
 
@@ -77,9 +77,9 @@ def main():
 
     say("\n## 1. Source identity")
     for comp in ("AWCC", "loguru", "json", "glfw", "imgui", "libusb-cmake", "stb"):
-        r = run([sys.executable, str(ROOT / "tools/ingest-tree"), "verify", comp], cwd=ROOT)
+        r = run([sys.executable, str(ROOT / "work/tools/ingest-tree"), "verify", comp], cwd=ROOT)
         line = (r.stdout.strip().splitlines() or ["?"])[-1]
-        check(r.returncode == 0 and "VERIFIED" in line, "tools/ingest-tree verify %s" % comp, line.split("·")[1].strip() if "·" in line else line)
+        check(r.returncode == 0 and "VERIFIED" in line, "work/tools/ingest-tree verify %s" % comp, line.split("·")[1].strip() if "·" in line else line)
 
     say("\n## 2. Package identity and contents")
     pk = sorted(deploy.glob("*/symoneural-awcc_1.19.0-r*_*.ipk"))

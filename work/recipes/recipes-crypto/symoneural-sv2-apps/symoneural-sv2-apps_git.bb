@@ -2,7 +2,7 @@
 # client) from the miner-apps workspace of the pinned sv2-apps tree.
 require symoneural-sv2-apps.inc
 # restated for tools/scan-acquisition.py, which pairs a tree with its recipe from the .bb text
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/crypto/stratum/sv2-apps"
+SYMON_TREE = "upstream/crypto/stratum/sv2-apps"
 SRCREV = "d7d556d1a3c7e1c26dfccd076b491a38c038a5e0"
 PV = "0.7.0"
 LICENSE = "Apache-2.0 AND MIT"

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# symonlearn — activates the build runtime, in the shape of poky's oe-init-build-env.
+#
+#     source ./symonlearn                    environment only; every script becomes a verb
+#     source ./symonlearn <runtime> [dir]    ...and land in that runtime's build dir, bitbake ready
+#
+# Poky does three things: find the bitbake it ships with, set BUILDDIR, cd there. So does
+# this — and the bitbake and openembedded-core it uses are the ones PINNED in this tree,
+# upstream/build/, not a copy somewhere else on the machine. The build machine is the
+# build runtime. SYMON_REPO / SYMON_OUT are derived from where this file sits; nothing
+# below it may hardcode a repository path (README.md, "The linking rule").
+if [ -z "${BASH_SOURCE:-}" ] || [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    echo "Error: this script needs to be sourced. Run: source ./symonlearn" >&2; exit 1
+fi
+_symon_here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P) || return 1
+export SYMON_REPO="$_symon_here"
+export SYMON_OUT="$SYMON_REPO/work/output"
+export SYMON_MODELS_DIR="${SYMON_MODELS_DIR:-/home/google/symoneural-models}"   # weights: an input, never in the repo
+# the build runtime — pinned, verified, in the tree
+export OEROOT="$SYMON_REPO/upstream/build/devtools/openembedded-core"
+export BITBAKEDIR="$SYMON_REPO/upstream/build/bitbake/bitbake"
+export SYMON_META_OE="$SYMON_REPO/upstream/build/devtools/meta-openembedded"
+case ":$PATH:" in *":$SYMON_REPO/scripts:"*) ;; *) export PATH="$SYMON_REPO/scripts:$SYMON_REPO/production/runtimes/build/bin:$SYMON_REPO/work/tools:$PATH" ;; esac
+unset _symon_here
+
+# symon <verb> [args] — a verb is any executable in scripts/ (activated here) or a short
+# name for a tool in work/tools. `symon` alone lists them; the list is read, not written.
+symon() {
+    local v=${1:-}; shift 2>/dev/null
+    case "$v" in
+        "")       echo "scripts/ :"; for f in "$SYMON_REPO"/scripts/*; do [ -x "$f" ] && [ -f "$f" ] && printf '  %s\n' "$(basename "$f")"; done
+                  echo "tools    :  build prove test verify scan audit tree env"; return 0 ;;
+        build)    symonbake "$@" ;;
+        prove)    clean-root-proof "$@" ;;
+        test)     run-all-tests "$@" ;;
+        verify)   python3 -B "$SYMON_REPO/work/tools/verify-acquisition.py" "$@" ;;
+        scan)     python3 -B "$SYMON_REPO/work/tools/scan-acquisition.py" "$@" && python3 -B "$SYMON_REPO/work/tools/scan-dependencies.py" "$@" ;;
+        audit)    "$SYMON_REPO/work/tools/pre-publish-audit.sh" "$@" ;;
+        tree)     tree -L "${1:-3}" -d --noreport -I 'output|.gitpins|__pycache__|.git' "$SYMON_REPO" ;;
+        env)      printf 'SYMON_REPO=%s\nSYMON_OUT=%s\nOEROOT=%s\nBITBAKEDIR=%s\nSYMON_META_OE=%s\nSYMON_MODELS_DIR=%s\n' \
+                      "$SYMON_REPO" "$SYMON_OUT" "$OEROOT" "$BITBAKEDIR" "$SYMON_META_OE" "$SYMON_MODELS_DIR" ;;
+        *)        local f
+                  for f in "$SYMON_REPO/scripts/$v" "$SYMON_REPO/scripts/$v.py" "$SYMON_REPO/scripts/$v.sh"; do
+                      if [ -x "$f" ]; then "$f" "$@"; return $?; fi
+                  done
+                  echo "symon: no verb '$v'; run 'symon' for the list" >&2; return 2 ;;
+    esac
+}
+
+# --- the oe-init-build-env part, against the PINNED build runtime ---
+if [ -n "${1:-}" ]; then
+    _rt=$1; _bd=${2:-devtool-master}
+    if [[ ! "$_rt" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then echo "symonlearn: runtime must be a slug, e.g. diffuse" >&2; return 2; fi
+    _dir="$SYMON_OUT/$_rt/build/$_bd"
+    [ -d "$_dir/conf" ] || { echo "symonlearn: no configured build dir at $_dir (symonbake --list)" >&2; return 1; }
+    [ -f "$OEROOT/oe-init-build-env" ] || { echo "symonlearn: openembedded-core not at $OEROOT — is upstream/build ingested?" >&2; return 1; }
+    [ -x "$BITBAKEDIR/bin/bitbake" ] || { echo "symonlearn: bitbake not at $BITBAKEDIR" >&2; return 1; }
+    _was_u=0; [[ $- == *u* ]] && _was_u=1 && set +u        # oe-init-build-env dies under set -u
+    # oe-init-build-env <builddir> <bitbakedir>: exactly poky's own calling convention
+    . "$OEROOT/oe-init-build-env" "$_dir" "$BITBAKEDIR"
+    [ "$_was_u" = 1 ] && set -u
+    unset _rt _bd _dir _was_u
+fi

@@ -32,7 +32,7 @@ every applicable rule. This is not a check of every runtime feed or deployed ima
 """
 import glob, json, os, re, subprocess, sys
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 
 def sh(*a):
     result = subprocess.run(a, capture_output=True, text=True)

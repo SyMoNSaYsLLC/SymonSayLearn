@@ -4,7 +4,7 @@
 # shipped provider. Tag 3.32.6 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/util/filelock"
+SYMON_TREE = "upstream/common/util/filelock"
 
 SUMMARY = "filelock for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/tox-dev/filelock"

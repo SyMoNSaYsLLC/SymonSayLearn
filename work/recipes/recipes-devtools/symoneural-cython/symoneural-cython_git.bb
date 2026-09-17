@@ -9,7 +9,7 @@
 # pinned nor acquired - the D2 provider collision, one level further back than
 # usual because it is a code generator rather than a library.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/devtools/cython"
+SYMON_TREE = "upstream/ravencalc/devtools/cython"
 
 SUMMARY = "The Cython language"
 HOMEPAGE = "https://cython.org"

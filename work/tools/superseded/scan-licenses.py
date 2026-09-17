@@ -11,7 +11,7 @@ NON-AUTHORITATIVE: run on the reference machine before any release claim.
 """
 import os, re, sys, json, hashlib, argparse
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LIC_RE  = re.compile(r'^(LICEN[CS]E|COPYING|NOTICE|COPYRIGHT)', re.I)
 SKIPDIR = {".git", "node_modules", "__pycache__"}
 

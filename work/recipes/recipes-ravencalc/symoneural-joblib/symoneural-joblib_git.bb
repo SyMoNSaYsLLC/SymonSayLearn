@@ -1,7 +1,7 @@
 # joblib - a RUNTIME dependency of the scikit-learn wheel (scikit-learn joblib>=1.4.0). Acquired
 # 2026-09-13 under "own what you ship"; licence read from the tree at the pin.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/util/joblib"
+SYMON_TREE = "upstream/ravencalc/util/joblib"
 
 SUMMARY = "joblib for the SyMoNeuRaL Ravencalc runtime"
 HOMEPAGE = "https://github.com/joblib/joblib"

@@ -4,7 +4,7 @@
 # licence read from the tree, not from a layer recipe.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/api/model/typing-inspection"
+SYMON_TREE = "upstream/api/model/typing-inspection"
 
 SUMMARY = "typing-inspection for the SyMoNeuRaL API runtime"
 HOMEPAGE = "https://github.com/pydantic/typing-inspection"

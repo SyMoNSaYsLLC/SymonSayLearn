@@ -15,11 +15,11 @@ repository, which now tracks those files.
 """
 import os, subprocess, hashlib, json
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.environ.get("SYMON_REPO") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 ACQ  = os.environ.get("ACQ_OUT") or os.path.join(ROOT, "work", "pins")
 # the authoritative records, regardless of where a rescan writes its output
 AUTH_ACQ = os.path.join(ROOT, "work", "pins")
-GEN  = os.path.join(ROOT, "generated")
+GEN  = os.path.join(ROOT, "reports")
 BOOT = os.path.expanduser("~/symoneural-bootstrap-master")
 PINS_DIRNAME = ".gitpins"
 

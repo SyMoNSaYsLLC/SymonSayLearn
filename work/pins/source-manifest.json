@@ -33,7 +33,7 @@
    "notes": "Licence MIT read from LICENSE in the tree at the pin. Build backend: pdm.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): fastapi >=0.0.2",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/fastapi/annotated-doc"
   },
   {
@@ -45,7 +45,7 @@
    "notes": "Licence MIT read from LICENSE in the tree at the pin. Build backend: hatchling.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): pydantic >=0.6.0",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/annotated-types/annotated-types"
   },
   {
@@ -57,7 +57,7 @@
    "notes": "Licence MIT read from LICENSE in the tree at the pin. Build backend: setuptools_scm.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): starlette <5,>=3.6.2; httpx any; anthropic-sdk-python <5,>=3.5.0; mcp >=4.10",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/agronholm/anyio"
   },
   {
@@ -69,7 +69,7 @@
    "notes": "Licence MPL-2.0 read from LICENSE in the tree at the pin. Build backend: setuptools.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): httpx any; httpcore any",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/certifi/python-certifi"
   },
   {
@@ -81,7 +81,7 @@
    "notes": "Licence BSD-3-Clause read from LICENSE.txt in the tree at the pin. Build backend: flit.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): uvicorn >=7.0; huggingface-hub <9.0.0,>=8.4.2",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/pallets/click"
   },
   {
@@ -92,9 +92,9 @@
    "intended_tag_version": "0.141.1",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: HTTP framework.",
+   "required_by": "api: HTTP framework.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/fastapi/fastapi"
   },
   {
@@ -106,7 +106,7 @@
    "notes": "Licence MIT read from LICENSE.txt in the tree at the pin. Build backend: setup.py.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): httpcore >=0.16; uvicorn >=0.8",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/python-hyper/h11"
   },
   {
@@ -117,9 +117,9 @@
    "intended_tag_version": "1.0.9",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: transport under httpx.",
+   "required_by": "api: transport under httpx.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/encode/httpcore"
   },
   {
@@ -130,9 +130,9 @@
    "intended_tag_version": "0.28.1",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: HTTP client.",
+   "required_by": "api: HTTP client.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/encode/httpx"
   },
   {
@@ -144,7 +144,7 @@
    "notes": "Licence BSD-3-Clause read from LICENSE.md in the tree at the pin. Build backend: flit.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): httpx any; anyio",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/kjd/idna"
   },
   {
@@ -155,9 +155,9 @@
    "intended_tag_version": "v2.13.5 (also core-v2.46.5)",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: data model/validation.",
+   "required_by": "api: data model/validation.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/pydantic/pydantic"
   },
   {
@@ -169,7 +169,7 @@
    "notes": "Licence MIT OR Apache-2.0 read from LICENSE, LICENSE.MIT, LICENSE.APACHE2 in the tree at the pin. Build backend: setuptools_scm.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): anyio; anthropic-sdk-python <2,>=1",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/python-trio/sniffio"
   },
   {
@@ -180,9 +180,9 @@
    "intended_tag_version": "1.6.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: ASGI toolkit under FastAPI.",
+   "required_by": "api: ASGI toolkit under FastAPI.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/encode/starlette"
   },
   {
@@ -194,7 +194,7 @@
    "notes": "Licence PSF-2.0 read from LICENSE in the tree at the pin. Build backend: flit.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): fastapi >=4.8.0; pydantic >=4.14.1; anthropic-sdk-python <5,>=4.14; mcp >=4.13.0; huggingface-hub >=4.1.0; pydantic-core >=4.14.1; typing-inspection; annotated-types",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/python/typing_extensions"
   },
   {
@@ -206,7 +206,7 @@
    "notes": "Licence MIT read from LICENSE in the tree at the pin. Build backend: hatchling.",
    "required_by": "API runtime closure (Requires-Dist of built wheels): fastapi >=0.4.2; pydantic >=0.4.2; mcp >=0.4.1",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable release tag satisfying every consumer constraint; own what you ship (provider-decisions.json rule; pydantic-core-ownership ruling extended to all runtime-shipped Python distributions)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/pydantic/typing-inspection"
   },
   {
@@ -217,9 +217,9 @@
    "intended_tag_version": "0.52.4",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "API: ASGI server.",
+   "required_by": "api: ASGI server.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "API",
+   "runtime": "api",
    "upstream_url": "https://github.com/encode/uvicorn"
   },
   {
@@ -230,9 +230,9 @@
    "intended_tag_version": "v0.1.2",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Adaptive-Fabric: inference-time token optimisation.",
+   "required_by": "adaptive-fabric: inference-time token optimisation.",
    "revision_authority": "release decision",
-   "runtime": "Adaptive-Fabric",
+   "runtime": "adaptive-fabric",
    "upstream_url": "https://github.com/FlashML-org/FreeToken"
   },
   {
@@ -244,7 +244,7 @@
    "notes": "DECISION, not a clone: either Adaptive-Fabric gets its own torch 2.11.x tree, or Common's pin moves and every other consumer is re-evaluated, or FreeToken's constraint changes. Not resolvable by guessing.",
    "required_by": "FreeToken build-system requires torch>=2.11,<2.12; Common holds 2.14.0.",
    "revision_authority": "UNRESOLVED",
-   "runtime": "Adaptive-Fabric",
+   "runtime": "adaptive-fabric",
    "upstream_url": "https://github.com/pytorch/pytorch"
   },
   {
@@ -256,7 +256,7 @@
    "notes": "",
    "required_by": "Symoneural-Build: autotools chain.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.savannah.gnu.org/git/autoconf.git"
   },
   {
@@ -268,7 +268,7 @@
    "notes": "",
    "required_by": "Symoneural-Build: autotools chain.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.savannah.gnu.org/git/automake.git"
   },
   {
@@ -281,7 +281,7 @@
    "notes": "Advanced from 0880963fea4d. The acquired copy was two generations behind the stack actually building everything; the project's own copy of its build stack should BE the build stack, not a stale souvenir.",
    "required_by": "Symoneural-Build: the task execution engine itself.",
    "revision_authority": "Garrett decision (overnight Phase 8): match the stack in use",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.openembedded.org/bitbake"
   },
   {
@@ -293,7 +293,7 @@
    "notes": "",
    "required_by": "Symoneural-Build: autotools chain.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.savannah.gnu.org/git/libtool.git"
   },
   {
@@ -305,7 +305,7 @@
    "notes": "",
    "required_by": "Symoneural-Build: autotools chain.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.savannah.gnu.org/git/m4.git"
   },
   {
@@ -317,7 +317,7 @@
    "notes": "",
    "required_by": "Symoneural-Build: build executor.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://github.com/ninja-build/ninja"
   },
   {
@@ -330,7 +330,7 @@
    "notes": "Advanced from 2814f0962f56. The acquired copy was two generations behind the stack actually building everything; the project's own copy of its build stack should BE the build stack, not a stale souvenir.",
    "required_by": "Symoneural-Build: supplies devtool/recipetool and the class library.",
    "revision_authority": "Garrett decision (overnight Phase 8): match the stack in use",
-   "runtime": "Build",
+   "runtime": "build",
    "upstream_url": "https://git.openembedded.org/openembedded-core"
   },
   {
@@ -341,9 +341,9 @@
    "intended_tag_version": "v1.5.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "CLI: Anthropic API client.",
+   "required_by": "cli: Anthropic API client.",
    "revision_authority": "release decision",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/anthropics/anthropic-sdk-python"
   },
   {
@@ -353,9 +353,9 @@
    "intended_revision": "135f71e9297683e14614d4307081c0273ed0a09c",
    "intended_tag_version": "sdk-v0.125.0",
    "notes": "Previously blocked: recipetool npm handler requires nodejs-native.",
-   "required_by": "CLI: Anthropic TypeScript SDK.",
+   "required_by": "cli: Anthropic TypeScript SDK.",
    "revision_authority": "release decision",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/anthropics/anthropic-sdk-typescript"
   },
   {
@@ -365,9 +365,9 @@
    "intended_revision": "7bfc49e9b22d5ba25b6e429524c3d49fee27cb36",
    "intended_tag_version": "26.1.0",
    "notes": "Licence MIT (LICENSE in tree). Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: jsonschema attrs>=22.2.0; referencing attrs>=22.2.0",
+   "required_by": "cli: jsonschema attrs>=22.2.0; referencing attrs>=22.2.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/python-attrs/attrs"
   },
   {
@@ -377,9 +377,9 @@
    "intended_revision": "fd33e7700f0ebafe6f30bd5053f13327221b77a2",
    "intended_tag_version": "v2.1.1",
    "notes": "Licence MIT-0 (LICENSE in tree). C extension. Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: cryptography cffi>=2.0.0 (platform_python_implementation != PyPy)",
+   "required_by": "cli: cryptography cffi>=2.0.0 (platform_python_implementation != PyPy)",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/python-cffi/cffi"
   },
   {
@@ -389,9 +389,9 @@
    "intended_revision": "ffde75a2b594822c740a2e4748b56c00548302bf",
    "intended_tag_version": "50.0.1",
    "notes": "Licence Apache-2.0 OR BSD-3-Clause (LICENSE, LICENSE.APACHE, LICENSE.BSD in tree). Rust/maturin extension linking the target OpenSSL. Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: pyjwt[crypto] cryptography>=3.4.0 (the [crypto] extra is selected by mcp)",
+   "required_by": "cli: pyjwt[crypto] cryptography>=3.4.0 (the [crypto] extra is selected by mcp)",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/pyca/cryptography"
   },
   {
@@ -401,9 +401,9 @@
    "intended_revision": "87dca55a7b5bdc854ad1d190f1c461015ba5f008",
    "intended_tag_version": "0.18.0",
    "notes": "Licence MIT (LICENSE.md in tree).",
-   "required_by": "CLI: anthropic-sdk-python wheel Requires-Dist docstring-parser<1,>=0.15",
+   "required_by": "cli: anthropic-sdk-python wheel Requires-Dist docstring-parser<1,>=0.15",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/rr-/docstring_parser"
   },
   {
@@ -413,9 +413,9 @@
    "intended_revision": "71ae23be5448f859c2b4e21d9972ddfa7b8d759d",
    "intended_tag_version": "v2.12.0",
    "notes": "Licence BSD-3-Clause (LICENSE.md in tree). uv workspace: src/httpx2 and src/httpcore2 are two distributions built from this one tree (two recipes, PEP517_SOURCE_PATH). Canonical upstream per PyPI metadata; encode/httpx has no 2.x tags.",
-   "required_by": "CLI: anthropic-sdk-python httpx2<3,>=2.0.0; mcp httpx2>=2.5.0; starlette 1.6 testclient prefers httpx2",
+   "required_by": "cli: anthropic-sdk-python httpx2<3,>=2.0.0; mcp httpx2>=2.5.0; starlette 1.6 testclient prefers httpx2",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/pydantic/httpx2"
   },
   {
@@ -425,9 +425,9 @@
    "intended_revision": "2b5ec63e505b44775e29b865c3161ea13bdad16b",
    "intended_tag_version": "v0.17.0",
    "notes": "Licence MIT (LICENSE in tree). Rust/maturin extension; Cargo closure via cargo-update-recipe-crates.",
-   "required_by": "CLI: anthropic-sdk-python wheel Requires-Dist jiter<1,>=0.4.0",
+   "required_by": "cli: anthropic-sdk-python wheel Requires-Dist jiter<1,>=0.4.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/pydantic/jiter"
   },
   {
@@ -437,9 +437,9 @@
    "intended_revision": "a7277432b0f7bcd0551f6e589d30457017125df4",
    "intended_tag_version": "v4.26.0",
    "notes": "Licence MIT (COPYING in tree).",
-   "required_by": "CLI: mcp wheel Requires-Dist jsonschema>=4.20.0; its runtime closure attrs, jsonschema-specifications, referencing, rpds-py is NOT yet acquired",
+   "required_by": "cli: mcp wheel Requires-Dist jsonschema>=4.20.0; its runtime closure attrs, jsonschema-specifications, referencing, rpds-py is NOT yet acquired",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/python-jsonschema/jsonschema"
   },
   {
@@ -449,9 +449,9 @@
    "intended_revision": "3b846010c34ce254d8ced23023451d1d64de37f5",
    "intended_tag_version": "v2025.9.1",
    "notes": "Licence MIT (COPYING in tree). Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: jsonschema jsonschema-specifications>=2023.03.6",
+   "required_by": "cli: jsonschema jsonschema-specifications>=2023.03.6",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/python-jsonschema/jsonschema-specifications"
   },
   {
@@ -461,9 +461,9 @@
    "intended_revision": "53a5a40c9604583c501bcf13970a635f00e62df4",
    "intended_tag_version": "v1.44.0",
    "notes": "Licence Apache-2.0 (LICENSE in tree). Monorepo: the opentelemetry-api distribution is the opentelemetry-api/ subdirectory.",
-   "required_by": "CLI: mcp wheel Requires-Dist opentelemetry-api>=1.28.0",
+   "required_by": "cli: mcp wheel Requires-Dist opentelemetry-api>=1.28.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/open-telemetry/opentelemetry-python"
   },
   {
@@ -473,9 +473,9 @@
    "intended_revision": "77de509f0268f44ee587b5a4d9f0d680e269fcae",
    "intended_tag_version": "release_v3.00",
    "notes": "Licence BSD-3-Clause (LICENSE in tree). Pure Python. Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: cffi pycparser (implementation_name != PyPy)",
+   "required_by": "cli: cffi pycparser (implementation_name != PyPy)",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/eliben/pycparser"
   },
   {
@@ -485,9 +485,9 @@
    "intended_revision": "c6fe464b356ff4b1ebc9ba62172d331a40aa27df",
    "intended_tag_version": "2.14.0",
    "notes": "Licence MIT (LICENSE in tree).",
-   "required_by": "CLI: mcp wheel Requires-Dist pyjwt[crypto]>=2.10.1; the [crypto] extra is selected, so cryptography becomes RUNTIME REQUIRED (not yet acquired)",
+   "required_by": "cli: mcp wheel Requires-Dist pyjwt[crypto]>=2.10.1; the [crypto] extra is selected, so cryptography becomes RUNTIME REQUIRED (not yet acquired)",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/jpadilla/pyjwt"
   },
   {
@@ -497,9 +497,9 @@
    "intended_revision": "238ead62a0bb6f6cdfe122708faa13812f59f9a6",
    "intended_tag_version": "0.0.32",
    "notes": "Licence Apache-2.0 (LICENSE.txt in tree).",
-   "required_by": "CLI: mcp wheel Requires-Dist python-multipart>=0.0.9",
+   "required_by": "cli: mcp wheel Requires-Dist python-multipart>=0.0.9",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/Kludex/python-multipart"
   },
   {
@@ -512,7 +512,7 @@
    "notes": "",
    "required_by": "CLI + API: MCP Python SDK (shared).",
    "revision_authority": "release decision",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/modelcontextprotocol/python-sdk"
   },
   {
@@ -522,9 +522,9 @@
    "intended_revision": "944ed5a20bc5125f2349156cbdc365daac0e67e6",
    "intended_tag_version": "v0.37.0",
    "notes": "Licence MIT (COPYING in tree). Submodule suite = referencing-suite 792cb7f98ac2 (test suite), committed as a tree. Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: jsonschema referencing>=0.28.4; jsonschema-specifications referencing>=0.31.0",
+   "required_by": "cli: jsonschema referencing>=0.28.4; jsonschema-specifications referencing>=0.31.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/python-jsonschema/referencing"
   },
   {
@@ -534,9 +534,9 @@
    "intended_revision": "7277eb681f6efd67eca1bbaa32f78d78bdc044a5",
    "intended_tag_version": "v2026.6.3",
    "notes": "Licence MIT (LICENSE in tree). Rust/maturin extension; Cargo closure via cargo-update-recipe-crates. Version rule: newest release tag at acquisition (2026-09-14) that satisfies every recorded consumer constraint; chosen and recorded here, never implied.",
-   "required_by": "CLI: jsonschema rpds-py>=0.25.0; referencing rpds-py>=0.7.0",
+   "required_by": "cli: jsonschema rpds-py>=0.25.0; referencing rpds-py>=0.7.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/crate-py/rpds"
   },
   {
@@ -546,9 +546,9 @@
    "intended_revision": "6754ef387da97cf6cfbcd1bd5c216b533937b304",
    "intended_tag_version": "v3.4.11",
    "notes": "Licence BSD-3-Clause (LICENSE in tree).",
-   "required_by": "CLI: mcp wheel Requires-Dist sse-starlette>=3.0.0",
+   "required_by": "cli: mcp wheel Requires-Dist sse-starlette>=3.0.0",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/sysid/sse-starlette"
   },
   {
@@ -558,9 +558,9 @@
    "intended_revision": "0714f72a739d182cdb8502f4e1bb4cf7ebfe4eb5",
    "intended_tag_version": "v0.10.4",
    "notes": "Licence MIT (LICENSE in tree). Pure Python (flit_core). Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "CLI: httpx2 truststore>=0.10; httpcore2 truststore>=0.10",
+   "required_by": "cli: httpx2 truststore>=0.10; httpcore2 truststore>=0.10",
    "revision_authority": "same",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/sethmlarson/truststore"
   },
   {
@@ -570,9 +570,9 @@
    "intended_revision": "cc4b41617ce3601b1290d67216ea0b194a3cd9ac",
    "intended_tag_version": "v2 GA 2.0.0",
    "notes": "Tag-to-commit VERIFIED: cc4b4161 is the workspace release commit carrying 9 v2 GA package tags @2.0.0 (client, codemod, core, express, fastify, hono, node, server, server-legacy). No sdk@2.0.0 tag exists; the v1 'sdk' package name is absent from the v2 set, so the public release identity is the package set, not a root workspace version.",
-   "required_by": "CLI: MCP TypeScript SDK.",
+   "required_by": "cli: MCP TypeScript SDK.",
    "revision_authority": "release decision - tag-to-commit verified upstream",
-   "runtime": "CLI",
+   "runtime": "cli",
    "upstream_url": "https://github.com/modelcontextprotocol/typescript-sdk"
   },
   {
@@ -582,9 +582,9 @@
    "intended_revision": "6afc1e5ee217051fde702b23de2813344dc0fd33",
    "intended_tag_version": "1.15.0+git",
    "notes": "",
-   "required_by": "Common: device placement.",
+   "required_by": "common: device placement.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/accelerate"
   },
   {
@@ -594,9 +594,9 @@
    "intended_revision": "4efd93e0482e8095a0b6949fb337206e7f67495d",
    "intended_tag_version": "3.32.6",
    "notes": "Licence MIT (LICENSE md5 2c6acbdf7bb74caa37512c3a5ca6857b). hatchling, no runtime deps. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub wheel Requires-Dist filelock>=3.10.0",
+   "required_by": "common: huggingface-hub wheel Requires-Dist filelock>=3.10.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/tox-dev/filelock"
   },
   {
@@ -606,9 +606,9 @@
    "intended_revision": "9e22b60ea6e96fbe8635e88cc71909bdd2850e60",
    "intended_tag_version": "2026.7.0",
    "notes": "Licence BSD-3-Clause (LICENSE md5 b38a11bf4dcdfc66307f8515ce1fbaa6). hatchling, no runtime deps. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub wheel Requires-Dist fsspec>=2023.5.0",
+   "required_by": "common: huggingface-hub wheel Requires-Dist fsspec>=2023.5.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/fsspec/filesystem_spec"
   },
   {
@@ -618,9 +618,9 @@
    "intended_revision": "de71453d952bd8b806edaa997c72313051a49050",
    "intended_tag_version": "v1.6.0",
    "notes": "Licence Apache-2.0 (LICENSE md5 86d3f3a95c324c9479bd8986968f4327). Rust monorepo (xet-core); the Python distribution hf-xet is the hf_xet/ subdirectory, maturin backend, no runtime deps. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub wheel Requires-Dist hf-xet<2.0.0,>=1.5.2 (x86_64)",
+   "required_by": "common: huggingface-hub wheel Requires-Dist hf-xet<2.0.0,>=1.5.2 (x86_64)",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/xet-core"
   },
   {
@@ -631,9 +631,9 @@
    "intended_tag_version": "v1.31.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Common: model/artifact distribution client.",
+   "required_by": "common: model/artifact distribution client.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/huggingface_hub"
   },
   {
@@ -643,9 +643,9 @@
    "intended_revision": "15206881c006c79667fe5154fe80c01c65410679",
    "intended_tag_version": "3.1.6",
    "notes": "Licence BSD-3-Clause (LICENSE.txt md5 5dc88300786f1c214c1e9827a5229462). flit_core, runtime dep MarkupSafe>=2.0 -> symoneural-markupsafe. Version rule: newest upstream release satisfying every recorded consumer constraint; equals the layer's own version, so the OE recipe mirrors exactly.",
-   "required_by": "Common: torch wheel Requires-Dist jinja2 (unconditional)",
+   "required_by": "common: torch wheel Requires-Dist jinja2 (unconditional)",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pallets/jinja"
   },
   {
@@ -655,9 +655,9 @@
    "intended_revision": "36c5f547144df2d01970a5792d68c71a3380b227",
    "intended_tag_version": "v4.2.0",
    "notes": "Licence MIT (LICENSE md5 a38a1697260a7ad7bf29f44b362db1fc). flit_core. Runtime dep mdurl~=0.1. Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "Common: rich 15.0.0 Requires-Dist markdown-it-py>=2.2.0",
+   "required_by": "common: rich 15.0.0 Requires-Dist markdown-it-py>=2.2.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/executablebooks/markdown-it-py"
   },
   {
@@ -667,9 +667,9 @@
    "intended_revision": "297fc8e356e6836a62087949245d09a28e9f1b13",
    "intended_tag_version": "3.0.3",
    "notes": "Licence BSD-3-Clause (LICENSE.txt md5 ffeffa59c90c9c4a033c7574f8f3fb75). setuptools.build_meta (C extension _speedups), no runtime deps. Version rule: newest upstream release satisfying every recorded consumer constraint; equals the layer's own version, so the OE recipe mirrors exactly.",
-   "required_by": "Common: Jinja2 wheel Requires-Dist MarkupSafe>=2.0",
+   "required_by": "common: Jinja2 wheel Requires-Dist MarkupSafe>=2.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pallets/markupsafe"
   },
   {
@@ -679,9 +679,9 @@
    "intended_revision": "596bf1c8752de45fa576a52c315d6d8cc5bb1a4e",
    "intended_tag_version": "0.1.2",
    "notes": "Licence MIT (LICENSE md5 aca1dc6b9088f1dda81c89cad2c77ad1). flit_core. No runtime deps - this closes the transformers -> typer -> rich -> markdown-it-py chain. Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "Common: markdown-it-py 4.2.0 Requires-Dist mdurl~=0.1",
+   "required_by": "common: markdown-it-py 4.2.0 Requires-Dist mdurl~=0.1",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/executablebooks/mdurl"
   },
   {
@@ -691,9 +691,9 @@
    "intended_revision": "7530809bfa1ea7ed6fdf918a4d1431488953cb1f",
    "intended_tag_version": "networkx-3.6.1",
    "notes": "Licence BSD-3-Clause (LICENSE.txt md5 f7592b173aee2da0e062f9cfa0378e9d). setuptools.build_meta, no runtime deps (pyproject dependencies = []; meta-python's python3-decorator edge is stale). Version rule: newest upstream release satisfying every recorded consumer constraint; equals the layer's own version, so the OE recipe mirrors exactly.",
-   "required_by": "Common: torch wheel Requires-Dist networkx>=2.5.1 (unconditional)",
+   "required_by": "common: torch wheel Requires-Dist networkx>=2.5.1 (unconditional)",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/networkx/networkx"
   },
   {
@@ -703,9 +703,9 @@
    "intended_revision": "929fd4b1410ac7ef61ef3f45b2f5d7e87711a9b5",
    "intended_tag_version": "26.3",
    "notes": "Licence Apache-2.0 OR BSD-2-Clause (LICENSE md5 faadaedca9251a90b205c9167578ce91, LICENSE.APACHE 2ee41112a44fe7014dce33e26468ba93, LICENSE.BSD 7bef9bf4a8e4263634d0597e7ba100b8). flit_core, no runtime deps. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub packaging>=20.9; transformers packaging>=20.0",
+   "required_by": "common: huggingface-hub packaging>=20.9; transformers packaging>=20.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pypa/packaging"
   },
   {
@@ -715,9 +715,9 @@
    "intended_revision": "9eea97dd6f1d16ea33f5144c8925f1ce7a0688e1",
    "intended_tag_version": "release-7.2.2",
    "notes": "Licence BSD-3-Clause (LICENSE md5 a9c72113a843d0d732a0ac1c200d81b1). setuptools.build_meta (C extensions _psutil_linux, _psutil_posix), no runtime deps. Version rule: newest upstream release satisfying every recorded consumer constraint; equals the layer's own version, so the OE recipe mirrors exactly.",
-   "required_by": "Common: accelerate install_requires psutil (unconditional)",
+   "required_by": "common: accelerate install_requires psutil (unconditional)",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/giampaolo/psutil"
   },
   {
@@ -727,9 +727,9 @@
    "intended_revision": "a43b45dcf081b6010c6ab4428f149f7f6d2499c4",
    "intended_tag_version": "2.21.0",
    "notes": "Licence BSD-2-Clause (LICENSE md5 36a13c90514e2899f1eba7f41c3ee592). hatchling. No runtime deps. Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "Common: rich 15.0.0 Requires-Dist pygments>=2.13.0",
+   "required_by": "common: rich 15.0.0 Requires-Dist pygments>=2.13.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pygments/pygments"
   },
   {
@@ -740,9 +740,9 @@
    "intended_tag_version": "v2.14.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Common: tensor/autograd core consumed by LLM, Diffuse and Studio.",
+   "required_by": "common: tensor/autograd core consumed by LLM, Diffuse and Studio.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pytorch/pytorch"
   },
   {
@@ -752,9 +752,9 @@
    "intended_revision": "49790e73684bebad1df05ef8d828fa12f685bffb",
    "intended_tag_version": "6.0.3",
    "notes": "Licence MIT (LICENSE md5 6d8242660a8371add5fe547adf083079). Custom PEP 517 backend _pyyaml_pep517; C extension over libyaml. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub pyyaml>=5.1; transformers pyyaml>=5.1",
+   "required_by": "common: huggingface-hub pyyaml>=5.1; transformers pyyaml>=5.1",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/yaml/pyyaml"
   },
   {
@@ -764,9 +764,9 @@
    "intended_revision": "7dd71c15c4fb5c94206bed1763abd4c2bd2f1b33",
    "intended_tag_version": "2026.9.10",
    "notes": "Licence Apache-2.0 AND CNRI-Python (LICENSE.txt md5 7b5751ddd6b643203c31ff873051d069). setuptools; C extension. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: transformers wheel Requires-Dist regex>=2025.10.22",
+   "required_by": "common: transformers wheel Requires-Dist regex>=2025.10.22",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/mrabarnett/mrab-regex"
   },
   {
@@ -776,9 +776,9 @@
    "intended_revision": "6ac483cbea39cab124dfd3483bba70ffafb71050",
    "intended_tag_version": "v15.0.0",
    "notes": "Licence MIT (LICENSE md5 b5f0b94fbc94f5ad9ae4efcf8a778303). poetry-core backend. Runtime deps pygments^2.13.0 and markdown-it-py>=2.2.0. ipywidgets is marked optional=true and belongs to the jupyter extra only, so the Jupyter stack is NOT pulled into this closure. Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "Common: typer 0.27.2 Requires-Dist rich>=13.8.0",
+   "required_by": "common: typer 0.27.2 Requires-Dist rich>=13.8.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/Textualize/rich"
   },
   {
@@ -790,9 +790,9 @@
    "intended_tag_version_previous": "1.0+git",
    "notes": "PIN-ORIGIN: SYMONEURAL-GENERATED - upstream ships no Cargo.lock anywhere in the tree, so the crate set was resolved by cargo 1.97.1 / rustc 1.97.1 on 2026-09-13 and committed as recipe data at meta-symoneural/recipes-common/symoneural-safetensors/Cargo.lock (46 packages). Generated in a scratch copy; the acquired tree was not written to. Required because accelerate RDEPENDS on safetensors, so it ships, and an offline reproducible build needs a lockfile. Revert to upstream when they publish one.",
    "pin_origin": "SYMONEURAL-GENERATED",
-   "required_by": "Common: tensor serialisation.",
+   "required_by": "common: tensor serialisation.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/safetensors"
   },
   {
@@ -802,9 +802,9 @@
    "intended_revision": "72e919a8b10aaafc041205d4e3ae0e6a2e1e5f87",
    "intended_tag_version": "v84.0.0",
    "notes": "Licence MIT (LICENSE md5 141643e11c48898150daa83802dbc65f). setuptools.build_meta (self-hosted via python3-setuptools-native), no runtime deps. Version rule: newest upstream release satisfying every recorded consumer constraint; equals the layer's own version, so the OE recipe mirrors exactly.",
-   "required_by": "Common: torch wheel Requires-Dist setuptools>=77.0.3 (unconditional)",
+   "required_by": "common: torch wheel Requires-Dist setuptools>=77.0.3 (unconditional)",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/pypa/setuptools"
   },
   {
@@ -814,9 +814,9 @@
    "intended_revision": "cba059e7f29f731c2fdf9c8c3ea7921182b7d6c3",
    "intended_tag_version": "1.5.4",
    "notes": "Licence ISC (LICENSE md5 78e1c0248051c32a38a7f820c30bd7a5). No build-backend declared (requires setuptools+wheel), so PEP 517 falls back to setuptools.build_meta:__legacy__ and the recipe must stage python3-wheel-native, as pycparser did. No runtime deps. Version rule: newest release tag at acquisition (2026-09-14) satisfying every recorded consumer constraint.",
-   "required_by": "Common: typer 0.27.2 Requires-Dist shellingham>=1.3.0",
+   "required_by": "common: typer 0.27.2 Requires-Dist shellingham>=1.3.0",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/sarugaku/shellingham"
   },
   {
@@ -827,9 +827,9 @@
    "intended_tag_version": "v0.23.2",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Common: tokenisation.",
+   "required_by": "common: tokenisation.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/tokenizers"
   },
   {
@@ -839,9 +839,9 @@
    "intended_revision": "9cf5a12b1f955468a17f0ba3c59092b23e4258ac",
    "intended_tag_version": "v4.70.1",
    "notes": "Licence MPL-2.0 AND MIT (LICENCE md5 9a9bed097dea538bf341c8623c8f8852). setuptools. Its only dependency, colorama, is gated on platform_system == Windows and is false for this target. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: huggingface-hub tqdm>=4.42.1; transformers tqdm>=4.60",
+   "required_by": "common: huggingface-hub tqdm>=4.42.1; transformers tqdm>=4.60",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/tqdm/tqdm"
   },
   {
@@ -851,9 +851,9 @@
    "intended_revision": "856157a2f3e9594954310df18fdccc31ffddebe9",
    "intended_tag_version": "5.17.0+git",
    "notes": "",
-   "required_by": "Common: model implementations.",
+   "required_by": "common: model implementations.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/huggingface/transformers"
   },
   {
@@ -863,9 +863,9 @@
    "intended_revision": "99eb220df7c69a0f14a0b69214042677e0760b9d",
    "intended_tag_version": "0.27.2",
    "notes": "Licence MIT (LICENSE md5 173d405eb704b1499218013178722617). pdm.backend. Declares shellingham>=1.3.0, rich>=13.8.0 and annotated-doc>=0.0.2 at runtime; annotated-doc is already SYMONEURAL-OWNED by the API, shellingham and rich are NOT yet acquired and are recorded as pending. Version rule: the tag already recorded in pending-acquisitions.json, which was chosen as the newest release satisfying every recorded consumer constraint.",
-   "required_by": "Common: transformers wheel Requires-Dist typer",
+   "required_by": "common: transformers wheel Requires-Dist typer",
    "revision_authority": "same",
-   "runtime": "Common",
+   "runtime": "common",
    "upstream_url": "https://github.com/fastapi/typer"
   },
   {
@@ -876,9 +876,9 @@
    "intended_tag_version": "v1.11.1",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Crypto: Stratum V2 protocol libraries.",
+   "required_by": "crypto: Stratum V2 protocol libraries.",
    "revision_authority": "release decision",
-   "runtime": "Crypto",
+   "runtime": "crypto",
    "upstream_url": "https://github.com/stratum-mining/stratum"
   },
   {
@@ -889,9 +889,9 @@
    "intended_tag_version": "v0.7.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Crypto: Stratum V2 applications.",
+   "required_by": "crypto: Stratum V2 applications.",
    "revision_authority": "release decision",
-   "runtime": "Crypto",
+   "runtime": "crypto",
    "upstream_url": "https://github.com/stratum-mining/sv2-apps"
   },
   {
@@ -902,9 +902,9 @@
    "intended_tag_version": "UNTAGGED (commit pin 67d2178e12b2)",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Crypto: Stratum V2 specification (REFERENCE-ONLY).",
+   "required_by": "crypto: Stratum V2 specification (REFERENCE-ONLY).",
    "revision_authority": "release decision",
-   "runtime": "Crypto",
+   "runtime": "crypto",
    "upstream_url": "https://github.com/stratum-mining/sv2-spec"
   },
   {
@@ -914,9 +914,9 @@
    "intended_revision": "e91ded11bdcd78c42f9c8d3978ff6686eb4c1226",
    "intended_tag_version": "v0.23.0 (= llama.cpp scripts/sync-ggml.last e91ded11)",
    "notes": "Licence MIT (LICENSE in tree).",
-   "required_by": "LLM: canonical ggml for libggml; llama.cpp 5266f24da75d syncs exactly this commit (scripts/sync-ggml.last) and its vendored ggml/ is byte-identical (diff -rq include src cmake: 0 differences, 2026-09-13). llama.cpp will link it with LLAMA_USE_SYSTEM_GGML=ON.",
+   "required_by": "llm: canonical ggml for libggml; llama.cpp 5266f24da75d syncs exactly this commit (scripts/sync-ggml.last) and its vendored ggml/ is byte-identical (diff -rq include src cmake: 0 differences, 2026-09-13). llama.cpp will link it with LLAMA_USE_SYSTEM_GGML=ON.",
    "revision_authority": "work/tools/map-llama-upstreams.py: sync-ggml.last of the pinned llama.cpp; never 'latest ggml'",
-   "runtime": "LLM",
+   "runtime": "llm",
    "upstream_url": "https://github.com/ggml-org/ggml"
   },
   {
@@ -927,9 +927,9 @@
    "intended_tag_version": "b10809 (also v0.4.0)",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "LLM: CPU/GPU inference in C++.",
+   "required_by": "llm: CPU/GPU inference in C++.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "LLM",
+   "runtime": "llm",
    "upstream_url": "https://github.com/ggml-org/llama.cpp"
   },
   {
@@ -940,9 +940,9 @@
    "intended_tag_version": "v3.8.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "LLM: GPU kernel compiler (arrives via torch at build time).",
+   "required_by": "llm: GPU kernel compiler (arrives via torch at build time).",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "LLM",
+   "runtime": "llm",
    "upstream_url": "https://github.com/triton-lang/triton"
   },
   {
@@ -953,9 +953,9 @@
    "intended_tag_version": "v0.29.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "LLM: inference server.",
+   "required_by": "llm: inference server.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "LLM",
+   "runtime": "llm",
    "upstream_url": "https://github.com/vllm-project/vllm"
   },
   {
@@ -966,9 +966,9 @@
    "intended_tag_version": "1.28.7",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Live: media pipeline framework.",
+   "required_by": "live: media pipeline framework.",
    "revision_authority": "release decision",
-   "runtime": "Live",
+   "runtime": "live",
    "upstream_url": "https://gitlab.freedesktop.org/gstreamer/gstreamer.git"
   },
   {
@@ -978,9 +978,9 @@
    "intended_revision": "7576fff24b9769432f76cc6d2c01282583ee87a9",
    "intended_tag_version": "v3.1.2",
    "notes": "Licence BSD-3-Clause (LICENSE in tree). Pure Python (flit_core). Version rule: newest release tag at acquisition (2026-09-14) satisfying joblib's cloudpickle>=3.0.",
-   "required_by": "Ravencalc: joblib 1.6.0 wheel Requires-Dist cloudpickle>=3.0 (clean-root proof: sklearn/joblib import failed for want of it)",
+   "required_by": "ravencalc: joblib 1.6.0 wheel Requires-Dist cloudpickle>=3.0 (clean-root proof: sklearn/joblib import failed for want of it)",
    "revision_authority": "same",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/cloudpipe/cloudpickle"
   },
   {
@@ -992,7 +992,7 @@
    "notes": "SyMoNeuRaL-OWNED build dependency, acquired 2026-09-13. Mirrors OE's own recipe (same upstream, same version, same build classes) repointed at the estate's pinned tree; LIC_FILES_CHKSUM matches OE's declaration byte for byte. Owned rather than borrowed because the C that becomes RavenCalc's numerics is GENERATED by it - borrowing meant shipping code emitted by a compiler the estate neither pinned nor acquired.",
    "required_by": "symoneural-numpy, symoneural-scipy, symoneural-scikit-learn (C-extension generation)",
    "revision_authority": "git ls-remote tag dereference, verified against the acquired tree",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/cython/cython"
   },
   {
@@ -1002,9 +1002,9 @@
    "intended_revision": "cd9a6b05fc4f2b1c8202eb62c4e863484f8cc099",
    "intended_tag_version": "1.6.0",
    "notes": "Licence BSD-3-Clause (LICENSE.txt in tree).",
-   "required_by": "Ravencalc: scikit-learn 1.9.1 wheel Requires-Dist joblib>=1.4.0",
+   "required_by": "ravencalc: scikit-learn 1.9.1 wheel Requires-Dist joblib>=1.4.0",
    "revision_authority": "work/tools/check-python-runtime-closures.py 2026-09-13 - newest stable satisfying the constraint; own what you ship",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/joblib/joblib"
   },
   {
@@ -1016,9 +1016,9 @@
    "intended_tag_version": "1.3.0",
    "intended_tag_version_previous": "1.4.1",
    "notes": "2026-09-14: re-pinned 1.4.1 -> 1.3.0 by ruling unresolved.json:sympy-mpmath-constraint (RESOLVED-A).",
-   "required_by": "Ravencalc: arbitrary-precision arithmetic (sympy dep).",
+   "required_by": "ravencalc: arbitrary-precision arithmetic (sympy dep).",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/mpmath/mpmath"
   },
   {
@@ -1028,9 +1028,9 @@
    "intended_revision": "e34715d1e9e2bd6f5306662e8ad495eaf0c1325a",
    "intended_tag_version": "v2.26.0",
    "notes": "Licence MIT (LICENSE.md in tree).",
-   "required_by": "Ravencalc: scikit-learn 1.9.1 wheel Requires-Dist narwhals>=2.0.1",
+   "required_by": "ravencalc: scikit-learn 1.9.1 wheel Requires-Dist narwhals>=2.0.1",
    "revision_authority": "same",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/narwhals-dev/narwhals"
   },
   {
@@ -1040,9 +1040,9 @@
    "intended_revision": "dd88c0c19b54ad9ed3533224221285bf0873249a",
    "intended_tag_version": "2.5.3",
    "notes": "",
-   "required_by": "Ravencalc: array core.",
+   "required_by": "ravencalc: array core.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/numpy/numpy"
   },
   {
@@ -1052,9 +1052,9 @@
    "intended_revision": "e0166008be8e466242aa76b2ff75ce3f0fbf574a",
    "intended_tag_version": "0.3.34",
    "notes": "",
-   "required_by": "Ravencalc: BLAS/LAPACK kernels.",
+   "required_by": "ravencalc: BLAS/LAPACK kernels.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/OpenMathLib/OpenBLAS"
   },
   {
@@ -1066,7 +1066,7 @@
    "notes": "SyMoNeuRaL-OWNED build dependency, acquired 2026-09-13. Mirrors meta-python's recipe repointed at the estate's pinned tree; licence md5 matches. Owned because pybind11 is header-only: its headers are compiled INTO scipy's _duccfft extension and ship inside our binary. Own what you ship.",
    "required_by": "symoneural-scipy (_duccfft C++ bindings)",
    "revision_authority": "git ls-remote tag dereference, verified against the acquired tree",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/pybind/pybind11"
   },
   {
@@ -1076,9 +1076,9 @@
    "intended_revision": "866c0f51e7560ef0303cbcc5f159df5382ea9e3f",
    "intended_tag_version": "1.9.1",
    "notes": "",
-   "required_by": "Ravencalc: classical ML.",
+   "required_by": "ravencalc: classical ML.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/scikit-learn/scikit-learn"
   },
   {
@@ -1088,9 +1088,9 @@
    "intended_revision": "e4e854eaa8f18d807cd3496028e257e36caa93cc",
    "intended_tag_version": "1.18.1",
    "notes": "",
-   "required_by": "Ravencalc: scientific routines.",
+   "required_by": "ravencalc: scientific routines.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/scipy/scipy"
   },
   {
@@ -1100,9 +1100,9 @@
    "intended_revision": "16fa855354eb7bcabd3fe10993841e03b1382692",
    "intended_tag_version": "1.14.0",
    "notes": "",
-   "required_by": "Ravencalc: symbolic maths.",
+   "required_by": "ravencalc: symbolic maths.",
    "revision_authority": "session selection - approved plan (latest upstream stable)",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/sympy/sympy"
   },
   {
@@ -1112,9 +1112,9 @@
    "intended_revision": "d5bf10bcf90d9a8a315fe9496fb1bc97007d2fea",
    "intended_tag_version": "3.6.0",
    "notes": "Licence BSD-3-Clause (LICENSE in tree).",
-   "required_by": "Ravencalc: scikit-learn 1.9.1 wheel Requires-Dist threadpoolctl>=3.5.0",
+   "required_by": "ravencalc: scikit-learn 1.9.1 wheel Requires-Dist threadpoolctl>=3.5.0",
    "revision_authority": "same",
-   "runtime": "Ravencalc",
+   "runtime": "ravencalc",
    "upstream_url": "https://github.com/joblib/threadpoolctl"
   },
   {
@@ -1125,9 +1125,9 @@
    "intended_tag_version": "v0.8.0",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Remix: Spotify protocol client.",
+   "required_by": "remix: Spotify protocol client.",
    "revision_authority": "release decision",
-   "runtime": "Remix",
+   "runtime": "remix",
    "upstream_url": "https://github.com/librespot-org/librespot"
   },
   {
@@ -1138,9 +1138,9 @@
    "intended_tag_version": "v1.7.3",
    "intended_tag_version_previous": "1.0+git",
    "notes": "",
-   "required_by": "Streamer: HLS playback.",
+   "required_by": "streamer: HLS playback.",
    "revision_authority": "release decision",
-   "runtime": "Streamer",
+   "runtime": "streamer",
    "upstream_url": "https://github.com/video-dev/hls.js"
   },
   {
@@ -1150,9 +1150,9 @@
    "intended_revision": "925464ba9fe5751e4468626ce77f7a5810df274f",
    "intended_tag_version": "v1.20260911.1",
    "notes": "RECONCILED to the release decision. Authority established from upstream evidence, not assertion: pnpm-lock.yaml at Wrangler 4.131.1 resolves workerd@1.20260911.1, and tag v1.20260911.1 peels to 925464ba. The previously acquired 909e388c is v1.20260912.1, one day later, cloned before the pairing decision existed. Source re-checked out and the recipe SRCREV updated to match; the recipe edit is recorded as an exception to v1.2's permitted modification set.",
-   "required_by": "Web: Cloudflare Workers runtime.",
+   "required_by": "web: Cloudflare Workers runtime.",
    "revision_authority": "release decision (paired with Wrangler 4.131.1)",
-   "runtime": "Web",
+   "runtime": "web",
    "upstream_url": "https://github.com/cloudflare/workerd"
   },
   {
@@ -1162,9 +1162,9 @@
    "intended_revision": "00ae21fa83754462721a52bcd1ff9b4fbc12f898",
    "intended_tag_version": "wrangler@4.131.1",
    "notes": "Previously blocked: recipetool npm handler requires nodejs-native.",
-   "required_by": "Web: Wrangler tooling, paired with workerd v1.20260911.1.",
+   "required_by": "web: Wrangler tooling, paired with workerd v1.20260911.1.",
    "revision_authority": "release decision",
-   "runtime": "Web",
+   "runtime": "web",
    "upstream_url": "https://github.com/cloudflare/workers-sdk"
   },
   {
@@ -1174,9 +1174,9 @@
    "intended_revision": "61dcc93722ecb418bb5f2e00923f05b4b8051dd1",
    "intended_tag_version": "615.71.09",
    "notes": "Kernel modules only (nvidia, nvidia-uvm, nvidia-modeset, nvidia-drm; nvidia-peermem excluded). Provides neither the NVIDIA driver userspace (libcuda.so.1, libnvidia-ml.so.1) nor GSP firmware - those remain external dependencies recorded in docs/platform/NVIDIA-OPEN-KERNEL.md.",
-   "required_by": "Platform: NVIDIA open GPU kernel modules for two kernel targets - Debian 6.12.107+deb13-amd64 (development machine, external kernel) and the estate linux-yocto 6.18.48 qemux86-64 kernel; the kernel side of P7's CUDA S2 boundary.",
+   "required_by": "platform: NVIDIA open GPU kernel modules for two kernel targets - Debian 6.12.107+deb13-amd64 (development machine, external kernel) and the estate linux-yocto 6.18.48 qemux86-64 kernel; the kernel side of P7's CUDA S2 boundary.",
    "revision_authority": "Garrett's charter 2026-09-14: release 615.71.09, the driver generation the host runs (/sys/module/nvidia/version) and CUDA 13.4.1 is proven against; annotated tag d2a24f90e843359450ab313a286f43a88d95c6ce -> commit 61dcc937... (git ls-remote refs/tags/615.71.09^{})",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/NVIDIA/open-gpu-kernel-modules"
   },
   {
@@ -1188,7 +1188,7 @@
    "notes": "GPL-3.0 executable; Alienware/Dell G-series control (thermal modes, lighting, G-mode) as daemon+CLI+GUI. Built with its six FetchContent dependencies pinned as separate sources and libevdev from oe-core; needs the acpi_call kernel module at run time (not yet acquired).",
    "required_by": "Garrett 2026-09-14 ('we need to add this to our build'; 'you can do the awcc')",
    "revision_authority": "session selection: latest release tag v1.19.0 (lightweight tag = commit)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/tr1xem/AWCC"
   },
   {
@@ -1198,9 +1198,9 @@
    "intended_revision": "ba2240d19baedc5a6727383040ff309810f0f825",
    "intended_tag_version": "v2.2.0",
    "notes": "logging library; CMake target loguru::loguru with LOGURU_WITH_STREAMS (AWCC pins moving master; v2.2.0 is that head, tagged 2026-09-10)",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/emilk/loguru"
   },
   {
@@ -1210,9 +1210,9 @@
    "intended_revision": "55f93686c01528224f448c19128836e7df245f72",
    "intended_tag_version": "v3.12.0",
    "notes": "header-only JSON; identical commit to pytorch's third_party/nlohmann submodule",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/nlohmann/json.git"
   },
   {
@@ -1222,9 +1222,9 @@
    "intended_revision": "d9d6f0f1f967807ffade6598ea9a631ebaf37a56",
    "intended_tag_version": "3.5.1",
    "notes": "window/GL context library, built statically into awcc (X11 backend; Wayland off in the estate build)",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/glfw/glfw.git"
   },
   {
@@ -1234,9 +1234,9 @@
    "intended_revision": "f1cc2ae15e53a861a874c3034aae6798fde194ab",
    "intended_tag_version": "v1.92.9b",
    "notes": "Dear ImGui, compiled into awcc by its CMake (glfw + opengl3 backends); AWCC uses no docking API, so the non-docking release",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/ocornut/imgui.git"
   },
   {
@@ -1246,9 +1246,9 @@
    "intended_revision": "c8477c10ac2ac6b1718d4d498e102b9f18b776f5",
    "intended_tag_version": "v1.0.30-0",
    "notes": "CMake build of libusb 1.0.30 (sources vendored in the tree, no submodule), built statically into awcc; LGPL-2.1 static linking noted for the licence review",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/libusb/libusb-cmake.git"
   },
   {
@@ -1258,9 +1258,9 @@
    "intended_revision": "2c980bb59875b0d32144a71867fbdebb2f77cd20",
    "intended_tag_version": "master@2c980bb5",
    "notes": "stb_image header only; upstream has no release tags - pinned to the master head at acquisition time",
-   "required_by": "Platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
+   "required_by": "platform: symoneural-awcc dependency (AWCC's CMake FetchContent, pinned here instead of a moving branch)",
    "revision_authority": "session selection: latest upstream release tag at acquisition (stb: master head, no tags upstream)",
-   "runtime": "Platform",
+   "runtime": "platform",
    "upstream_url": "https://github.com/nothings/stb.git"
   },
   {
@@ -1270,9 +1270,9 @@
    "intended_revision": "7f410a3793c5bba8eb198e962ce7a3d6095f9d89",
    "intended_tag_version": "master-859-7f410a3",
    "notes": "Phase 14 item 14a. Built with SD_CUDA through symoneural-cuda.bbclass (CUDA 13.4.1, sm_120); packages sd-cli. Weights are NOT acquired: the register's image row (flux1-schnell-q4_k.gguf) is ABSENT and stays ABSENT until a measured run registers one (Phase 12 S3 / decision D2).",
-   "required_by": "Diffuse: image and sigils units (operator-checklist Phase 14)",
+   "required_by": "diffuse: image and sigils units (operator-checklist Phase 14)",
    "revision_authority": "the SNAPSHOT recorded in docs/operator-checklist.md Phase 14 S3 and in pending-acquisitions.json; re-resolved upstream 2026-09-17 and confirmed as master-859-7f410a3",
-   "runtime": "Diffuse",
+   "runtime": "diffuse",
    "upstream_url": "https://github.com/leejet/stable-diffusion.cpp"
   }
  ],

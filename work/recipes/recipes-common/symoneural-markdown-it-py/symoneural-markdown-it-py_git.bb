@@ -4,7 +4,7 @@
 # shipped provider. Tag v4.2.0 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/text/markdown-it-py"
+SYMON_TREE = "upstream/common/text/markdown-it-py"
 
 SUMMARY = "markdown-it-py for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/executablebooks/markdown-it-py"

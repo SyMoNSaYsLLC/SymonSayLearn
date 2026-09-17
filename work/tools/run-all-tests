@@ -28,20 +28,20 @@ def discover():
     """Every suite in the estate, found by walking - never a hand-kept list."""
     s = []
     # 1. first-party Python suites: <runtime>/app/tests/python
-    for d in sorted(os.listdir(ROOT)):
+    for d in sorted(os.listdir(os.path.join(ROOT, "production", "runtimes"))):
         for sub in ("tests/python", "tests"):
-            t = os.path.join(ROOT, d, "app", sub)
+            t = os.path.join(ROOT, "production", "runtimes", d, "app", sub)
             if not os.path.isdir(t):
                 continue
             if not any(f.startswith("test_") and f.endswith(".py") for f in os.listdir(t)):
                 continue
-            s.append(dict(name=rel(t), kind="unittest", cwd=os.path.join(ROOT, d, "app"),
+            s.append(dict(name=rel(t), kind="unittest", cwd=os.path.join(ROOT, "production", "runtimes", d, "app"),
                           cmd=[sys.executable, "-m", "unittest", "discover",
                                "-s", sub, "-t", "."]))
             break
     # 2. first-party native suites: <runtime>/app/tests/native
-    for d in sorted(os.listdir(ROOT)):
-        t = os.path.join(ROOT, d, "app/tests/native")
+    for d in sorted(os.listdir(os.path.join(ROOT, "production", "runtimes"))):
+        t = os.path.join(ROOT, "production", "runtimes", d, "app/tests/native")
         if os.path.isdir(t) and any(f.endswith(".c") for f in os.listdir(t)):
             mk = os.path.join(t, "Makefile")
             target = None
@@ -59,18 +59,18 @@ def discover():
                        ("check-determinism.py", "checker"),
                        ("verify-acquisition.py", "checker"),
                        ("check-python-runtime-closures.py", "checker")):
-        p = os.path.join(ROOT, "tools", tool)
+        p = os.path.join(ROOT, "work", "tools", tool)
         if os.path.exists(p):
             extra = ["--all"] if "closures" in tool else []
-            s.append(dict(name="tools/" + tool, kind=kind, cwd=ROOT,
+            s.append(dict(name="work/tools/" + tool, kind=kind, cwd=ROOT,
                           cmd=[sys.executable, "-B", p] + extra))
     # 4. clean-root proofs - they need a built image, so they are LISTED, not run
-    pd = os.path.join(ROOT, "tools/proofs")
+    pd = os.path.join(ROOT, "work/tools/proofs")
     if os.path.isdir(pd):
         for f in sorted(os.listdir(pd)):
             if f.endswith(".py") and not f.startswith("_"):
                 rt = f[:-3]
-                s.append(dict(name="tools/proofs/" + f, kind="clean-root", cwd=ROOT, cmd=None,
+                s.append(dict(name="work/tools/proofs/" + f, kind="clean-root", cwd=ROOT, cmd=None,
                               why="needs a built image: tools/clean-root-proof %s symoneural-image-%s"
                                   % (rt.capitalize(), rt)))
     return s

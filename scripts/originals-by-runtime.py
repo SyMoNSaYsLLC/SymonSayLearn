@@ -19,7 +19,7 @@ PROOF = {"API": "production/api", "CLI": "production/cli", "Common": "production
 
 
 def load(name):
-    with open(os.path.join(ROOT, "acquisition", name)) as f:
+    with open(os.path.join(ROOT, "work", "pins", name)) as f:
         return json.load(f)
 
 
@@ -29,7 +29,7 @@ def main():
     man = {e["component"]: e for e in load("source-manifest.json")["entries"]}
     state = {c["component"]: c for c in load("component-state.json")["components"]}
     pend = load("pending-acquisitions.json")
-    audit_run = subprocess.run([os.path.join(ROOT, "tools/audit-workscope.sh")], capture_output=True, text=True, cwd=ROOT)
+    audit_run = subprocess.run([os.path.join(ROOT, "work/tools/audit-workscope.sh")], capture_output=True, text=True, cwd=ROOT)
     audit = {}
     for line in audit_run.stdout.splitlines():
         m = re.match(r"^(\S+)\s+(\S+)\s+(VERIFIED|LISTING-VERIFIED\S*|NOT-IN-LOCK|-)\s+\S+\s+\S+\s+\S+\s+(\S+)\s+\S+\s+(\S+)\s+(\d+)\s+(.*\S)\s*$", line)
@@ -88,7 +88,7 @@ def main():
         out.append("- %s: %s" % (r["component"], r["reason"]))
     out.append("\n\nTotal upstream originals committed: %d. Runtime directories on disk: %d." % (total, len(glob.glob(os.path.join(ROOT, "Symoneural-*/")))))
     text = "\n".join(l.rstrip() for l in out) + "\n"
-    targets = [os.path.join(ROOT, "generated/ORIGINALS-BY-RUNTIME.md")] + outs
+    targets = [os.path.join(ROOT, "reports/ORIGINALS-BY-RUNTIME.md")] + outs
     for t in targets:
         with open(t, "w") as f:
             f.write(text)

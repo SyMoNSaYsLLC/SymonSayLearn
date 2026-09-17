@@ -4,7 +4,7 @@
 # the shipped provider. Tag v2026.6.3 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/json/rpds-py"
+SYMON_TREE = "upstream/cli/json/rpds-py"
 
 SUMMARY = "rpds-py - persistent data structures (Rust extension) for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/crate-py/rpds"

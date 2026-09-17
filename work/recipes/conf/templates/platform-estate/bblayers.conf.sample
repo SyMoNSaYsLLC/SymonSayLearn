@@ -10,5 +10,5 @@ BBLAYERS ?= " \
   /home/google/symoneural-bootstrap-master/openembedded-core/meta \
   /home/google/symoneural-bootstrap-master/meta-openembedded/meta-oe \
   /home/google/symoneural-bootstrap-master/meta-openembedded/meta-python \
-  /home/google/SymonSaysLLC/Projects/SymonSayLearn/work/recipes \
+  ${SYMON_REPO}/work/recipes \
   "

@@ -20,9 +20,9 @@ Tools:
 
 Speaks MCP over stdio. No dependencies beyond the standard library.
 """
-import json, os, re, subprocess, sys, glob
+import os, json, os, re, subprocess, sys, glob
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # -> repo root
 HIST = "/home/google/.claude/projects"
 
 def _load(p):

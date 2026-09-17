@@ -11,7 +11,7 @@ HOMEPAGE = "https://github.com/huggingface/transformers"
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/ml/transformers"
+SYMON_TREE = "upstream/common/ml/transformers"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d15f16de23b5d7f8e28dd073d2ed8b28"

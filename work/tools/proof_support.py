@@ -7,7 +7,7 @@ import re
 import sys
 import tempfile
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 
 
 def new_root(runtime, requested=None, parent=None):

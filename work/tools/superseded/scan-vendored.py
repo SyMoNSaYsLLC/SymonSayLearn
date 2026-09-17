@@ -5,7 +5,7 @@ NON-AUTHORITATIVE research artifact."""
 import os, re, sys, json, hashlib
 from collections import defaultdict
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 VENDOR_DIRS = {"vendor","vendored","third_party","thirdparty","3rdparty","external",
                "externals","extern","deps","subprojects","contrib","bundled"}
 SKIP = {".git","node_modules","__pycache__",".github",".tox","test","tests","docs","doc"}

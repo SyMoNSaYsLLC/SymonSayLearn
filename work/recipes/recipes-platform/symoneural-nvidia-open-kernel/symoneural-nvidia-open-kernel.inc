@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1d5fa2a493e937d5a4b96e5e03b90f7c"
 
 # SOURCES-100 pin: acquisition/source-lock.json component open-gpu-kernel-modules (runtime
 # Platform), upstream annotated tag 615.71.09 = d2a24f90e843359450ab313a286f43a88d95c6ce.
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/platform/kernel/open-gpu-kernel-modules"
+SYMON_TREE = "upstream/platform/kernel/open-gpu-kernel-modules"
 SRCREV = "61dcc93722ecb418bb5f2e00923f05b4b8051dd1"
 PV = "615.71.09"
 

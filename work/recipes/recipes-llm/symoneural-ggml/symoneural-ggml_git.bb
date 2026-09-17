@@ -17,7 +17,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=223b26b3c1143120c87e2b13111d3e99"
 
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/llm/inference/ggml"
+SYMON_TREE = "upstream/llm/inference/ggml"
 
 SRC_URI = "git://github.com/ggml-org/ggml;protocol=https;branch=master"
 # v0.23.0 is the release tag at the sync commit (git describe --tags --exact-match)

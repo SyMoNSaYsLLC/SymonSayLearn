@@ -23,22 +23,26 @@ def recipe_for(abspath):
     are found too and flagged, so a retired component keeps its pin/SRCREV
     agreement visible without counting as an active recipe."""
     want = abspath.rstrip("/")
-    for pattern, retired in (("meta-symoneural/recipes-*/*/*.bb", False),
-                             ("meta-symoneural/retired/*/*.bb", True)):
+    for pattern, retired in (("work/recipes/recipes-*/*/*.bb", False),
+                             ("work/recipes/retired/*/*.bb", True)):
         for rp in sorted(glob.glob(os.path.join(ROOT, pattern))):
             try: txt = open(rp, encoding="utf-8", errors="ignore").read()
             except OSError: continue
             m = re.search(r'^SYMON_TREE\s*=\s*"([^"]+)"', txt, re.M)
-            if m and m.group(1).rstrip("/") == want:
-                return os.path.basename(rp).split("_")[0], rp, retired
+            if m:
+                t = m.group(1).rstrip("/")
+                if not os.path.isabs(t):          # recipes are repo-relative now (linking rule)
+                    t = os.path.join(ROOT, t)
+                if t == want:
+                    return os.path.basename(rp).split("_")[0], rp, retired
     return None, None, False
 def dep_consumer_for(component):
     """The meta-symoneural recipe that consumes this component as a DEPENDENCY TREE
     (symoneural-pristine SYMON_DEP_TREES = "<name>:<component> ..."): such a tree has no recipe
     of its own - it is compiled into the consumer - and its declared pin IS the lock entry,
     enforced at the consumer's do_unpack by tools/ingest-tree verify. Returns (pn, path, retired)."""
-    for pattern, retired in (("meta-symoneural/recipes-*/*/*.bb", False),
-                             ("meta-symoneural/retired/*/*.bb", True)):
+    for pattern, retired in (("work/recipes/recipes-*/*/*.bb", False),
+                             ("work/recipes/retired/*/*.bb", True)):
         for rp in sorted(glob.glob(os.path.join(ROOT, pattern))):
             try: txt = open(rp, encoding="utf-8", errors="ignore").read()
             except OSError: continue

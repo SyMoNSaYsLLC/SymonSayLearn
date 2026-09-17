@@ -14,7 +14,7 @@ or that a consumer exercised an artifact (R16), so it does not report either.
 import json, subprocess, sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 
 
 def _json(rel):
@@ -39,21 +39,21 @@ def collect():
     app = sorted(ROOT.glob("meta-symoneural/**/*.bbappend"))
     f["bbappends"] = {"value": len(app), "source": "count of meta-symoneural/**/*.bbappend"}
 
-    sm = _json("acquisition/source-manifest.json")
+    sm = _json("work/pins/source-manifest.json")
     if sm is not None:
         entries = sm.get("entries", [])
         f["declared_sources"] = {
             "value": len(entries),
-            "source": "acquisition/source-manifest.json :: entries",
+            "source": "work/pins/source-manifest.json :: entries",
         }
         at = [e for e in entries
               if str(e.get("acquisition_state", "")).lower() in ("acquired", "at_intended_revision")]
         f["sources_acquired"] = {
             "value": len(at),
-            "source": "acquisition/source-manifest.json :: entries[acquisition_state acquired]",
+            "source": "work/pins/source-manifest.json :: entries[acquisition_state acquired]",
         }
 
-    un = _json("acquisition/unresolved.json")
+    un = _json("work/pins/unresolved.json")
     if un is not None:
         counts = un.get("counts", {})
         if isinstance(counts, dict):
@@ -61,10 +61,10 @@ def collect():
                 if isinstance(v, int):
                     f[f"unresolved_{k}"] = {
                         "value": v,
-                        "source": f"acquisition/unresolved.json :: counts.{k}",
+                        "source": f"work/pins/unresolved.json :: counts.{k}",
                     }
 
-    reports = sorted(ROOT.glob("generated/phase-*.md"))
+    reports = sorted(ROOT.glob("reports/phase-*.md"))
     f["phase_reports"] = {"value": len(reports), "source": "count of generated/phase-*.md"}
 
     runtimes = sorted(p.name for p in ROOT.glob("Symoneural-*") if p.is_dir())

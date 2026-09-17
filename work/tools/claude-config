@@ -14,7 +14,7 @@
 # Never snapshots buddy-tokens.json or anything holding a credential.
 set -u
 LIVE=/home/google/.config/Claude
-REPO=/home/google/SymonSaysLLC/Projects/SymonSayLearn/work/config/claude-desktop
+REPO=${ROOT}/work/config/claude-desktop
 FILES="claude_desktop_config.json mcp-user-tool-toggles.json extensions-blocklist.json os-entry-points.json"
 # EXCLUDED, deliberately — each holds a credential or identity:
 #   developer_settings.json   carries inferenceGatewayApiKey (a bearer token)

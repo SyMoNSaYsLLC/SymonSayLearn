@@ -15,7 +15,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/web/runtime/workerd"
+SYMON_TREE = "upstream/web/runtime/workerd"
 
 LICENSE = "Apache-2.0 AND ISC AND MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93 \

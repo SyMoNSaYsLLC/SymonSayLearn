@@ -3,7 +3,7 @@
 (the bitbake lib/ply pattern) - not just vendor/ or third_party/."""
 import os,re,sys,json,hashlib
 from collections import defaultdict
-ROOT="/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # -> repo root
 SKIP={".git","node_modules","__pycache__",".github",".tox"}
 # well-known third-party python/js/c packages that projects commonly vendor
 KNOWN={"ply","bs4","beautifulsoup4","simplediff","progressbar","pyinotify","six",

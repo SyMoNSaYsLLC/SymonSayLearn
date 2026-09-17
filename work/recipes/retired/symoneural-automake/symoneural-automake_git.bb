@@ -5,7 +5,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/build/autotools/automake"
+SYMON_TREE = "upstream/build/autotools/automake"
 
 LICENSE = "GPL-2.0-or-later"
 # LIC_FILES_CHKSUM restored to recipetool's full file list.

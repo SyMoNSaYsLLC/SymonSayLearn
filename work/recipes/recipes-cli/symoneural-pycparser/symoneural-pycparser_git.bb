@@ -4,7 +4,7 @@
 # the shipped provider. Tag release_v3.00 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/ffi/pycparser"
+SYMON_TREE = "upstream/cli/ffi/pycparser"
 
 SUMMARY = "pycparser for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/eliben/pycparser"

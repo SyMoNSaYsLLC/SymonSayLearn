@@ -20,7 +20,7 @@ SECTION = "base"
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=641dd5661bc2769a54c6214cdbcce43b"
 
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/platform/alienware/AWCC"
+SYMON_TREE = "upstream/platform/alienware/AWCC"
 SRCREV = "0ec42c4b3ddc3c4e412ad69353cd251e1f348280"
 PV = "1.19.0"
 

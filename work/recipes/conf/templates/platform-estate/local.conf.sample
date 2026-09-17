@@ -15,12 +15,12 @@ BB_DISKMON_DIRS ??= "\
     HALT,${SSTATE_DIR},100M,1K \
     HALT,/tmp,10M,1K"
 CONF_VERSION = "2"
-DL_DIR = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/runtimes/platform/downloads"
-SSTATE_DIR = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/runtimes/platform/sstate-cache-master"
+DL_DIR = "${SYMON_OUT}/platform/downloads"
+SSTATE_DIR = "${SYMON_OUT}/platform/sstate-cache-master"
 # Read-only reuse of sibling runtimes' sstate (toolchain, native tools); nothing is written there.
 SSTATE_MIRRORS = "\
-    file://.* file:///home/google/SymonSaysLLC/Projects/SymonSayLearn/runtimes/common/sstate-cache-master/PATH \n \
-    file://.* file:///home/google/SymonSaysLLC/Projects/SymonSayLearn/runtimes/ravencalc/sstate-cache-master/PATH \n \
+    file://.* file://${SYMON_OUT}/common/sstate-cache-master/PATH \n \
+    file://.* file://${SYMON_OUT}/ravencalc/sstate-cache-master/PATH \n \
     "
 BB_NUMBER_THREADS = "10"
 PARALLEL_MAKE = "-j 12"

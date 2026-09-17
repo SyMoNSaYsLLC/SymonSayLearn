@@ -4,7 +4,7 @@
 # shipped provider. Tag 2026.9.10 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/text/regex"
+SYMON_TREE = "upstream/common/text/regex"
 
 SUMMARY = "regex for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/mrabarnett/mrab-regex"

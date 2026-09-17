@@ -10,7 +10,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 BAKE_NAMES = {"bitbake", "bitbake-server", "bitbake-worker"}
 
 

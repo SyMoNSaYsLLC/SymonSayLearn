@@ -5,7 +5,7 @@
 # imports every distribution in the API runtime closure, checking exact versions the
 # consumers require. Exit 0 only if every import and check passes.
 set -uo pipefail
-ROOT=/home/google/SymonSaysLLC/Projects/SymonSayLearn
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")/../.." && pwd -P) || exit 1
 if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
   echo 'Usage: tools/api-clean-root-proof [NEW absolute destination]'; exit 0
 fi

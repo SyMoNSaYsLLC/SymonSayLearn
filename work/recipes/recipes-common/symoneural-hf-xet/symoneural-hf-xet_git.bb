@@ -4,7 +4,7 @@
 # shipped provider. Tag v1.6.0 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/ml/hf-xet"
+SYMON_TREE = "upstream/common/ml/hf-xet"
 
 SUMMARY = "hf-xet (Xet storage client, Rust) for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/huggingface/xet-core"

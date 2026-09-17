@@ -9,7 +9,7 @@ definitions. Output is JSON; the human table is a view of it.
   tools/map-api-runtime.py [--json out.json]
 """
 import glob, json, os, re, sys, subprocess
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 sys.path.insert(0, os.path.join(ROOT, "Symoneural-API", "app"))
 
 def load(p):
@@ -17,9 +17,9 @@ def load(p):
 
 def main():
     out = {"schema": "symoneural-api-runtime-map/1", "head": subprocess.run(["git", "-C", ROOT, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()}
-    lock = load("acquisition/source-lock.json")["components"]
+    lock = load("work/pins/source-lock.json")["components"]
     api = [c for c in lock if c["runtime"] == "API"]
-    prov = {r["distribution"]: r for r in load("acquisition/provider-decisions.json").get("python_runtime_providers", [])}
+    prov = {r["distribution"]: r for r in load("work/pins/provider-decisions.json").get("python_runtime_providers", [])}
     direct = {"fastapi", "starlette", "uvicorn", "pydantic", "httpx", "httpcore"}
     out["tier_a_direct"] = [dict(component=c["component"], commit=c["commit_sha"], tree=c["tree_sha"], pv=c["declared_version_PV"],
                                  licence=c["recipe_LICENSE"], recipe=c["recipe_name"], source_path=c["source_path"]) for c in api if c["component"] in direct]
@@ -29,7 +29,7 @@ def main():
     out["tier_b_shared_providers"] = [dict(distribution=d, **{k: v for k, v in r.items() if k != "distribution"}) for d, r in prov.items() if "shared provider" in str(r.get("selected_provider", ""))]
     # Tier C: build classes and native DEPENDS of every API recipe
     tier_c = {}
-    for rp in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-api/*/*.bb")):
+    for rp in glob.glob(os.path.join(ROOT, "work/recipes/recipes-api/*/*.bb")):
         t = open(rp).read()
         pn = os.path.basename(rp).split("_")[0]
         tier_c[pn] = {"inherit": " ".join(re.findall(r"^inherit\s+(.*)$", t, re.M)).split(),
@@ -67,9 +67,9 @@ def main():
     except Exception:
         out["applications"] = "no application registry yet"
     out["recipes_services_packagegroups"] = {
-        "recipes": sorted(os.path.basename(p).split("_")[0] for p in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-api/*/*.bb"))),
-        "packagegroups": sorted(os.path.basename(p)[:-3] for p in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-core/packagegroups/*.bb"))),
-        "images": sorted(os.path.basename(p)[:-3] for p in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-core/images/*.bb"))),
+        "recipes": sorted(os.path.basename(p).split("_")[0] for p in glob.glob(os.path.join(ROOT, "work/recipes/recipes-api/*/*.bb"))),
+        "packagegroups": sorted(os.path.basename(p)[:-3] for p in glob.glob(os.path.join(ROOT, "work/recipes/recipes-core/packagegroups/*.bb"))),
+        "images": sorted(os.path.basename(p)[:-3] for p in glob.glob(os.path.join(ROOT, "work/recipes/recipes-core/images/*.bb"))),
         "services": sorted(os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "meta-symoneural/**/*.service"), recursive=True))}
     out["external_secrets_config"] = {"provisioned_by": "symoneural-secrets (/etc/symoneural, values never in git)",
                                       "env_names": sorted({u["token_env"] for u in out["units"]} | {"SYM_OWNER_TOKEN", "SYM_GPU_LOCK", "SYMONEURAL_HOST", "SYMONEURAL_PORT"}) if isinstance(out["units"], list) else []}

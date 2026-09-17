@@ -3,7 +3,7 @@
 # under the estate rule "own what you ship". Tag v3.1.2 at the pin below; licence from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/util/cloudpickle"
+SYMON_TREE = "upstream/ravencalc/util/cloudpickle"
 
 SUMMARY = "cloudpickle for the SyMoNeuRaL Ravencalc runtime"
 HOMEPAGE = "https://github.com/cloudpipe/cloudpickle"

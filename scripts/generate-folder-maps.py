@@ -19,9 +19,9 @@ House rules this enforces, because a hand-written map is stale the week after it
 """
 import argparse, json, os, re, sys, collections
 
-ROOT = os.path.dirname(os.path.abspath(os.path.join(__file__, "..", "..")))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # scripts/x -> repo root
 LAYER = os.path.join(ROOT, "work", "recipes")
-sys.path.insert(0, os.path.join(ROOT, "runtimes/api/app"))
+sys.path.insert(0, os.path.join(ROOT, "production/runtimes/api/app"))
 from symoneural_api import endpoints as EP, units as UN            # noqa: E402
 
 load = lambda n: json.load(open(os.path.join(ROOT, "work", "pins", n)))
@@ -163,9 +163,9 @@ def main():
             b.append("*None in `layer/` name a tree in this runtime yet.*")
         b.append("\n## Prove it\n")
         b.append("```bash")
-        b.append("tools/symonbake %s <recipe>          # build one recipe here" % s)
-        if os.path.exists(os.path.join(ROOT, "tools/proofs/%s.py" % s)):
-            b.append("tools/clean-root-proof %s symoneural-image-%s   # run it in a clean root" % (s, s))
+        b.append("work/tools/symonbake %s <recipe>          # build one recipe here" % s)
+        if os.path.exists(os.path.join(ROOT, "work/tools/proofs/%s.py" % s)):
+            b.append("work/tools/clean-root-proof %s symoneural-image-%s   # run it in a clean root" % (s, s))
         b.append("```\n")
         pass
         emit(dest, "runtimes/%s" % s, "\n".join(b))
@@ -194,7 +194,7 @@ def main():
     # ---------------------------------------------------------------- layer/
     groups = sorted({r["group"] for r in recs.values()})
     b = ["# work/layer/\n", "## Interconnects\n", "```",
-         "tools/build/symonbake ................ the only entry; sources oe-init-build-env, runs bitbake",
+         "work/tools/build/symonbake ................ the only entry; sources oe-init-build-env, runs bitbake",
          "  -> layer/recipes-<name>/*.bb ....... one group per runtime; every recipe inherits a class",
          "     -> classes/symoneural-pristine ... reads control-plane/pins/, exports upstream/<rt>/ read-only",
          "        -> upstream/ ................. ENDS: the export is thrown away; upstream is never written",
@@ -229,25 +229,25 @@ def main():
 
     # -------------------------------------------------------- control-plane/
     names = sorted(f for f in os.listdir(os.path.join(ROOT, "work", "pins")) if f.endswith(".json"))
-    who = {"source-lock.json": "tools/scan-acquisition.py",
-           "submodule-lock.json": "tools/scan-acquisition.py",
-           "dependency-graph.json": "tools/scan-dependencies.py",
-           "license-inventory.json": "tools/scan-dependencies.py",
-           "vendor-lock.json": "tools/scan-dependencies.py",
-           "artifact-plan.json": "tools/scan-dependencies.py",
-           "provider-collisions.json": "tools/scan-oe-providers.py",
-           "source-collisions.json": "tools/scan-source-collisions.py",
+    who = {"source-lock.json": "work/tools/scan-acquisition.py",
+           "submodule-lock.json": "work/tools/scan-acquisition.py",
+           "dependency-graph.json": "work/tools/scan-dependencies.py",
+           "license-inventory.json": "work/tools/scan-dependencies.py",
+           "vendor-lock.json": "work/tools/scan-dependencies.py",
+           "artifact-plan.json": "work/tools/scan-dependencies.py",
+           "provider-collisions.json": "work/tools/scan-oe-providers.py",
+           "source-collisions.json": "work/tools/scan-source-collisions.py",
            "model-register.json": "hand-curated; weights NEVER enter git",
-           "control-plane.json": "tools/check-determinism.py (scanner identity)"}
+           "control-plane.json": "work/tools/check-determinism.py (scanner identity)"}
     b = ["# work/control-plane/\n", "## Interconnects\n", "```",
-         "tools/build/ingest-tree ingest ........ moves a clone's .git to .gitpins/, commits the files",
+         "work/tools/build/ingest-tree ingest ........ moves a clone's .git to .gitpins/, commits the files",
          "  -> pins/source-lock.json ........... records commit_sha + tree_sha per component",
          "     -> layer/classes/symoneural-pristine  re-reads it at every do_unpack",
          "        -> ENDS: PIN MISMATCH fails the build",
          "     -> tools/verify/verify-acquisition   re-derives every pin from disk and compares",
          "        -> evidence/ ................. ENDS: the verdict, with its exit status",
          "  -> pins/submodule-lock.json ........ each submodule's gitlink, re-verified the same way",
-         "tools/scan/scan-dependencies ........... walks every upstream tree",
+         "work/tools/scan/scan-dependencies ........... walks every upstream tree",
          "  -> graph/dependency-graph.json ..... every declared dependency, classified",
          "  -> graph/license-inventory.json .... every licence file, hashed",
          "     -> tools/generate/runtime-acquisition  renders reports/acquisition-state.md",
@@ -255,7 +255,7 @@ def main():
          "registers/model-register.json .......... hand-curated: which weights, sha256, PRESENT/ABSENT",
          "  -> runtimes/*/app ................... a unit reads $SYMON_MODELS_DIR/<subfolder>/<file>",
          "     -> ENDS: weights are outside the repository and never enter it",
-         "tools/verify/check-determinism ......... runs the scanners twice",
+         "work/tools/verify/check-determinism ......... runs the scanners twice",
          "  -> control-plane.json .............. ENDS: byte-identical or the control plane is rejected",
          "```\n",
          "*Was `acquisition/`.* **Generated files — do not hand-edit; run the scanner.**\n"]
@@ -263,10 +263,10 @@ def main():
     for n in names:
         b.append("| `%s` | %s |" % (n, who.get(n, "hand-curated")))
     b.append("\n## Use it\n```bash")
-    b.append("tools/scan-acquisition.py      # re-derive the pins from the pin stores")
-    b.append("tools/scan-dependencies.py     # re-derive dependencies, licences, vendored code")
-    b.append("tools/verify-acquisition.py    # does the control plane agree with disk?")
-    b.append("tools/check-determinism.py     # two runs, byte-identical, or it is not a control plane")
+    b.append("work/tools/scan-acquisition.py      # re-derive the pins from the pin stores")
+    b.append("work/tools/scan-dependencies.py     # re-derive dependencies, licences, vendored code")
+    b.append("work/tools/verify-acquisition.py    # does the control plane agree with disk?")
+    b.append("work/tools/check-determinism.py     # two runs, byte-identical, or it is not a control plane")
     b.append("```\n\n## The rule\n")
     b.append("A component on disk with no row here reconciles as **EXTRA / INTENT-UNDECLARED**. "
              "A row with no `tree_sha` has never been ingested and `symoneural-pristine` refuses "
@@ -276,7 +276,7 @@ def main():
     # ---------------------------------------------------------------- tools/
     ts = []
     for n in sorted(os.listdir(os.path.join(ROOT, "work", "tools"))):
-        p = os.path.join(ROOT, "tools", n)
+        p = os.path.join(ROOT, "work", "tools", n)
         if not os.path.isfile(p) or not os.access(p, os.X_OK):
             continue
         d = ""
@@ -320,8 +320,8 @@ def main():
 
     # ------------------------------------------------------- reports/ evidence/
     emit(dest, "reports", "# work/reports/\n\n## Interconnects\n\n```\n"
-         "tools/generate/runtime-acquisition ... reads control-plane/ -> writes acquisition-state.md\n"
-         "tools/generate/originals-by-runtime .. reads control-plane/ -> writes originals-by-runtime.md\n"
+         "work/tools/generate/runtime-acquisition ... reads control-plane/ -> writes acquisition-state.md\n"
+         "work/tools/generate/originals-by-runtime .. reads control-plane/ -> writes originals-by-runtime.md\n"
          "  -> ENDS: both are regenerated, never edited\n"
          "phase-NN-report.md ................... hand-written at the time; cites evidence/\n"
          "  -> evidence/ ....................... ENDS: the record points at output, output points nowhere\n"
@@ -335,7 +335,7 @@ def main():
          "(`tools/generate-runtime-acquisition.py`, `tools/originals-by-runtime.py`) — "
          "regenerate, never edit.\n")
     emit(dest, "production", "# work/evidence/\n\n## Interconnects\n\n```\n"
-         "tools/verify/* , tools/prove/* , tools/build/symonbake\n"
+         "work/tools/verify/* , tools/prove/* , tools/build/symonbake\n"
          "  -> evidence/<area>/<file>.txt ........ stdout + exit status, verbatim\n"
          "     -> reports/*.md cite these by path\n"
          "        -> ENDS: nothing reads evidence to change anything. It is the terminus.\n"

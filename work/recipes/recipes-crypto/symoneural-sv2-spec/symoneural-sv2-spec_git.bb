@@ -13,7 +13,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/crypto/stratum/sv2-spec"
+SYMON_TREE = "upstream/crypto/stratum/sv2-spec"
 
 # REFERENCE-ONLY, but not unlicensed: the tree carries License/BSD-3-Clause and
 # License/CC0-1.0. CLOSED would have been a false statement about a dual-permissive

@@ -12,7 +12,7 @@
 # /usr/include/python3.14 with no sysroot prefix and tripped
 # -Werror=poison-system-directories.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/devtools/pybind11"
+SYMON_TREE = "upstream/ravencalc/devtools/pybind11"
 
 SUMMARY = "Seamless operability between C++11 and Python"
 HOMEPAGE = "https://github.com/pybind/pybind11"

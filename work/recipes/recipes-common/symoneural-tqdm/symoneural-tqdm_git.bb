@@ -4,7 +4,7 @@
 # shipped provider. Tag v4.70.1 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/util/tqdm"
+SYMON_TREE = "upstream/common/util/tqdm"
 
 SUMMARY = "tqdm for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/tqdm/tqdm"

@@ -14,7 +14,7 @@
 #
 # No SRC_URI, no network: there is nothing to fetch.
 
-SYMON_REPO ?= "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+# SYMON_REPO is set in conf/layer.conf from LAYERDIR; nothing here names a host path.
 SYMON_FP_PATH ?= ""
 SYMON_FP_DIR = "${WORKDIR}/firstparty"
 

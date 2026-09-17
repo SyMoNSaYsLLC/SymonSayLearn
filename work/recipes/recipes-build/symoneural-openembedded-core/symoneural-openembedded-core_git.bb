@@ -5,7 +5,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/build/devtools/openembedded-core"
+SYMON_TREE = "upstream/build/devtools/openembedded-core"
 
 LICENSE = "MIT AND GPL-2.0-only"
 # LIC_FILES_CHKSUM restored to recipetool's full file list.

@@ -17,7 +17,7 @@
 # Read-only. Starts no bitbake. Safe while a cooker is live.
 # Usage:  bash audit-workscope.sh [--csv]
 set -uo pipefail
-ROOT=/home/google/SymonSaysLLC/Projects/SymonSayLearn
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")/../.." && pwd -P) || exit 1
 cd "$ROOT" || { echo "cannot cd $ROOT"; exit 1; }
 CSV=${1:-}
 case "$CSV" in ''|--csv) ;; --help|-h) echo 'Usage: tools/audit-workscope.sh [--csv]'; exit 0 ;; *) echo 'Unknown argument; use --help' >&2; exit 2 ;; esac
@@ -43,11 +43,11 @@ python3 -B - "$CSV" "$AUD" <<'PY'
 import json, os, re, subprocess, sys, glob
 csv = (len(sys.argv) > 1 and sys.argv[1] == "--csv")
 AUD = sys.argv[2]
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 
 def jload(p):
     try:
-        return json.load(open(os.path.join(ROOT, "acquisition", p)))
+        return json.load(open(os.path.join(ROOT, "work", "pins", p)))
     except Exception as exc:
         raise SystemExit("FAIL: cannot read acquisition/" + p + ": " + str(exc))
 
@@ -77,7 +77,7 @@ BUILD_CLASSES = ("cargo","cmake","meson","python_","maturin","npm","autotools",
                  "module")   # OE kernel-module class (out-of-tree modules: symoneural-nvidia-open-kernel)
 
 recipes = {}
-for bb in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-*/*/*.bb")):
+for bb in glob.glob(os.path.join(ROOT, "work/recipes/recipes-*/*/*.bb")):
     if "/retired/" in bb:
         continue
     try:

@@ -8,7 +8,7 @@
 # operation. Exit 0 only if everything in it passes.
 #   tools/clean-root-proof Ravencalc symoneural-image-ravencalc
 set -uo pipefail
-ROOT=/home/google/SymonSaysLLC/Projects/SymonSayLearn
+ROOT=${SYMON_REPO:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")/../.." && pwd -P)} || exit 1
 if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
     echo 'Usage: tools/clean-root-proof <Runtime> <image-recipe> [NEW absolute destination]'
     echo 'Default: fresh private temporary root. Existing destinations are never removed.'
@@ -27,7 +27,7 @@ case "$S2" in
 esac
 PROOF=$ROOT/work/tools/proofs/$RT.py
 [ -f "$PROOF" ] || { echo "FAIL: no proof script $PROOF"; exit 1; }
-IMG=$(ls -t $ROOT/work/output/$RT/build/devtool-master/tmp/deploy/images/*/$IMGNAME-*.rootfs-*.tar.gz 2>/dev/null | head -1)
+IMG=$(ls -t ${SYMON_OUT:-$ROOT/work/output}/$RT/build/devtool-master/tmp/deploy/images/*/$IMGNAME-*.rootfs-*.tar.gz 2>/dev/null | head -1)
 [ -n "$IMG" ] || { echo "FAIL: no $IMGNAME rootfs tarball; run: work/tools/symonbake $RT $IMGNAME"; exit 1; }
 MANI="${IMG%.tar.gz}.manifest"
 [ -f "$MANI" ] || { echo "FAIL: image manifest missing: $MANI" >&2; exit 1; }

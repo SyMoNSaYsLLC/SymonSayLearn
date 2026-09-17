@@ -20,10 +20,10 @@ Exit 1 on any of: MISSING RDEPENDS, MISSING PACKAGE, WRONG VERSION,
 UNKNOWN PROVIDER, DUPLICATE PROVIDER, UNRESOLVED SOURCE OWNERSHIP.
 
 Sources of truth (all read from disk, none hard-coded):
-  wheel METADATA   Symoneural-<RT>/build/devtool-master/tmp/work/*/<pn>/*/image/**/site-packages/*.dist-info/METADATA
+  wheel METADATA   work/output/<rt>/build/devtool-master/tmp/work/*/<pn>/*/image/**/site-packages/*.dist-info/METADATA
   RDEPENDS         .../tmp/pkgdata/<arch>/runtime/<pn>            (post-packaging truth)
-  feeds            Symoneural-*/build/devtool-master/tmp/deploy/ipk/*/*.ipk
-  estate recipes   meta-symoneural/recipes-*/*/*.bb (active) - retired/ are NOT providers
+  feeds            work/output/*/build/devtool-master/tmp/deploy/ipk/*/*.ipk
+  estate recipes   work/recipes/recipes-*/*/*.bb (active) - retired/ are NOT providers
   layer recipes    ~/symoneural-bootstrap-master/{openembedded-core/meta,meta-openembedded/*}/recipes-*/python/python3-<name>_<ver>.bb
   ownership        acquisition/provider-decisions.json  (rule: own what you ship)
   target env       Python version read from built python3 work dirs; fixed linux/x86_64/CPython target
@@ -35,12 +35,13 @@ from packaging.specifiers import SpecifierSet
 from packaging.version import Version, InvalidVersion
 from packaging.utils import canonicalize_name
 
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 BOOT = os.path.expanduser("~/symoneural-bootstrap-master")
 # isdir matters: Symoneural-Runtime-Aquisition.md is a generated FILE at the repo
 # root and was being enumerated as a thirteenth runtime.
-RUNTIMES = sorted(d.replace("Symoneural-", "") for d in os.listdir(ROOT)
-                  if d.startswith("Symoneural-") and os.path.isdir(os.path.join(ROOT, d)))
+OUT = os.environ.get("SYMON_OUT") or os.path.join(ROOT, "work", "output")
+RUNTIMES = sorted(d for d in (os.listdir(OUT) if os.path.isdir(OUT) else [])
+                  if os.path.isdir(os.path.join(OUT, d, "build")))
 
 STATUS_FATAL = ("MISSING RDEPENDS", "MISSING PACKAGE", "WRONG VERSION", "UNKNOWN PROVIDER",
                 "DUPLICATE PROVIDER", "UNRESOLVED SOURCE OWNERSHIP", "AMBIGUOUS PACKAGE VERSION", "UNVERIFIED VERSION")
@@ -51,7 +52,7 @@ def norm(name):
 
 
 def build_dir(rt):
-    return os.path.join(ROOT, "Symoneural-" + rt, "build", "devtool-master")
+    return os.path.join(OUT, rt, "build", "devtool-master")
 
 
 def target_environment(runtimes=None):
@@ -111,7 +112,7 @@ def pkgdata_rdepends(rt, pn):
 
 def recipe_rdepends(pn):
     """RDEPENDS:${PN} lines from the recipe text (for unpackaged recipes)."""
-    for rp in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-*/%s/*.bb" % pn)):
+    for rp in glob.glob(os.path.join(ROOT, "work/recipes/recipes-*/%s/*.bb" % pn)):
         txt = open(rp, errors="replace").read()
         names = set()
         for m in re.finditer(r'^RDEPENDS:\$\{PN\}[^=]*=\s*"([^"]*)"', txt, re.M):
@@ -123,7 +124,7 @@ def recipe_rdepends(pn):
 def estate_recipes():
     """active pn -> recipe path (retired/ excluded: a retired recipe provides nothing)."""
     out = {}
-    for rp in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-*/*/*.bb")):
+    for rp in glob.glob(os.path.join(ROOT, "work/recipes/recipes-*/*/*.bb")):
         out[os.path.basename(rp).split("_")[0]] = os.path.relpath(rp, ROOT)
     return out
 
@@ -145,7 +146,7 @@ def layer_recipes():
 def feed_packages(rt=None):
     """Package candidates from the selected runtime, never another runtime's feed."""
     out = {}
-    base = build_dir(rt) if rt else os.path.join(ROOT, "Symoneural-*/build/devtool-master")
+    base = build_dir(rt) if rt else os.path.join(OUT, "*/build/devtool-master")
     for p in sorted(glob.glob(os.path.join(base, "tmp/deploy/ipk/*/*.ipk"))):
         b = os.path.basename(p)[:-4]
         name, _, rest = b.partition("_")
@@ -169,7 +170,7 @@ def root_installed(root):
 def ownership_decisions():
     """logical name -> selected_provider, from the curated record."""
     try:
-        with open(os.path.join(ROOT, "acquisition/provider-decisions.json")) as stream:
+        with open(os.path.join(ROOT, "work/pins/provider-decisions.json")) as stream:
             d = json.load(stream)
     except Exception:
         return {}
@@ -375,7 +376,7 @@ def main():
                 runtime_closure[n]["constraints"].append(str(req.specifier) or "any")
                 runtime_closure[n]["consumers"].append(pn)
             # build closure: the recipe's DEPENDS + inherit classes (host/sysroot side)
-            for rp in glob.glob(os.path.join(ROOT, "meta-symoneural/recipes-*/%s/*.bb" % pn)):
+            for rp in glob.glob(os.path.join(ROOT, "work/recipes/recipes-*/%s/*.bb" % pn)):
                 txt = open(rp, errors="replace").read()
                 deps = set()
                 for m in re.finditer(r'^DEPENDS[^=]*=\s*"([^"]*)"', txt, re.M):

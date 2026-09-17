@@ -4,7 +4,7 @@
 # the shipped provider. Tag v2.1.1 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/ffi/cffi"
+SYMON_TREE = "upstream/cli/ffi/cffi"
 
 SUMMARY = "cffi for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/python-cffi/cffi"

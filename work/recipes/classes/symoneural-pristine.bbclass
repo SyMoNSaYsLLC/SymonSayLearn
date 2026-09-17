@@ -17,7 +17,7 @@
 # and the sharing problem disappears by construction.
 #
 # Required:
-#   SYMON_TREE - absolute path of the acquired tree INSIDE this repository
+#   SYMON_TREE - path of the acquired tree, RELATIVE to the repository root (upstream/<rt>/<cat>/<comp>)
 #   SRCREV     - the upstream commit the tree MUST be at (= lock.commit_sha)
 #
 # SOURCES-100 (S1/P): the acquired tree's own .git no longer sits in the tree - it
@@ -32,9 +32,9 @@
 # from the working tree. Committed as trees, submodules are IN the export - the
 # old per-tree `git archive` never descended into them.
 
-SYMON_REPO ?= "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+# SYMON_REPO is set in conf/layer.conf from LAYERDIR; nothing here names a host path.
 SYMON_TREE ?= ""
-SYMON_REPO_PATH = "${@os.path.relpath(d.getVar('SYMON_TREE') or '/nonexistent', d.getVar('SYMON_REPO'))}"
+SYMON_REPO_PATH = "${@(lambda t, r: os.path.relpath(t, r) if os.path.isabs(t) else t)(d.getVar('SYMON_TREE') or '/nonexistent', d.getVar('SYMON_REPO'))}"
 SYMON_PRISTINE_DIR = "${WORKDIR}/pristine"
 
 S = "${SYMON_PRISTINE_DIR}"
@@ -57,7 +57,7 @@ symon_export_pristine[cleandirs] = "${SYMON_PRISTINE_DIR}"
 # noticed, which is exactly why it went undetected.
 do_unpack[prefuncs] += "symon_export_pristine"
 # the lock is an input to the export: a re-ingested tree must re-run it
-symon_export_pristine[file-checksums] += "${SYMON_REPO}/acquisition/source-lock.json:True"
+symon_export_pristine[file-checksums] += "${SYMON_REPO}/work/pins/source-lock.json:True"
 
 python symon_export_pristine() {
     import subprocess, os, sys, json
@@ -71,6 +71,8 @@ python symon_export_pristine() {
 
     if not tree:
         bb.fatal("%s: SYMON_TREE is unset. symoneural-pristine needs the acquired tree." % pf)
+    if not os.path.isabs(tree):
+        tree = os.path.join(repo, tree)
     if not os.path.isdir(tree):
         bb.fatal("%s: SYMON_TREE %s is not a directory." % (pf, tree))
     if rel.startswith("..") or os.path.isabs(rel):
@@ -78,7 +80,7 @@ python symon_export_pristine() {
     if not want or want == "INVALID":
         bb.fatal("%s: SRCREV is unset. The pin is the identity; it cannot be implicit." % pf)
 
-    lock_path = os.path.join(repo, "acquisition", "source-lock.json")
+    lock_path = os.path.join(repo, "work", "pins", "source-lock.json")
     with open(lock_path) as f:
         comps = json.load(f)["components"]
     ent = next((c for c in comps if c.get("source_path") == rel), None)
@@ -94,7 +96,7 @@ python symon_export_pristine() {
 
     # THE assertion: what is committed at HEAD:<path> IS upstream's tree.
     # One implementation, shared with the audit; its last line is the verdict.
-    r = subprocess.run([sys.executable, os.path.join(repo, "tools", "ingest-tree"), "verify",
+    r = subprocess.run([sys.executable, os.path.join(repo, "work", "tools", "ingest-tree"), "verify",
                         ent["component"]], cwd=repo, capture_output=True, text=True)
     verdict = (r.stdout.strip().splitlines() or [r.stderr.strip()])[-1]
     if r.returncode != 0 or not (" · VERIFIED" in verdict or " · LISTING-VERIFIED(" in verdict):
@@ -179,7 +181,7 @@ SYMON_DEPS_DIR = "${WORKDIR}/deps"
 # AWCC build). Map them beside the main tree's debug sources.
 DEBUG_PREFIX_MAP:append = "${@' -ffile-prefix-map=${SYMON_DEPS_DIR}=${TARGET_DBGSRC_DIR}/deps' if (d.getVar('SYMON_DEP_TREES') or '').strip() else ''}"
 symon_export_dep_trees[cleandirs] = "${SYMON_DEPS_DIR}"
-symon_export_dep_trees[file-checksums] += "${SYMON_REPO}/acquisition/source-lock.json:True"
+symon_export_dep_trees[file-checksums] += "${SYMON_REPO}/work/pins/source-lock.json:True"
 do_unpack[prefuncs] += "symon_export_dep_trees"
 
 python symon_export_dep_trees() {
@@ -190,7 +192,7 @@ python symon_export_dep_trees() {
     repo = d.getVar("SYMON_REPO")
     pf = d.getVar("PF")
     base = d.getVar("SYMON_DEPS_DIR")
-    with open(os.path.join(repo, "acquisition", "source-lock.json")) as f:
+    with open(os.path.join(repo, "work", "pins", "source-lock.json")) as f:
         comps = {c["component"]: c for c in json.load(f)["components"]}
     for pair in pairs:
         if ":" not in pair:
@@ -199,7 +201,7 @@ python symon_export_dep_trees() {
         ent = comps.get(comp)
         if ent is None or not ent.get("tree_sha"):
             bb.fatal("%s: dependency tree %s (%s) is not an ingested component in source-lock.json" % (pf, name, comp))
-        r = subprocess.run([sys.executable, os.path.join(repo, "tools", "ingest-tree"), "verify", comp],
+        r = subprocess.run([sys.executable, os.path.join(repo, "work", "tools", "ingest-tree"), "verify", comp],
                            cwd=repo, capture_output=True, text=True)
         verdict = (r.stdout.strip().splitlines() or [r.stderr.strip()])[-1]
         if r.returncode != 0 or not (" · VERIFIED" in verdict or " · LISTING-VERIFIED(" in verdict):

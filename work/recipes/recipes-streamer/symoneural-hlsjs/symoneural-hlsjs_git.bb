@@ -34,7 +34,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c22b1b3074f826155dbc85e6a0d4d1f"
 
 inherit symoneural-pristine npm
 
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/streamer/hls/hls.js"
+SYMON_TREE = "upstream/streamer/hls/hls.js"
 SRCREV = "e5ff3583965e3af16c4a4b4d2b5f7bd1ffb5b7de"
 PV = "1.7.3"
 

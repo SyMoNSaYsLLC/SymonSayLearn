@@ -5,7 +5,7 @@
 HOMEPAGE = "https://gstreamer.freedesktop.org/"
 SECTION = "multimedia"
 LICENSE = "LGPL-2.1-or-later"
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/live/gstreamer/gstreamer"
+SYMON_TREE = "upstream/live/gstreamer/gstreamer"
 SRC_URI = "gitsm://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;branch=1.28"
 SRCREV = "070125524a8422e29d3b69a372ed4f62fd343ffa"
 PV = "1.28.7"

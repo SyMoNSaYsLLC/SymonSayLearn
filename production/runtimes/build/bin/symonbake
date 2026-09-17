@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Launch BitBake in one existing runtime build directory at background priority.
 set -uo pipefail
-ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P) || exit 1
-OUT="$ROOT/work/output"
-BOOT=/home/google/symoneural-bootstrap-master
+# symonbake ships WITH the symoneural-build runtime; symonlearn sets its environment.
+# Four levels up is the repo root (production/runtimes/build/bin), but a tool that
+# guesses its own location is a hardlink in disguise, so SYMON_REPO wins when set.
+ROOT=${SYMON_REPO:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../.." && pwd -P)} || exit 1
+OUT=${SYMON_OUT:-$ROOT/work/output}
+BOOT=${SYMON_BOOT:-/home/google/symoneural-bootstrap-master}
 usage() {
     echo 'Usage: work/tools/symonbake <runtime> [--build-dir <name>] <BitBake arguments...>'
     echo '       tools/symonbake --list'
@@ -49,7 +52,7 @@ if [ "$show" -eq 1 ]; then
     printf '%s\n' "$BD"; exit 0
 fi
 [ "$#" -gt 0 ] || { usage >&2; exit 2; }
-python3 -B "$ROOT/work/tools/estate_processes.py" check-build --build-dir "$BD"
+python3 -B "$(dirname -- "${BASH_SOURCE[0]}")/estate_processes.py" check-build --build-dir "$BD"
 rc=$?; [ "$rc" -eq 0 ] || exit "$rc"
 # Cooperating launches serialize here; BitBake's own lock remains authoritative.
 exec 9>"$BD/.symonbake.lock" || exit 1

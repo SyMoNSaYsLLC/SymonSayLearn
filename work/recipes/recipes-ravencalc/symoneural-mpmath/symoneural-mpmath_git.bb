@@ -8,7 +8,7 @@
 # shipped pair must satisfy the DECLARED closure (acquisition/unresolved.json:sympy-mpmath-constraint,
 # RESOLVED-A 2026-09-14). Move forward again when a sympy release lifts the bound.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/ravencalc/symbolic/mpmath"
+SYMON_TREE = "upstream/ravencalc/symbolic/mpmath"
 
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=bde3c575382996b75d85702949512751"

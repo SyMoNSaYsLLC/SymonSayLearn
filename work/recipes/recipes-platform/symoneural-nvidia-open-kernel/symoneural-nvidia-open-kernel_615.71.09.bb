@@ -11,7 +11,7 @@ require symoneural-nvidia-open-kernel.inc
 
 # Restated here because tools/scan-acquisition.py pairs a tree with its recipe by reading the
 # .bb text (SYMON_TREE / SRCREV / PV / LICENSE), not included files. Values identical to the .inc.
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/platform/kernel/open-gpu-kernel-modules"
+SYMON_TREE = "upstream/platform/kernel/open-gpu-kernel-modules"
 SRCREV = "61dcc93722ecb418bb5f2e00923f05b4b8051dd1"
 PV = "615.71.09"
 LICENSE = "MIT OR GPL-2.0-only"

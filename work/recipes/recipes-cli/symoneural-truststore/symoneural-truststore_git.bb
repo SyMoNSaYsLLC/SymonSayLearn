@@ -4,7 +4,7 @@
 # the shipped provider. Tag v0.10.4 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/tls/truststore"
+SYMON_TREE = "upstream/cli/tls/truststore"
 
 SUMMARY = "truststore for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/sethmlarson/truststore"

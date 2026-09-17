@@ -11,7 +11,7 @@ from pathlib import Path
 import re
 import sys
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 
 
 def audit(root, manifests):

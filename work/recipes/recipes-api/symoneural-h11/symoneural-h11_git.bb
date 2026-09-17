@@ -4,7 +4,7 @@
 # licence read from the tree, not from a layer recipe.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/api/http/h11"
+SYMON_TREE = "upstream/api/http/h11"
 
 SUMMARY = "h11 for the SyMoNeuRaL API runtime"
 HOMEPAGE = "https://github.com/python-hyper/h11"

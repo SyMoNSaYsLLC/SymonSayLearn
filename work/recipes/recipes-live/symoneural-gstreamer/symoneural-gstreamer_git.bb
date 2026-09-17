@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://subprojects/gstreamer/COPYING;md5=69333daa044cb77e486
 
 # Restated for tools/scan-acquisition.py, which pairs a tree with ONE recipe from the .bb text
 # (the plugin recipes take their identity from the .inc only). Values identical to the .inc.
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/live/gstreamer/gstreamer"
+SYMON_TREE = "upstream/live/gstreamer/gstreamer"
 SRC_URI = "gitsm://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;branch=1.28"
 SRCREV = "070125524a8422e29d3b69a372ed4f62fd343ffa"
 PV = "1.28.7"

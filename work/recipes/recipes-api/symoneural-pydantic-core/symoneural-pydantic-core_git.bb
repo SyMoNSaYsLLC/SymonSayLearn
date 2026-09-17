@@ -6,7 +6,7 @@
 # satisfy the pin. So this recipe builds from the tree the estate already owns -
 # one source authority, two wheels (ruling: unresolved.json pydantic-core-ownership).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/api/model/pydantic"
+SYMON_TREE = "upstream/api/model/pydantic"
 
 SUMMARY = "pydantic-core - Rust validation/serialisation core for pydantic"
 HOMEPAGE = "https://github.com/pydantic/pydantic"

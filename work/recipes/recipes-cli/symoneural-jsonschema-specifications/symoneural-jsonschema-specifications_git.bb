@@ -4,7 +4,7 @@
 # the shipped provider. Tag v2025.9.1 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/json/jsonschema-specifications"
+SYMON_TREE = "upstream/cli/json/jsonschema-specifications"
 
 SUMMARY = "jsonschema-specifications for the SyMoNeuRaL CLI runtime"
 HOMEPAGE = "https://github.com/python-jsonschema/jsonschema-specifications"

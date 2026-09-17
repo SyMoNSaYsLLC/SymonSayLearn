@@ -105,7 +105,7 @@ for key in sorted(set(direct) | set(vend_idx) | set(sub_idx)):
             "link_scope": "UNKNOWN",
             "selected_provider": "UNRESOLVED",
             "decision": "UNRESOLVED",
-            "production": "tools/scan-oe-providers.py"})
+            "production": "work/tools/scan-oe-providers.py"})
 
 collisions.sort(key=lambda x: (-x["provider_count"], x["logical_dependency"]))
 

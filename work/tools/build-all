@@ -22,22 +22,22 @@ if [ "$dry" -eq 0 ]; then
 fi
 run_one() {
     local rt=$1; shift
-    "$ROOT/tools/symonbake" "$rt" "$@" > "$LOGS/$rt.log" 2>&1
+    "$ROOT/production/runtimes/build/bin/symonbake" "$rt" "$@" > "$LOGS/$rt.log" 2>&1
     local rc=$?
     printf '%s\n' "$rc" > "$LOGS/$rt.rc"
     if [ "$rc" -eq 0 ]; then echo "OK $rt"; else echo "FAIL $rt (rc=$rc; $LOGS/$rt.log)"; fi
     return "$rc"
 }
 pids=(); failed=0; planned=0
-for dir in "$ROOT"/Symoneural-*; do
+for dir in "${SYMON_OUT:-$ROOT/work/output}"/*; do
     [ -d "$dir" ] || continue
-    rt=${dir##*/}; layer="recipes-${rt#Symoneural-}"; layer=${layer,,}
-    [ -d "$ROOT/meta-symoneural/$layer" ] || { echo "FAIL $rt: no own recipe directory" >&2; failed=1; continue; }
+    rt=${dir##*/}; layer="recipes-$rt"
+    [ -d "$ROOT/work/recipes/$layer" ] || { echo "FAIL $rt: no own recipe directory" >&2; failed=1; continue; }
     [ -d "$dir/build/devtool-master/conf" ] || { echo "FAIL $rt: no build configuration" >&2; failed=1; continue; }
     recipes=()
     while IFS= read -r file; do
         pn=${file##*/}; pn=${pn%%_*}; pn=${pn%.bb}; recipes+=("$pn")
-    done < <(find "$ROOT/meta-symoneural/$layer" -type f -name '*.bb' | sort)
+    done < <(find "$ROOT/work/recipes/$layer" -type f -name '*.bb' | sort)
     [ "${#recipes[@]}" -gt 0 ] || { echo "FAIL $rt: no recipes" >&2; failed=1; continue; }
     planned=$((planned + 1))
     printf '%s: %s\n' "$rt" "${recipes[*]}"

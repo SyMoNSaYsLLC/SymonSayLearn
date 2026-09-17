@@ -4,7 +4,7 @@
 # the shipped provider. Tag v2.2.0 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/cli/mcp/python-sdk"
+SYMON_TREE = "upstream/cli/mcp/python-sdk"
 
 SUMMARY = "mcp-types - the MCP protocol types distribution of the python-sdk monorepo"
 HOMEPAGE = "https://github.com/modelcontextprotocol/python-sdk"

@@ -4,7 +4,7 @@
 # shipped provider. Tag 0.27.2 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/util/typer"
+SYMON_TREE = "upstream/common/util/typer"
 
 SUMMARY = "typer for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/fastapi/typer"

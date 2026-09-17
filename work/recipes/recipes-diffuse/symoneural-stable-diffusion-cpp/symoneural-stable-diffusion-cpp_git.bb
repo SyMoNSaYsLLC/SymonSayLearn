@@ -43,7 +43,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=907b35094e28d92d03f21f8883acfa3b \
                     file://thirdparty/libwebm/LICENSE.TXT;md5=6e8dee932c26f2dab503abf70c96d8bb"
 
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/diffuse/image/stable-diffusion.cpp"
+SYMON_TREE = "upstream/diffuse/image/stable-diffusion.cpp"
 
 SRC_URI = "git://github.com/leejet/stable-diffusion.cpp;protocol=https;branch=master"
 SRCREV = "7f410a3793c5bba8eb198e962ce7a3d6095f9d89"

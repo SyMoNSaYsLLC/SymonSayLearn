@@ -4,7 +4,7 @@
 # shipped provider. Tag 26.3 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/util/packaging"
+SYMON_TREE = "upstream/common/util/packaging"
 
 SUMMARY = "packaging for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/pypa/packaging"

@@ -49,9 +49,9 @@ os.makedirs(OUT, exist_ok=True)
 rel = lambda p: os.path.relpath(p, ROOT)
 
 # --- closures -------------------------------------------------------------
-r = run(sys.executable, os.path.join(ROOT, "tools/check-python-runtime-closures.py"), "--runtime", "API", "--emit-dir", OUT, cwd=ROOT)
+r = run(sys.executable, os.path.join(ROOT, "work/tools/check-python-runtime-closures.py"), "--runtime", "API", "--emit-dir", OUT, cwd=ROOT)
 closure_verdict = (r.stdout.strip().splitlines() or ["(no output)"])[-1]
-r2 = run(sys.executable, os.path.join(ROOT, "tools/map-api-runtime.py"), "--json", os.path.join(OUT, "API-SOURCE-CLOSURE.json"), cwd=ROOT)
+r2 = run(sys.executable, os.path.join(ROOT, "work/tools/map-api-runtime.py"), "--json", os.path.join(OUT, "API-SOURCE-CLOSURE.json"), cwd=ROOT)
 if r2.returncode: die("map-api-runtime.py rc=%d %s" % (r2.returncode, r2.stderr[-300:]))
 
 # --- install manifest ------------------------------------------------------

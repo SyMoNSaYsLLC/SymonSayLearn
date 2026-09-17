@@ -25,7 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from proof_support import new_root  # noqa: E402
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent  # work/tools/x -> repo root
 PLATFORM = ROOT / "Symoneural-Platform"
 SOURCE_PATH = "Symoneural-Platform/src/kernel/source/open-gpu-kernel-modules"
 MODULES = ["nvidia", "nvidia-uvm", "nvidia-modeset", "nvidia-drm"]
@@ -442,9 +442,9 @@ def estate(args):
     say("NOTE      : a qemux86-64 build/package/staged-install result - not a boot, module-load or RTX 5070 Ti result.")
 
     say("\n## 1. Source identity (SOURCES-100 verification from HEAD)")
-    r = run([sys.executable, str(ROOT / "tools/ingest-tree"), "verify", "open-gpu-kernel-modules"], cwd=ROOT)
+    r = run([sys.executable, str(ROOT / "work/tools/ingest-tree"), "verify", "open-gpu-kernel-modules"], cwd=ROOT)
     say("    " + (r.stdout.strip().splitlines() or ["?"])[-1])
-    check(r.returncode == 0 and "VERIFIED" in r.stdout, "tools/ingest-tree verify open-gpu-kernel-modules")
+    check(r.returncode == 0 and "VERIFIED" in r.stdout, "work/tools/ingest-tree verify open-gpu-kernel-modules")
 
     say("\n## 2. Estate kernel identity (what the modules were built against)")
     abi = (kart / "kernel-abiversion").read_text().strip() if (kart / "kernel-abiversion").exists() else "?"

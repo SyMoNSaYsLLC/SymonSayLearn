@@ -4,7 +4,7 @@
 # shipped provider. Tag v15.0.0 at the pin below; licence read from the tree.
 # Built by symoneural-pristine from the committed tree object (HEAD:<source_path>).
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/text/rich"
+SYMON_TREE = "upstream/common/text/rich"
 
 SUMMARY = "rich for the SyMoNeuRaL Common runtime"
 HOMEPAGE = "https://github.com/Textualize/rich"

@@ -115,7 +115,7 @@
 # acquired tree. ${S} is throwaway; the acquired tree is never written to.
 # do_unpack asserts the tree HEAD equals SRCREV and refuses to build otherwise.
 inherit symoneural-pristine
-SYMON_TREE = "/home/google/SymonSaysLLC/Projects/SymonSayLearn/upstream/common/ml/pytorch"
+SYMON_TREE = "upstream/common/ml/pytorch"
 
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://.ci/manywheel/LICENSE;md5=40a70f85c8da9f0d41e5f3b71e341229 \

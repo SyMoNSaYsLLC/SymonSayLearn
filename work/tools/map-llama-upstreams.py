@@ -10,7 +10,7 @@ and the library-only build plan that avoids all of them.
   tools/map-llama-upstreams.py [--json out.json]
 """
 import glob, json, os, re, subprocess, sys
-ROOT = "/home/google/SymonSaysLLC/Projects/SymonSayLearn"
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # work/tools/x -> repo root
 LL = os.path.join(ROOT, "Symoneural-LLM/src/inference/source/llama.cpp")
 GG = os.path.join(ROOT, "Symoneural-LLM/src/inference/source/ggml")
 
@@ -19,7 +19,7 @@ def git_pin(pin, *a):
     return r.stdout.strip() if r.returncode == 0 else ""
 
 def main():
-    lock = {c["component"]: c for c in json.load(open(os.path.join(ROOT, "acquisition/source-lock.json")))["components"]}
+    lock = {c["component"]: c for c in json.load(open(os.path.join(ROOT, "work/pins/source-lock.json")))["components"]}
     out = {"schema": "symoneural-llama-upstream-map/1"}
     ll = lock.get("llama.cpp", {})
     pin = os.path.join(ROOT, ll.get("pins_path", ""))
@@ -55,7 +55,7 @@ def main():
     ua = os.path.join(LL, "scripts/ui-assets.cmake")
     if os.path.isfile(ua):
         t = open(ua).read()
-        fetches.append({"where": "scripts/ui-assets.cmake", "what": "tools/server WebUI dist.tar.gz (+ .sha256) from a GitHub release or Hugging Face bucket at CONFIGURE time",
+        fetches.append({"where": "scripts/ui-assets.cmake", "what": "work/tools/server WebUI dist.tar.gz (+ .sha256) from a GitHub release or Hugging Face bucket at CONFIGURE time",
                         "gated_by": "LLAMA_USE_PREBUILT_UI (default ON) together with LLAMA_BUILD_SERVER (default ${LLAMA_STANDALONE}); LLAMA_BUILD_UI builds it from tools/ui with npm instead",
                         "production": "file(DOWNLOAD ...dist.tar.gz?download=true ...) at line %d" % (t[:t.find("file(DOWNLOAD")].count("\n") + 1)})
     for f in glob.glob(os.path.join(LL, "**/CMakeLists.txt"), recursive=True) + glob.glob(os.path.join(LL, "cmake/*.cmake")):

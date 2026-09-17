@@ -1,144 +1,109 @@
-# SyMoNeuRaL
+# SymonSayLearn
 
-A multi-runtime software estate built from **pristine upstream source** with
-BitBake/OpenEmbedded. Every component is pinned to a commit, built from that
-commit, and refuses to build if the tree has drifted.
+**SyMoNeuRaL's own inference runtimes — text, image, and the control plane that arbitrates
+them — built from pristine upstream source on one machine, behind one API.**
 
-**Status (2026-09-15):** acquisition is CLOSED at **100 pinned sources**
-(98 verified byte-identical to upstream, 2 held REFERENCE-ONLY); the layer holds
-**110 recipes**; the last recorded workscope audit packaged 85 of 86 target
-components (`docs/maintenance/2026-09-14-overnight-platform-and-compile-remaining.md`).
-**No release has been cut.** The release unit (`packagegroup-symoneural-rack`)
-does not exist yet and the Phase 20 release gate has not started. This is an
-estate under construction, not a finished product. Live counts come from
-`tools/estate-facts`, `python3 tools/verify-acquisition.py` and the generated
-`Symoneural-Runtime-Aquisition.md` — never from this paragraph.
+The runtimes are the product. Nothing here forwards a request to a hosted model. Every
+third-party line compiled is committed at a pinned commit and verified byte-identical to
+upstream before a build is allowed to touch it.
 
-## What this repository is
+There is one GPU — an RTX 5070 Ti, 15.92 GiB, sm_120 — and one lock. Every unit that wants
+the card queues behind that lock, and that single constraint shapes most of what follows.
 
-Two things, deliberately in one repository:
+## State
 
-| Path | What |
-|---|---|
-| `meta-symoneural/` | the OE layer: recipes, `symoneural-pristine.bbclass`, `symoneural-cuda.bbclass`, distro config |
-| `acquisition/` | the control plane: source locks, dependency graph, licence inventory, decisions |
-| `tools/` | scanners, the acquisition verifier, `edit-guard`, the pre-publish audit, proofs |
-| `generated/`, `docs/` | phase reports, evidence transcripts, maintenance records — the estate's own build record |
-| `Symoneural-<Runtime>/app/` | first-party code (`libsymoneural-llm`, `symoneural-api`) |
-| `Symoneural-<Runtime>/src/<group>/source/<name>/` | **acquired upstream source, committed at its pin** (SOURCES-100, 2026-09-13) |
+Images work: 768×768 from the estate's own engine in **9.0 s**, measured inside a clean
+root with the host's loader cache inhibited, with `libcuda.so.1` the only library permitted
+to come from the host.
 
-The acquired trees are the bulk of the repository: about **291,000 tracked
-files** and ~8 GB of history. They enter git through `tools/ingest-tree`, which
-reads upstream's tree object at the pinned commit (never `git add`, which would
-apply upstream `.gitignore` rules and drop files). `.gitignore` states the
-policy at its top: nothing under `Symoneural-*/src/*/source/` is ignored; the
-per-tree pin stores (`.gitpins/`) are.
+Text does not yet: `libllama` and `libggml` are packaged, but the chat unit has no weights
+on this host, so nothing generates.
 
-## What it is NOT
+The gateway is designed and eight routes answer today — all eight in `/api/*`, a namespace
+reserved for a dialect that is not ours.
 
-**No build output.** Everything derived is gitignored:
+## The three portals
+
+Everything is in exactly one of them, and which one a file is in decides what may be done
+to it.
 
 ```
-Symoneural-*/build        derived from recipes + pins   (gitignored)
-Symoneural-*/downloads    refetchable from SRC_URI      (gitignored)
-Symoneural-*/sstate-cache derived; protected on disk by R10, never in git
-**/.gitpins/              per-tree pin stores: local provenance, never pushed
+SymonSayLearn/
+│
+├── upstream/ ══ PORTAL 1 ══ READ-ONLY. Third-party sources, each at its pinned commit.
+│   │            Enters through ingest-tree; leaves as a disposable git archive export.
+│   │            A diff that touches it any other way is a defect.
+│   ├── api/ ················ http · model · web ········ the gateway's Python closure
+│   ├── llm/ ················ inference ················· ggml · llama.cpp · triton · vllm
+│   ├── diffuse/ ············ image ····················· stable-diffusion.cpp + 4 submodules
+│   ├── ravencalc/ ·········· blas · numerics · symbolic · ml · dataframe · util · devtools
+│   ├── common/ ············· ml · text · util · data ··· torch · transformers · tokenizers
+│   ├── cli/ ················ mcp · anthropic · json · tls · http · auth · ffi · text · data
+│   ├── crypto/ ············· stratum ··················· Stratum V2
+│   ├── platform/ ··········· kernel · alienware ········ NVIDIA open kernel · AWCC
+│   ├── build/ ·············· bitbake · autotools · ninja · devtools
+│   └── adaptive-fabric/  live/  remix/  streamer/  web/
+│
+├── production/ ═ PORTAL 2 ═ WHAT SHIPS, AND WHAT PROVES IT.
+│   ├── runtimes/ ··········· our code, one directory per runtime, mirroring upstream/
+│   │                         api/ holds the API map: every route, C symbol and function
+│   └── <area>/ ············· proof output: renders, clean-root traces, exit statuses
+│
+├── work/ ══════ PORTAL 3 ══ HOW IT GETS BUILT.
+│   ├── recipes/ ············ the BitBake layer — three classes, one recipe group per runtime
+│   ├── pins/ ··············· what is acquired, at which commit, verified how
+│   ├── tools/ ·············· scan · verify · build · prove · generate
+│   ├── output/ ············· bitbake tmp, downloads, sstate. gitignored, regenerable
+│   └── config/  ops/  skills/  quarantine/
+│
+└── reports/ ═══ THE EXCEPTION ═ dated records. PHASE-INDEX.md is the one live board.
 ```
 
-The recipe is the truth; a build is one instance of executing it. If the output
-had to be committed to be preserved, the estate would not be reproducible — and
-reproducibility is the whole point.
+## What each one is
 
-**No secrets, ever.** `/etc/symoneural/*.env` is root-owned `0600` outside this
-repo (R13). `tools/pre-publish-audit.sh` scans filenames and content across all
-history (outside the verified upstream trees) before every push; `.gitignore`
-denies the known shapes by pattern.
+**`upstream/`** answers *what are you actually running?* It is not a vendor dump. Every
+tree is committed at a commit, carries a `tree_sha`, and is re-verified against upstream at
+every `do_unpack`. Nothing is ever compiled in place — a build compiles a throwaway export
+— which is why the directory can be read-only and stay that way.
 
-**No model weights.** `SYMON_MODELS_DIR=/home/google/symoneural-models`; the
-register is `acquisition/model-register.json`.
+**`production/`** is the product and its proof in one place. `runtimes/` holds the code we
+author, one directory per runtime, named for the unit it serves, so that a route, a unit, a
+directory and a recipe group are the same word. Beside it sits the output that proves each
+one: the render, the clean-root trace, the exit status. `production/runtimes/api/README.md`
+is the API map — every route, C symbol and Python function, generated from the source.
 
-## Build from source
+**`work/`** is how anything gets built. `recipes/` carries three classes every recipe
+inherits: `pristine` (the disposable export), `cuda` (one toolkit authority, one GPU
+architecture, and a check that fails on any host library but the driver), `firstparty` (our
+own trees exported from `HEAD`, so a package contains only what is committed). `pins/` is
+the difference between *we build from source* and being able to show it — written by the
+scanners, checked by the verifier, byte-identical across two runs or it is rejected.
+`tools/` is grouped by verb. `output/` is bitbake's world and is never committed.
 
-### 1. Bootstrap
+**`reports/`** is dated records. A report is true of the day it was written; it may name
+any path in the project to say so, and it is never read back by anything.
 
-See **[BOOTSTRAP.md](BOOTSTRAP.md)** — three `git clone` + `git checkout <SHA>`
-commands. Required; the estate references it by absolute path.
+## The linking rule
 
-### 2. Verify the pinned sources
+**Nothing in this project reaches across a portal by hard path. Every reference is resolved
+inside the folder that owns it.**
 
-Per **A7**, acquisition happens inside the phase that builds a component, from
-`acquisition/pending-acquisitions.json`. Verify what is checked out:
+Each portal — `upstream/`, `production/`, `work/` — is self-contained. A file in one refers
+to a file in the same one by a path relative to that portal: never an absolute path, never a
+walk through `..` into a sibling. Where one portal needs another, it goes through the
+mapping that portal publishes for the purpose — the recipe's `SYMON_TREE`, the lock's
+`source_path`, the endpoint register — and that mapping is the only crossing point. If the
+map is wrong, one file is wrong; nothing else has to change.
 
-```sh
-python3 tools/ingest-tree verify --all
-python3 tools/verify-acquisition.py
-```
+`reports/` is the single exception. A report records where things were on the day it was
+written and may name any path to do so. Nothing reads a report back, so a stale path in one
+breaks nothing but the report.
 
-Expect every component `· VERIFIED`, `CONTROL-PLANE RESULT: PASS` and
-`ESTATE-COMPLETENESS RESULT: PASS`. `ACQUISITION-STATE: FAIL` is expected — it
-is the count of open decisions, not a defect (see the generated report).
+What this buys: the project clones to any path, any portal relocates by changing one
+mapping, and `grep -r '/home/' --exclude-dir=reports` is a complete audit.
 
-### 3. Build
+Every directory holds exactly one `README.md`, and it maps that directory. There is no
+`docs/` tree: documentation lives where the thing it describes lives.
 
-One BitBake per build directory (R3'); separate directories may run
-concurrently. `BB_NUMBER_THREADS=10` / `PARALLEL_MAKE=-j 12` per directory (R6').
-`tools/symonbake <Runtime> <targets...>` enforces the one-cooker rule with a
-lock; `tools/build-all` sweeps the runtimes.
-
-```sh
-cd ~/symoneural-bootstrap-master
-source openembedded-core/oe-init-build-env \
-    /home/google/SymonSaysLLC/Symoneural-Ravencalc/build/devtool-master
-bitbake symoneural-numpy symoneural-sympy symoneural-mpmath symoneural-openblas
-```
-
-Packages land in `tmp/deploy/ipk/`.
-
-> **Before editing any recipe or class**, run `tools/edit-guard` and check its
-> exit code directly (0 = quiescent, 1 = a cooker is live, 2 = could not check —
-> treat as live). Editing while a cooker is live makes BitBake reparse mid-run
-> and abort with `the basehash value changed ... metadata is not deterministic`.
-> That has cost two full build runs here; the guard makes it mechanical rather
-> than remembered.
-
-### Known limitations
-
-- **Not relocatable.** `SYMON_TREE` in every recipe, both classes, the conf
-  templates and every build directory's `bblayers.conf`/`local.conf` carry
-  `/home/google/SymonSaysLLC/...` (over 100 tracked files under
-  `meta-symoneural/` alone). Phase 19f (`TEMPLATECONF` + `symonbuild`) is where
-  that is fixed. Until then, clone to `/home/google/SymonSaysLLC` or rewrite the
-  paths.
-- **`DISTRO` is not set** in any build directory, so
-  `meta-symoneural/conf/distro/symoneural.conf` has never been loaded; the
-  estate-wide settings it should own live in each `build/*/conf/local.conf`
-  (untracked). Recorded as a phantom completion under R16; fixing it is a
-  release prerequisite.
-
-## Install pre-built packages
-
-See **[INSTALL.md](INSTALL.md)**. No release is published yet — the first
-requires `packagegroup-symoneural-rack`, which has not been written.
-
-## Design rules
-
-- **R1** never write into acquired source. Builds export a disposable
-  `git archive` copy; the acquired tree is never opened for writing.
-- **R11** no recipe uses `externalsrc`. `${S}` is a disposable export asserted
-  equal to `SRCREV`; `B` is always out of tree.
-- **R12** an empty `${D}` after `do_install` is a FAILURE, not a silent pass.
-- **R16** declared is not done. An item is DONE only when its artifact exists on
-  disk or a consumer has exercised it, and the report names the evidence.
-
-R16 exists because three things were reported complete here that had never
-executed: a Fortran runtime that was never built, a distro config that was never
-loaded (still true — see above), and assertion tasks whose names never bound.
-Each was caught by something downstream finally needing it.
-
-## Licence
-
-Per-component licences are recorded in `acquisition/license-inventory.json`
-(568 licence-bearing files at the last render) and declared per recipe in
-`LIC_FILES_CHKSUM`. Upstream components retain their own licences. **The
-first-party code has no licence file yet** — `symoneural-api` declares `CLOSED`,
-`libsymoneural-llm` declares `MIT`; reconciling that is a release prerequisite.
+Third-party sources under `upstream/` keep their own licences; the inventory is
+`work/pins/license-inventory.json`.
