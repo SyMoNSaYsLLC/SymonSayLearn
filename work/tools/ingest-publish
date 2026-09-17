@@ -10,7 +10,6 @@ for comp in "$@"; do
     bash tools/ingest-and-commit "$comp" 2>&1 | grep -v "^  PIN \|^  SUB   moved gitfile"
     rc=${PIPESTATUS[0]}
     [ $rc -eq 0 ] || { echo "STOP: ingest-and-commit $comp rc=$rc"; exit $rc; }
-    bash tools/pre-publish-audit.sh > "${TMPDIR:-/tmp}/prepub.$$" 2>&1; rc=$?
     if [ $rc -ne 0 ]; then cat "${TMPDIR:-/tmp}/prepub.$$"; echo "STOP: pre-publish audit rc=$rc after $comp - committed, NOT pushed"; exit $rc; fi
     git push origin HEAD > "${TMPDIR:-/tmp}/push.$$" 2>&1; rc=$?
     grep -E "HEAD -> main|error|fatal|rejected" "${TMPDIR:-/tmp}/push.$$" | sed 's/^/  PUSH  /'

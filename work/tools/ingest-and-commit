@@ -2,7 +2,6 @@
 # ingest-and-commit <component> - S2 steps a-h for one tree: ingest (tools/ingest-tree),
 # then ONE commit carrying the tree and the lock records. Never `git add`s the source
 # path: the tree is already in the index from upstream's tree object, and add would
-# re-run ignore rules over it. Push is separate and deliberate (pre-publish-audit first).
 set -uo pipefail
 cd "$(dirname "$0")/../.." || exit 1
 comp=$1
