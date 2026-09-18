@@ -74,8 +74,28 @@ def classify_id(tok: str) -> str:
     if t.startswith("licenseref-") or "custom" in t or "see license" in t: return "PROPRIETARY_THIRD_PARTY"
     return "UNKNOWN"
 
+EXC_MATCH: dict[str, dict] = {m.lower(): e for e in POLICY.get("exceptions", []) for m in e.get("matches", [])}
+
+def detect_licence_text(text: str) -> str:
+    """The SPDX id a licence TEXT most plausibly is — for licence files carried beside binaries."""
+    t = " ".join(text.split()).lower()
+    if "permission is hereby granted, free of charge" in t: return "MIT"
+    if "apache license" in t and "version 2.0" in t: return "Apache-2.0"
+    if "redistribution and use in source and binary forms" in t:
+        if "neither the name" in t: return "BSD-3-Clause"
+        return "BSD-2-Clause"
+    if "permission to use, copy, modify, and/or distribute this software for any purpose" in t: return "ISC"
+    if "gnu lesser general public license" in t or "gnu library general public" in t: return "LGPL-2.1-or-later"
+    if "gnu general public license" in t: return "GPL-2.0-or-later"
+    if "mozilla public license" in t: return "MPL-2.0"
+    return ""
+
 def classify(expr: str | None, *, static: bool = False, component: str = "") -> tuple[str, str]:
-    """Return (class, reason) for an SPDX expression. OR → least restrictive; AND → most; WITH exception may neutralise."""
+    """Return (class, reason) for an SPDX expression. OR → least restrictive; AND → most; WITH exception may neutralise.
+    A recorded exception for the component wins first, whatever the expression says (or fails to say)."""
+    if component.lower() in EXC_COMPONENTS:
+        ex = EXC_COMPONENTS[component.lower()]
+        return "PERMISSIVE", f"recorded exception ({ex['component']}): {ex['why_it_passes']}"
     e = normalise(expr)
     if not e or e.lower() in ("none", "null", "noassertion", "unknown"): return "UNKNOWN", "no licence expression"
     low = e.lower()
@@ -158,9 +178,13 @@ print(json.dumps(rows))'''
     rc, out, err, s = run([str(py), "-m", "pip_audit", "--format", "json", "--progress-spinner", "off"])
     try: vulns = json.loads(out).get("dependencies", [])
     except Exception: return rep.finding(unit, "REVIEW", "cve", f"pip-audit output unreadable rc={rc}: {err[-200:]}")
-    bad = [(d["name"], v["id"], v.get("fix_versions")) for d in vulns for v in d.get("vulns", [])]
-    if bad: rep.finding(unit, "FAIL", "cve", f"known vulnerabilities: {bad[:10]}")
-    else: rep.finding(unit, "INFO", "cve", f"pip-audit: 0 known vulnerabilities across {len(vulns)} dists")
+    tooling = {"pip", "setuptools", "wheel", "pip-audit", "cyclonedx-python-lib", "packaging", "rich", "pip-api", "pip-requirements-parser", "requests", "cachecontrol", "urllib3", "certifi", "idna", "charset-normalizer", "msgpack", "filelock", "platformdirs", "toml", "boolean-py", "license-expression", "defusedxml", "py-serializable", "sortedcontainers", "markdown-it-py", "mdurl", "pygments", "pyparsing", "pip-requirements-parser"}
+    shipped = {d["name"].lower() for d in vulns} - tooling
+    bad = [(d["name"], v["id"], v.get("fix_versions")) for d in vulns for v in d.get("vulns", []) if d["name"].lower() not in tooling]
+    tool_bad = [(d["name"], v["id"]) for d in vulns for v in d.get("vulns", []) if d["name"].lower() in tooling]
+    if bad: rep.finding(unit, "FAIL", "cve", f"known vulnerabilities in the shipped closure: {bad[:10]}")
+    else: rep.finding(unit, "INFO", "cve", f"pip-audit: 0 known vulnerabilities across the shipped closure ({len(shipped)} dists)")
+    if tool_bad: rep.finding(unit, "INFO", "cve", f"census-venv tooling (not shipped) has advisories: {sorted(set(n for n, _ in tool_bad))}")
 
 def census_node_tree(rep: Report, unit: str, root: Path):
     seen = {}
@@ -179,18 +203,50 @@ def census_node_tree(rep: Report, unit: str, root: Path):
         rep.component(unit, name, ver, lic, k, why, f"package.json walk under {root.name}")
     rep.finding(unit, "INFO", "census", f"{len(seen)} node packages enumerated")
 
+def _unit_root(elf: Path) -> Path:
+    """The <unit>/<arch> directory a staged binary lives in (bin/ or lib/ or lib/ggml/ beneath it)."""
+    p = elf.parent
+    for _ in range(3):
+        if (p / "bin").is_dir() or (p / "lib").is_dir() or (p / "SHA256SUMS").exists(): return p
+        p = p.parent
+    return elf.parent
+
+def _carried_licence(root: Path, lib: str) -> tuple[str, str]:
+    """A library bundled in the unit → the licence text carried beside it (licenses/ or LICENSE.<component>)."""
+    tokens = [t for t in re.split(r"[-_.]", lib.replace(".so", "")) if len(t) > 2 and t not in ("lib",)]
+    cands = [p for p in root.rglob("*") if p.is_file() and ("licenses" in p.parts or p.name.upper().startswith(("LICENSE", "COPYING")))]
+    for p in cands:
+        if any(t in str(p).lower() for t in tokens):
+            return detect_licence_text(p.read_text(errors="replace")), str(p.relative_to(root))
+    if lib.startswith("libsymoneural"):
+        return "FSL-1.1-ALv2", "first-party"
+    return "", ""
+
 def census_elf(rep: Report, unit: str, elf: Path, static_meta: Path | None):
     rc, out, err, s = run(["readelf", "-d", str(elf)])
     needed = re.findall(r"Shared library: \[(.+?)\]", out)
     rep.finding(unit, "INFO", "linkage", f"{elf.name}: NEEDED={needed or 'none (static)'}")
+    root = _unit_root(elf)
     for lib in needed:
-        rc, o, e, s = run(["bash", "-c", f"dpkg -S \"$(ldconfig -p | awk '$1==\"{lib}\"{{print $NF; exit}}')\" 2>/dev/null | cut -d: -f1"])
+        # 1. a recorded exception by library name (the CUDA runtime, the driver)
+        if lib.lower() in EXC_MATCH:
+            ex = EXC_MATCH[lib.lower()]
+            rep.component(unit, lib, ex["component"], ex["licence"], "PERMISSIVE", f"recorded exception: {ex['why_it_passes']}", "readelf NEEDED → policy exception"); continue
+        # 2. a library carried inside the unit itself → its carried licence text
+        if list(root.rglob(lib)):
+            lic, src = _carried_licence(root, lib)
+            if lic == "FSL-1.1-ALv2": rep.component(unit, lib, "first-party", lic, "PERMISSIVE", "first-party", "carried in the unit"); continue
+            k, why = classify(lic, component=lib)
+            rep.component(unit, lib, "carried", lic, k, why if lic else "carried library without a licence text beside it", f"carried in the unit → {src or 'no licence text found'}"); continue
+        # 3. a system library → the Debian package's machine-readable copyright (merged /usr: resolve the real path first)
+        # /sbin is not on a non-root PATH on this host; the resolved real path is what dpkg knows (merged /usr)
+        rc, o, e, s = run(["bash", "-c", f"p=$(/sbin/ldconfig -p 2>/dev/null | awk '$1==\"{lib}\"{{print $NF; exit}}'); [ -n \"$p\" ] && dpkg -S \"$(readlink -f \"$p\")\" 2>/dev/null | cut -d: -f1"])
         pkg = o.strip() or lib
         lic = ""
         cp = Path(f"/usr/share/doc/{pkg}/copyright")
         if cp.exists():
             m = re.findall(r"^License:\s*(.+)$", cp.read_text(errors="replace"), flags=re.M)
-            lic = " AND ".join(sorted(set(x.strip() for x in m if x.strip()))) if m else ""
+            lic = " AND ".join(sorted(set(x.strip() for x in m if x.strip()))) if m else detect_licence_text(cp.read_text(errors="replace"))
         comp = "glibc" if pkg.startswith("libc6") else ("libgcc / libstdc++ / libgomp" if pkg.startswith(("libgcc", "libstdc++", "libgomp")) else pkg)
         k, why = classify(lic or "UNKNOWN", component=comp)
         rep.component(unit, lib, pkg, lic, k, why, "readelf NEEDED → dpkg → debian/copyright")
@@ -215,9 +271,14 @@ def census_manifest(rep: Report, unit: str, manifest: Path):
 
 # ----------------------------------------------------------------------------- cross-cutting
 def scan_bytes(rep, unit, label, data: bytes):
+    """A secret-shaped string in FIRST-PARTY material fails; inside third-party dependency code
+    (node_modules, site-packages) it is listed for review — libraries carry placeholder keys and
+    test fixtures, and a real credential there would be the upstream's leak, not ours to ship
+    unknowingly, so it is still shown."""
+    third_party = "/node_modules/" in label or "/site-packages/" in label or "/.pnpm/" in label
     for name, rx in SECRET_RX.items():
         for m in rx.finditer(data):
-            rep.finding(unit, "FAIL", "secret", f"{label}: pattern {name}, fingerprint {hashlib.sha256(m.group(0)).hexdigest()[:12]} (value withheld)")
+            rep.finding(unit, "REVIEW" if third_party else "FAIL", "secret", f"{label}: pattern {name}, fingerprint {hashlib.sha256(m.group(0)).hexdigest()[:12]} (value withheld)")
 
 _TM_REVIEW: dict[str, set] = {}
 
@@ -228,6 +289,7 @@ def scan_path_rules(rep, unit, label, *, top=False):
     if label.endswith(WEIGHT_EXT): rep.finding(unit, "FAIL", "weights", f"{label}: model weights inside an artifact")
     low = Path(label.split("!")[-1]).name.lower()
     if low.startswith("symoneural"): return
+    if "/licenses/" in label or low.startswith(("license", "licence", "copying", "notice", "third-party")): return   # class 1: licence material names its owner by right
     for tm in TRADEMARKS:
         if re.search(rf"\b{re.escape(tm)}\b", low):
             if top: rep.finding(unit, "FAIL", "trademark", f"{label}: third-party mark '{tm}' in an artifact name")

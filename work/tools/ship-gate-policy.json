@@ -330,7 +330,10 @@
     "symoneural-image-learn",
     "symoneural-image",
     "symoneural-streamer",
-    "source"
+    "source",
+    "symoneural-gateway",
+    "symoneural-image-cuda",
+    "symoneural-chat-engine"
   ],
   "exceptions": [
     {
