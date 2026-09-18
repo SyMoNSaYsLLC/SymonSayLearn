@@ -7,7 +7,8 @@ Translates POST /v1/messages (messages, system, stream, tools, tool_choice,
 tool_result, sampling) into InferenceService calls and back. Prompt assembly is
 a plain, documented transcript format; tool calls are emitted when the model
 produces the tool-call marker, and tool_result blocks are folded back into the
-transcript. The adapter is stateless per request except for the session it
+transcript. The channel style carries tools too, in the shape that checkpoint was
+trained on — see channels.render_tools and channels.build_prompt. The adapter is stateless per request except for the session it
 opens/closes; nothing here reaches libllama directly and nothing here is used by
 the product's own applications - they consume inference.py.
 
@@ -157,6 +158,11 @@ class MessagesAdapter:
                 yield from channels.sse(iter(splitter.finish()))
                 sess = self.svc.session(s.session_id)
                 stop = "end_turn" if sess.last_stop == "stop_sequence" and not req.get("stop_sequences") else sess.last_stop
+                if splitter.called_tool:
+                    # The turn ended because the model called a tool, not because it finished
+                    # answering. A caller that reads end_turn here stops the conversation with
+                    # the call unanswered, which looks like the model ignoring its own tools.
+                    stop = "tool_use"
             else:
                 yield ev("content_block_start", {"type": "content_block_start", "index": 0, "content_block": {"type": "text", "text": ""}})
                 for piece in self.svc.stream(s.session_id, self._prompt(req), self._params(req)):
