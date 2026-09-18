@@ -11,6 +11,11 @@ const nextConfig = {
   // A release ships the interface as one directory that runs with `node server.js`
   // and nothing else installed — the standalone output is what makes that true.
   output: "standalone",
+  // No image optimisation here, so the optional image library — and the LGPL-3 native
+  // codec it drags in — is neither needed at run time nor traced into the bundle. The
+  // ship gate refuses that codec; this is where it is kept out.
+  images: { unoptimized: true },
+  outputFileTracingExcludes: { "*": ["node_modules/sharp/**", "node_modules/@img/**", "node_modules/.pnpm/sharp@*/**", "node_modules/.pnpm/@img+*/**"] },
   // The gateway is loopback-only and this interface is served from the same host,
   // so requests are same-origin through the rewrite below rather than CORS.
   async rewrites() {
