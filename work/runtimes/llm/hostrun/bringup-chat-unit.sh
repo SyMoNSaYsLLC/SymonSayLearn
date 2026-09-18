@@ -88,6 +88,27 @@ attempt() {
   return 1
 }
 
+# The utilisation figure is a fraction of TOTAL memory, but the engine's pre-flight
+# check compares it against FREE memory. Anything else on the card — the compositor
+# holds ~1.1 GiB on this host — comes off the top. A fraction hardcoded on a day when
+# the display used less memory fails every rung before any of them reach the case it
+# was written for:
+#
+#     ValueError: Free memory on device cuda:0 (14.24/15.56 GiB) on startup is less
+#     than desired GPU memory utilization (0.917, 14.27 GiB)
+#
+# MEASURED 2026-09-18 16:01, after a reboot put 1124 MiB on the card instead of 1024:
+# all three rungs died on that line in 22, 35 and 27 seconds. So the fraction is
+# derived from what is actually free, minus a reserve for the display to grow into.
+GPU_RESERVE_MIB=${SYM_GPU_RESERVE_MIB:-600}
+gpu_fraction() {
+  local free total
+  free=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) || return 1
+  total=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits) || return 1
+  python3 -I -c "print(min(0.917, round((${free}-${GPU_RESERVE_MIB})/${total}, 3)))"
+}
+FRACTION=${SYM_GPU_FRACTION:-$(gpu_fraction)}
+
 : > "$LADDER_LOG"
 note "=== chat unit bring-up ladder ==="
 
@@ -95,20 +116,20 @@ note "=== chat unit bring-up ladder ==="
 # memory in fixed-size segments, which is what a 2.4 MiB miss looks like.
 attempt 1-expandable \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  SYM_GPU_FRACTION=0.917 SYM_MAX_MODEL_LEN=16384 && exit 0
+  SYM_GPU_FRACTION="$FRACTION" SYM_MAX_MODEL_LEN=16384 && exit 0
 
 # Rung 2 — costs context. A smaller window frees KV pool, which is not where the
 # repack failed, but it lowers total pressure.
 attempt 2-shorter-context \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  SYM_GPU_FRACTION=0.917 SYM_MAX_MODEL_LEN=8192 && exit 0
+  SYM_GPU_FRACTION="$FRACTION" SYM_MAX_MODEL_LEN=8192 && exit 0
 
 # Rung 3 — costs throughput. Holds part of the weight set in host RAM (85 GiB free)
 # so the Marlin repack has room on the card. This one is expected to work; it is
 # last because every token then crosses PCIe.
 attempt 3-cpu-offload \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-  SYM_GPU_FRACTION=0.917 SYM_MAX_MODEL_LEN=16384 SYM_CPU_OFFLOAD_GB=3 && exit 0
+  SYM_GPU_FRACTION="$FRACTION" SYM_MAX_MODEL_LEN=16384 SYM_CPU_OFFLOAD_GB=3 && exit 0
 
 note "ALL RUNGS FAILED — the chat unit did not serve. See $LOG"
 exit 1
