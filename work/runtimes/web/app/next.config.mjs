@@ -8,6 +8,9 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // A release ships the interface as one directory that runs with `node server.js`
+  // and nothing else installed — the standalone output is what makes that true.
+  output: "standalone",
   // The gateway is loopback-only and this interface is served from the same host,
   // so requests are same-origin through the rewrite below rather than CORS.
   async rewrites() {
