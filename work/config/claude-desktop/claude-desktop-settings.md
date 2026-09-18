@@ -178,8 +178,8 @@ Tone: lead with the finding. State failures plainly and show the output. Correct
 error in one sentence and continue. Never round a partial result up to a complete
 one; say which part is done and which is not.
 
-Repository: /home/google/symonsaylearn. Weights: /home/google/symoneural-models.
-Runtime state and logs: /home/google/symoneural-run.
+Repository: the checkout you cloned. Weights: `SYM_MODELS_DIR`. Runtime state and logs:
+`SYM_RUN_DIR`. Defaults for every variable are in `config/symoneural-learn.env.example`.
 ```
 
 ---

@@ -9,7 +9,7 @@ talks to it, and the gateway is what authenticates callers. Putting the credenti
 on the worker as well would mean two secrets for one trust boundary, and the one
 that is easier to read wins.
 
-The engine already speaks the Anthropic dialect (`POST /v1/messages`,
+The engine already speaks the Messages dialect (`POST /v1/messages`,
 `POST /v1/messages/count_tokens`), so this module forwards rather than translates.
 That is deliberate: a translation layer that re-derives a wire format the engine
 already emits is a second implementation of the same spec, and the two drift.

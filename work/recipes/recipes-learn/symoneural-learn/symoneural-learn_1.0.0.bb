@@ -11,9 +11,9 @@
 # First-party, built from the committed tree by symoneural-firstparty, so ${S} is a
 # `git archive` of what is COMMITTED. An uncommitted edit is not packaged, which is
 # the property that makes a release reproducible from a tag.
-SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up scripts and client config"
-DESCRIPTION = "Bring-up scripts and the tracked Claude Desktop client \
-configuration for the SymonSayLearn runtime. Installs no weights and no credential."
+SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up scripts"
+DESCRIPTION = "Bring-up scripts for the SymonSayLearn runtime. Installs no weights and no \
+credential."
 HOMEPAGE = "https://symoneural.com"
 LICENSE = "FSL-1.1-ALv2"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"

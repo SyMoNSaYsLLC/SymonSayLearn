@@ -36,7 +36,7 @@ class MainTest(unittest.TestCase):
         with contextlib.redirect_stdout(buf):
             self.assertEqual(m.main(["capabilities", "--fake"]), 0)
         caps = json.loads(buf.getvalue())
-        self.assertEqual(caps["unit"], "chat"); self.assertTrue(caps["streaming"]); self.assertIn("anthropic-messages/2023-06-01", caps["protocols"])
+        self.assertEqual(caps["unit"], "chat"); self.assertTrue(caps["streaming"]); self.assertIn("messages/2023-06-01", caps["protocols"])
 
     def test_serve_refuses_without_token(self):
         env = dict(os.environ); os.environ.pop(m.TOKEN_ENV, None)

@@ -26,6 +26,7 @@ export interface ModelRow {
   display_name: string;
   created_at: string;
   description?: string;
+  // protocol identifier: field name the Messages dialect defines; the property stays literal
   anthropic_family_tier?: FamilyTier;
   is_family_default?: boolean;
   max_input_tokens?: number;

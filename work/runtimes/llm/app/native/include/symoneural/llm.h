@@ -12,7 +12,7 @@
  * · versioned ABI · stable negative status codes · model identity is an ID that
  * the library resolves through a registry path set at runtime creation - a
  * client never supplies a filesystem path · no secret-bearing diagnostics ·
- * no protocol parsing (Anthropic/OpenAI live in Python).
+ * no protocol parsing (the Messages and chat-completions dialects live in Python).
  *
  * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
  */

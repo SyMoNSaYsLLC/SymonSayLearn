@@ -1,0 +1,25 @@
+From: SymonSaysLLC <gmcdonald@symoneural.com>
+Date: Thu, 18 Sep 2026 08:20:00 -0400
+Subject: [PATCH] mistralrs-quant: accept the 13.4 CUDA toolkit
+
+The build script keeps an allowlist of toolkit versions and panics on any other.
+This host builds with toolkit 13.4, which the kernels compile under unchanged
+(sm_120a codegen verified from the produced objects). Add the version to the list.
+cudarc has the same list with an environment override (CUDARC_CUDA_VERSION); this
+crate has no override, hence the patch.
+
+Upstream-Status: Pending
+---
+ mistralrs-quant/build.rs | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/mistralrs-quant/build.rs
++++ b/mistralrs-quant/build.rs
+@@ -10,6 +10,7 @@ const CUTLASS_COMMIT_ENV: &str = "MISTRALRS_CUTLASS_COMMIT";
+ const CUDA_BUILD_ROOT_ENV: &str = "MISTRALRS_CUDA_BUILD_ROOT";
+ #[cfg(feature = "cuda")]
+ const SUPPORTED_CUDA_TOOLKIT_VERSIONS: &[(usize, usize)] = &[
++    (13, 4),
+     (13, 3),
+     (13, 2),
+     (13, 1),

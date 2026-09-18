@@ -23,13 +23,13 @@
 # WHAT IT IS NOT
 #
 #   Weights. Nothing here installs a model. The runtime reads SYM_MODELS_DIR at run
-#   time, which is /home/google/symoneural-models on this host. Weights are licensed
+#   time, $HOME/symoneural-models by default. Weights are licensed
 #   separately, are multiple gigabytes, and never enter a package or git.
 #
 #   A credential. The gateway reads its key from a 0600 file the operator provisions.
 #   A package that shipped a secret would ship the same secret to everyone.
 SUMMARY = "SyMoNeuRaL SymonSayLearn runtime - gateway, chat unit and web interface"
-DESCRIPTION = "The composed runtime for this build: the Anthropic-dialect gateway, \
+DESCRIPTION = "The composed runtime for this build: the Messages-dialect gateway, \
 the chat unit it fronts, and the first-party web interface, with the scripts and \
 units that bring them up. Models and credentials are external by design."
 LICENSE = "MIT"

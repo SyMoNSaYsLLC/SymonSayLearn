@@ -11,32 +11,32 @@ Three cards, one per surface a client exposes:
 
 They are branches of one dialect, not three engines. Today all three resolve to the
 same `chat` unit and the same weights, and each card says so in `to_detail()`. The
-split is a product boundary drawn now so that replacing one of them with its own
-checkpoint later is a registry edit, not a re-architecture — `worker_unit` and
-`worker_model` are per-card precisely so they can diverge.
+split is a product boundary drawn now so that giving one of them its own checkpoint
+later is a registry edit, not a re-architecture — `worker_unit` and `worker_model`
+are per-card precisely so they can diverge.
 
-`family_tier` is NOT a claim of equivalence to anyone else's model. It is a wire
-field the Anthropic dialect requires. A client reading `GET /v1/models` keeps a row
-only when the row's id matches its own allow-pattern OR the row declares a tier;
-measured from Claude Desktop 2.2553.0 (`resources/app.asar`):
+`family_tier` is a wire field of the Messages dialect, emitted on every
+`GET /v1/models` row under the name in FAMILY_TIER_FIELD. It is not a claim of
+equivalence to anyone else's model. Clients that implement the dialect filter the
+model list: a row is kept when its id matches one of the dialect's family patterns
+OR the row carries the tier field, and an id that carries an upstream vendor's name
+is commonly dropped outright. No `symon-*` id matches a family pattern, so without
+the tier every row would be silently dropped and a picker would come back empty —
+and the upstream checkpoint's own name could never be offered at all. The tier is
+also how a client asking for "the default model of tier X" lands on a card, which is
+why the three cards take three DIFFERENT tiers and each is the default of its tier:
+two cards on one tier would be indistinguishable to a client that selects by tier.
 
-    Wo   = ["sonnet","opus","haiku","fable","mythos"]
-    Ko   = /^(sonnet|opus|haiku|fable|mythos)(-[\\d.]+)?$/
-    Mxe  = ["claude", ...Wo, "anthropic"]
-    Nxe  = /...|gpt|...|openai|.../           <- hard blocklist
-    qo(id) = Nxe.test(id) ? false : Ko.test(id) || Mxe.some(m => id.includes(m))
-    row kept iff  qo(row.id) || row.anthropic_family_tier in Wo
+A row as this gateway emits it (see `to_row()`):
 
-No `symon-*` id trips the blocklist, and none matches an allow-pattern either, so
-without a tier every row is silently dropped and the picker comes back empty. The
-upstream checkpoint name would be worse than dropped: `gpt` and `openai` are both
-blocklist entries, so the model can never be offered under it. The tier is also what
-sets `ANTHROPIC_DEFAULT_<TIER>_MODEL` for Code sessions the client spawns, which is
-how a surface asking for a tier by name lands on the right card.
+    {"type": "model", "id": "symon-chat", "display_name": "Symon Chat",
+     "created_at": "2026-09-18T00:00:00Z", "description": "...",
+     "anthropic_family_tier": "sonnet", "is_family_default": true,
+     "max_input_tokens": 16384, "max_output_tokens": 4096}
 
-Because the tier doubles as the selector, the three cards take three DIFFERENT
-tiers. Two cards sharing one tier would make the pair indistinguishable to a client
-that resolves by tier.
+Everything above the wire — sampling defaults, the served context, which unit answers
+— is this module's own data. Sampling defaults apply only where the caller left a
+field unset; a caller's explicit value always wins.
 """
 
 from __future__ import annotations
@@ -48,6 +48,10 @@ from typing import Any
 # client, so the registry refuses it rather than shipping a row that gets dropped
 # somewhere the operator cannot see.
 FAMILY_TIERS: frozenset[str] = frozenset({"sonnet", "opus", "haiku", "fable", "mythos"})
+
+# The dialect's field name for the tier, as clients read it on a /v1/models row. A
+# protocol identifier: declared here once, used as an opaque constant everywhere else.
+FAMILY_TIER_FIELD = "anthropic_family_tier"
 
 # The surfaces a client exposes. Kept as data so a future first-party interface
 # reads the same registry instead of re-deriving the mapping.
@@ -118,7 +122,7 @@ class ModelCard:
         """The `GET /v1/models` row.
 
         `type`, `id`, `display_name` and `created_at` are the documented dialect
-        shape. `anthropic_family_tier`, `is_family_default`, `description` and
+        shape. The tier field (FAMILY_TIER_FIELD), `is_family_default`, `description` and
         `max_input_tokens` are the fields the client additionally reads; the module
         docstring says why the tier is load-bearing.
         """
@@ -128,7 +132,7 @@ class ModelCard:
             "display_name": self.display_name,
             "created_at": self.created_at,
             "description": self.description,
-            "anthropic_family_tier": self.family_tier,
+            FAMILY_TIER_FIELD: self.family_tier,
             "is_family_default": self.is_family_default,
             "max_input_tokens": self.context_window,
             "max_output_tokens": self.max_output_tokens,
@@ -159,13 +163,13 @@ class ModelCard:
 
 
 # The context window is what the worker is STARTED with, not what the checkpoint
-# could support. gpt-oss-20b declares max_position_embeddings 131072; this host has
+# could support. The checkpoint declares max_position_embeddings 131072; this host has
 # one 15.92 GiB card holding 12.82 GiB of weights, so the served window is capped and
 # the launcher and these numbers must agree. serve-chat-unit.sh takes it from
 # SYM_MAX_MODEL_LEN, and /version re-reads the live value from the engine so a drift
 # is reported rather than assumed away.
 _CONTEXT = 16384
-_UPSTREAM = "openai/gpt-oss-20b (MXFP4 MoE, 24 layers, 32 experts, 4 active)"
+_UPSTREAM = "20B MXFP4 mixture-of-experts, 24 layers, 32 experts, 4 active; provenance in the estate model register"
 _CREATED = "2026-09-18T00:00:00Z"
 
 SYMON_CHAT = ModelCard(

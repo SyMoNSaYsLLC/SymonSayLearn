@@ -1,4 +1,4 @@
-# claude-desktop
+# claude-desktop — the reference third-party client
 
 Configuration for the client that calls this estate's gateway. Tracked here so the
 deployment is a file under version control rather than a set of hand-set switches
@@ -13,7 +13,6 @@ interface can read the same declaration instead of re-deriving it.
 | `apply-symonAI-config.sh` | installs it into the profile; refuses while the app runs |
 | `claude-desktop-settings.md` | every setting, what to set it to, and why |
 | `ssh-code-surface.md` | the Code surface's SSH values, with the live verification |
-| `symonAI.live-export.json` | what the profile held before this directory existed |
 
 ## Interfaces
 
@@ -21,7 +20,7 @@ interface can read the same declaration instead of re-deriving it.
 |---|---|
 | Writes | `~/.config/Claude-3p/configLibrary/symonAI.json` and `_meta.json` |
 | Backs up | `~/.config/Claude-3p/configLibrary.bak-<timestamp>` before any write |
-| Points the client at | `http://localhost:9001` — the gateway in `work/runtimes/api/app/symoneural_api/` |
+| Points the client at | `http://localhost:9001` — the gateway in `gateway/symoneural_gateway/` (`SYM_GW_PORT`) |
 | Reads credential from | nowhere. See below. |
 
 ## The credential is not in this directory
@@ -65,6 +64,14 @@ this. Leave the list empty and let discovery do it.
 
 ## Onward
 
-The gateway this configuration points at is documented in
-`work/runtimes/api/app/symoneural_api/symoneural_api.md`. That document holds the
-endpoint register, the credential model and the proof that promoted each route.
+The gateway this configuration points at is documented in `gateway/gateway.md`, which
+holds the endpoint register, the credential model and the proof that promoted each route.
+The deployment's own configuration — ports, paths, timeouts — is declared once in
+`config/symoneural-learn.env.example`; this client only needs to agree on the base URL.
+
+Application-internal state exported from the live profile (`claude_desktop_config.json`,
+`extensions-blocklist.json`, `mcp-user-tool-toggles.json`, `os-entry-points.json`,
+`symonAI.live-export.json`) was removed from this repository on 2026-09-18: it carried the
+operator's account and organisation identifiers, home-directory paths and a broken MCP
+path, installs nothing, and this repository becomes Apache-2.0 two years after each
+release. The estate keeps those exports as evidence under `work/config/claude-desktop/`.

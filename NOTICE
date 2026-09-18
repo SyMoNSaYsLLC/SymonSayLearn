@@ -55,7 +55,7 @@ MODEL WEIGHTS
 -------------
 
 No model weights are in this repository and none are licensed by LICENSE. Weights are
-acquired separately, carry their own terms (the gpt-oss checkpoint is Apache-2.0), and
+acquired separately, carry their own terms (the acquired checkpoint is Apache-2.0), and
 the runtime reads them from a path given at run time and never packages them.
 
 THIRD-PARTY NOTICES

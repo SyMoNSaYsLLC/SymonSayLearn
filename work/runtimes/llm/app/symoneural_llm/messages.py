@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: FSL-1.1-ALv2
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
-"""Anthropic Messages protocol adapter — one consumer of the native inference API.
+"""Messages dialect protocol adapter — one consumer of the native inference API.
 
 Translates POST /v1/messages (messages, system, stream, tools, tool_choice,
 tool_result, sampling) into InferenceService calls and back. Prompt assembly is
@@ -13,7 +13,7 @@ the product's own applications - they consume inference.py.
 
 Tool-use CORRECTNESS is a separate acceptance gate (reconstruction §54): the
 unit tests here exercise the protocol translation against the fake backend;
-Claude Code conformance runs against a real model.
+client conformance runs against a real model.
 """
 from __future__ import annotations
 
@@ -72,7 +72,7 @@ def build_prompt(req: dict) -> str:
 
 
 def parse_output(text: str) -> list[dict]:
-    """Split model text into Anthropic content blocks: text and tool_use."""
+    """Split model text into Messages-dialect content blocks: text and tool_use."""
     blocks, pos = [], 0
     for m in TOOL_CALL.finditer(text):
         if m.start() > pos and text[pos:m.start()].strip():
@@ -88,7 +88,7 @@ def parse_output(text: str) -> list[dict]:
     return blocks
 
 
-class ClaudeAdapter:
+class MessagesAdapter:
     def __init__(self, svc: InferenceService, *, allowed_models: frozenset[str] | None = None) -> None:
         self.svc = svc
         self.allowed_models = allowed_models
@@ -122,7 +122,7 @@ class ClaudeAdapter:
                 "stop_reason": stop, "stop_sequence": None, "usage": {"input_tokens": c.input_tokens, "output_tokens": c.output_tokens}}
 
     def messages_stream(self, req: dict) -> Iterator[str]:
-        """Server-sent events in the Anthropic streaming shape."""
+        """Server-sent events in the Messages dialect streaming shape."""
         model = self._validate(req)
         s = self.svc.open_session(model)
         def ev(name: str, data: dict) -> str:

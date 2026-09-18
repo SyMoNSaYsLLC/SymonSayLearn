@@ -8,11 +8,11 @@
 # WHY THIS IS A LADDER AND NOT ONE COMMAND
 # ---------------------------------------
 # MEASURED on this host, 2026-09-18: the checkpoint is MXFP4 MoE and this card is
-# compute capability 12.0 (SM120). vLLM 0.27.1 excludes SM120 from its Triton MoE
+# compute capability 12.0 (SM120). The engine at 0.27.1 excludes SM120 from its Triton MoE
 # path by an explicit range check in
 # fused_moe/experts/gpt_oss_triton_kernels_moe.py:
 #
-#     # covers Hopper SM90 and Blackwell SM100, excludes SM120
+#     # covers SM90 and SM100, excludes SM120
 #     return cap is not None and (9, 0) <= (cap.major, cap.minor) < (11, 0)
 #
 # so the only remaining path is Marlin, which REPACKS the MoE weights into its own

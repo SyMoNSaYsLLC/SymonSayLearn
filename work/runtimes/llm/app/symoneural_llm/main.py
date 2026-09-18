@@ -13,7 +13,7 @@ gated by the bearer token in SYM_CHAT_TOKEN. This module is that process:
 
 Boundaries: model ids come from the registry directory and the operator's
 --allowed-models; a client names a model by id and can never supply a path or a
-command. Protocol translation (Anthropic Messages) is claude.py; inference is
+command. Protocol translation (the Messages dialect) is messages.py; inference is
 inference.py over backend.Backend; the native binding is native.py. No framework:
 the stdlib HTTP server is the whole service surface.
 """
@@ -32,7 +32,7 @@ from typing import Any
 
 from . import __version__
 from .backend import Backend, FakeBackend
-from .claude import ClaudeAdapter, ProtocolError
+from .messages import MessagesAdapter, ProtocolError
 from .inference import InferenceService
 
 UNIT = "chat"
@@ -53,16 +53,16 @@ def make_backend(args: argparse.Namespace) -> Backend:
     return LlamaBackend(_registry_root(args.registry_root), n_threads=args.threads, n_ctx=args.n_ctx, seed=args.seed)
 
 
-def make_adapter(backend: Backend, allowed: str | None) -> ClaudeAdapter:
+def make_adapter(backend: Backend, allowed: str | None) -> MessagesAdapter:
     svc = InferenceService(backend)
     models = frozenset(m.strip() for m in allowed.split(",") if m.strip()) if allowed else None
-    return ClaudeAdapter(svc, allowed_models=models)
+    return MessagesAdapter(svc, allowed_models=models)
 
 
-def service_capabilities(adapter: ClaudeAdapter, backend: Backend) -> dict[str, Any]:
+def service_capabilities(adapter: MessagesAdapter, backend: Backend) -> dict[str, Any]:
     caps = adapter.svc.capabilities()
     caps.update({"unit": UNIT, "runtime": "symoneural-llm", "version": __version__,
-                 "protocols": ["anthropic-messages/2023-06-01"],
+                 "protocols": ["messages/2023-06-01"],
                  "allowed_models": sorted(adapter.allowed_models) if adapter.allowed_models is not None else None})
     n = getattr(backend, "_n", None)
     if n is not None:
@@ -77,7 +77,7 @@ def _error(status: int, kind: str, message: str) -> tuple[int, dict]:
 
 class Handler(BaseHTTPRequestHandler):
     server_version = f"symoneural-llm/{__version__}"
-    adapter: ClaudeAdapter
+    adapter: MessagesAdapter
     backend: Backend
     token: str
 

@@ -6,12 +6,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from symoneural_llm.backend import FakeBackend
 from symoneural_llm.inference import InferenceService
-from symoneural_llm.claude import ClaudeAdapter, ProtocolError, build_prompt, parse_output
+from symoneural_llm.messages import MessagesAdapter, ProtocolError, build_prompt, parse_output
 
 
-class ClaudeAdapterTest(unittest.TestCase):
+class MessagesAdapterTest(unittest.TestCase):
     def setUp(self):
-        self.ad = ClaudeAdapter(InferenceService(FakeBackend()))
+        self.ad = MessagesAdapter(InferenceService(FakeBackend()))
 
     def test_text_message(self):
         r = self.ad.messages({"model": "fake-1", "max_tokens": 64, "messages": [{"role": "user", "content": "hello world"}]})
@@ -26,7 +26,7 @@ class ClaudeAdapterTest(unittest.TestCase):
         with self.assertRaises(ProtocolError): self.ad.messages({"model": "fake-1", "max_tokens": 1, "messages": [{"role": "system", "content": "x"}]})
 
     def test_model_restriction(self):
-        ad = ClaudeAdapter(InferenceService(FakeBackend()), allowed_models=frozenset({"other"}))
+        ad = MessagesAdapter(InferenceService(FakeBackend()), allowed_models=frozenset({"other"}))
         with self.assertRaises(ProtocolError) as cm: ad.messages({"model": "fake-1", "max_tokens": 1, "messages": [{"role": "user", "content": "x"}]})
         self.assertEqual(cm.exception.status, 403)
 

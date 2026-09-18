@@ -32,7 +32,7 @@ and nothing above it knows which engine answers.
 | Direction | What |
 |---|---|
 | Serves | `127.0.0.1:8802` — the `chat` unit's registered port (`units.REGISTRY["chat"]`) |
-| Reads | `${SYM_MODELS_DIR:-$HOME/symoneural-models}/gpt-oss-20b` |
+| Reads | `${SYM_MODELS_DIR:-$HOME/symoneural-models}/symon-chat` |
 | Writes | `${SYM_RUN_DIR:-$HOME/symoneural-run}/logs/chat-unit.log`, `chat-unit-bringup.log` |
 | Consumed by | `work/runtimes/api/app/symoneural_api/worker.py`, via `SYM_CHAT_URL` |
 
@@ -62,7 +62,7 @@ The checkpoint is MXFP4 mixture-of-experts and this card is compute capability 1
 check in `fused_moe/experts/gpt_oss_triton_kernels_moe.py`:
 
 ```python
-# covers Hopper SM90 and Blackwell SM100, excludes SM120
+# covers SM90 and SM100, excludes SM120
 return cap is not None and (9, 0) <= (cap.major, cap.minor) < (11, 0)
 ```
 

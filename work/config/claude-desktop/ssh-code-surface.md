@@ -97,7 +97,7 @@ blocks in this file already record.
 
 `~/.ssh/authorized_keys` — created, mode 0600, one line: the **public** half of
 `id_ed25519`, fingerprint `SHA256:F5i8+2PaWl6A4giKocGDFDLhwFQg11lD0hOR6ewzqnI`
-(`gpmcdonald87@gmail.com`, ED25519). `~/.ssh` is 0700, `/home/google` is 0755, so
+(`<operator key comment>`, ED25519). `~/.ssh` is 0700, the home directory is 0755, so
 sshd's `StrictModes yes` is satisfied.
 
 `~/.ssh/known_hosts` — the host keys for `[symon]:22222` were added with
@@ -115,7 +115,7 @@ hostname symon
 port 22222
 identitiesonly yes
 identityfile ~/.ssh/id_ed25519
-userknownhostsfile /home/google/.ssh/known_hosts /home/google/.ssh/known_hosts2
+userknownhostsfile ~/.ssh/known_hosts ~/.ssh/known_hosts2
 ```
 
 ---

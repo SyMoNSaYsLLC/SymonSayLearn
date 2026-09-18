@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # Install the tracked SyMoNeuRaL configuration into the Claude Desktop 3p profile.
 #
 # WHY THIS REFUSES TO RUN WHILE THE APP IS OPEN

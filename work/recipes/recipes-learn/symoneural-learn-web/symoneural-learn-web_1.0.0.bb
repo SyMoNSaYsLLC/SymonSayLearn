@@ -11,8 +11,8 @@
 # to be acquired as pristine upstream source into the estate. Measured on disk,
 # 2026-09-18:
 #
-#   upstream/web/runtime/workerd        Cloudflare's runtime      acquired
-#   upstream/web/tooling/workers-sdk    Cloudflare's tooling      acquired
+#   upstream/web/runtime/workerd        the acquired workers runtime   acquired
+#   upstream/web/tooling/workers-sdk    the acquired workers tooling   acquired
 #   Next.js                                                       NOT acquired
 #   React                                                         NOT acquired
 #   Node.js                                                       NOT acquired

@@ -16,14 +16,14 @@ substitutes for the other, and a release needs both.
 
 | Surface | Bind | Serves |
 |---|---|---|
-| Gateway | `127.0.0.1:9001` | the `/v1` Anthropic dialect: models, messages, count_tokens |
+| Gateway | `127.0.0.1:9001` | the `/v1` Messages dialect: models, messages, count_tokens |
 | Chat unit | `127.0.0.1:8802` | the engine behind the gateway |
 | Web interface | `127.0.0.1:8812` | overview, registry, rack, three surfaces |
 
 Three models, one per client surface: `symon-chat`, `symon-coder`, `symon-work`.
 
 Nothing leaves the machine. Public reach, when wanted, is through the edge proxy and
-the Cloudflare tunnel, never by binding an interface.
+the operator's tunnel, never by binding an interface.
 
 ---
 
@@ -42,7 +42,7 @@ the Cloudflare tunnel, never by binding an interface.
 
 | Need | Why |
 |---|---|
-| NVIDIA driver and a matching CUDA userspace | the chat unit runs weights on the card |
+| GPU driver and a matching CUDA userspace | the chat unit runs weights on the card |
 | VRAM ≥ weights + working set | see §4 for what that actually means |
 
 ### Measured on the reference host, 2026-09-18
@@ -51,7 +51,7 @@ Quote these as the known-good configuration, not as requirements:
 
 ```
 CPU     Intel i9-10900KF, 10c/20t, AVX2 + FMA, NO AVX-512, NO AMX
-GPU     NVIDIA RTX 5070 Ti, GB203, compute capability 12.0 (sm_120), 15.56 GiB
+GPU     a 16 GB card, compute capability 12.0 (sm_120), 15.56 GiB usable
 Driver  615.71.09 (open kernel module), CUDA UMD 13.4, nvcc 13.4.92
 RAM     94 GiB
 OS      Debian 13 (trixie), kernel 7.1.13
@@ -78,7 +78,7 @@ Settings it honours, all with defaults:
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SYM_MODELS_DIR` | `/home/google/symoneural-models` | weight store |
+| `SYM_MODELS_DIR` | `~/symoneural-models` | weight store |
 | `SYM_CHAT_PORT` | `8802` | bind port, the `chat` unit's registered port |
 | `SYM_MAX_MODEL_LEN` | `16384` | served context window |
 | `SYM_GPU_FRACTION` | `0.90` | fraction of the card the engine may claim |
@@ -122,7 +122,7 @@ curl -fsS -H "authorization: Bearer $KEY" \
 
 curl -fsS -X POST http://127.0.0.1:9001/v1/messages \
   -H "authorization: Bearer $KEY" \
-  -H 'anthropic-version: 2023-06-01' -H 'content-type: application/json' \
+  -H 'content-type: application/json' \
   -d '{"model":"symon-chat","max_tokens":1,"messages":[{"role":"user","content":"."}]}'
 ```
 
@@ -137,7 +137,7 @@ presses a Test button.
 The one thing that actually varies between machines is how the mixture-of-experts
 weights get onto the card. Read the profile that matches yours.
 
-### 4.1 NVIDIA, compute capability 9.0 to 10.x (Hopper, datacenter Blackwell)
+### 4.1 Compute capability 9.0 to 10.x (datacenter cards)
 
 The Triton mixture-of-experts path is available. Weights load in their packed form,
 no repack, so peak memory during load is close to the checkpoint size.
@@ -146,13 +146,13 @@ no repack, so peak memory during load is close to the checkpoint size.
 SYM_GPU_FRACTION=0.90 SYM_MAX_MODEL_LEN=32768 work/runtimes/llm/hostrun/serve-chat-unit.sh
 ```
 
-### 4.2 NVIDIA, compute capability 12.x (sm_120, consumer Blackwell) — the reference host
+### 4.2 Compute capability 12.x (sm_120) — the reference host
 
 **The Triton path is excluded by an explicit range check**, measured in
 `fused_moe/experts/gpt_oss_triton_kernels_moe.py`:
 
 ```python
-# covers Hopper SM90 and Blackwell SM100, excludes SM120
+# covers SM90 and SM100, excludes SM120
 return cap is not None and (9, 0) <= (cap.major, cap.minor) < (11, 0)
 ```
 
@@ -219,8 +219,8 @@ forked, cached and archived whatever it does later.
 Reference host layout:
 
 ```
-/home/google/symoneural-models/gpt-oss-20b/     12.82 GiB, MXFP4 MoE
-/home/google/symoneural-models/image/           FLUX.1-schnell set
+~/symoneural-models/symon-chat/               12.82 GiB, the 20B MXFP4 checkpoint
+~/symoneural-models/image/                    the image checkpoint set (model register)
 ```
 
 Verify a checkpoint before serving it — size alone is not integrity, because a
@@ -229,7 +229,7 @@ resumed download onto a corrupt prefix yields the right length:
 ```sh
 python3 - <<'PY'
 import json, os, struct, sys
-d = "/home/google/symoneural-models/gpt-oss-20b"
+d = os.path.expanduser("~/symoneural-models/symon-chat")
 idx = json.load(open(f"{d}/model.safetensors.index.json"))
 total = 0
 for f in sorted(set(idx["weight_map"].values())):

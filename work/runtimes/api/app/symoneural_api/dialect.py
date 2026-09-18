@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: FSL-1.1-ALv2
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
-"""The /v1 dialect — the Anthropic Messages shape, served under SyMoNeuRaL's names.
+"""The /v1 dialect — the Messages dialect's shapes, served under SyMoNeuRaL's names.
 
 Four routes, and nothing else lives in this namespace:
 
@@ -13,7 +13,7 @@ Four routes, and nothing else lives in this namespace:
 The shapes are the dialect's exactly, so an unmodified SDK works with no shim.
 What is NOT the dialect's is the model name: a client sees `symon-ai`, and the
 engine's own name for the checkpoint never crosses this boundary. `models.py`
-explains why the row must carry `anthropic_family_tier` for a first-party name to
+explains why the row must carry the family-tier field for a first-party name to
 be selectable at all.
 
 Errors use the dialect's envelope — `{"type":"error","error":{"type":...}}` — and
@@ -34,7 +34,7 @@ from . import models, worker
 
 router = APIRouter()
 
-# Anthropic error `type` values, mapped to the status each must carry. Naming them
+# The dialect's error `type` values, mapped to the status each must carry. Naming them
 # here keeps a handler from inventing a fifth spelling of "not found".
 ERROR_STATUS: dict[str, int] = {
     "invalid_request_error": 400,

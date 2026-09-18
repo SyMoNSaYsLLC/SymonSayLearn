@@ -5,7 +5,7 @@
 #
 # cut-release — publish a staged release to GitHub, but only if the ship gate passes.
 #
-#   tools/cut-release.sh v1.0.0 /home/google/symoneural-release/v1.0.0 [--dry-run] [--prerelease]
+#   tools/cut-release.sh v1.0.0 ~/symoneural-release/v1.0.0 [--dry-run] [--prerelease]
 #
 # What it enforces, in order, each with its own exit code check:
 #   1. the tag names a commit that exists locally and equals HEAD (a release is a commit)

@@ -2,7 +2,7 @@
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The SyMoNeuRaL-native inference API. Applications consume THIS; protocol
-adapters (Anthropic Messages, later OpenAI) translate to and from it. It owns:
+adapters (the Messages dialect, later chat-completions) translate to and from it. It owns:
 model registry view, sessions, generation with streaming callback, cancellation,
 token accounting and capability reporting. It never speaks a third party's wire
 format and never takes a filesystem path from a client (models are named by id;
