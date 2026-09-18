@@ -346,6 +346,20 @@
       "class": "STRONG_COPYLEFT",
       "why_it_passes": "GCC Runtime Library Exception 3.1 §1 permits linking into proprietary works",
       "ruled_by": "policy — exceptions_that_neutralise"
+    },
+    {
+      "component": "cuda-runtime-libraries",
+      "matches": [
+        "libcudart.so.13",
+        "libcublas.so.13",
+        "libcublasLt.so.13",
+        "libcuda.so.1",
+        "libnvidia-ml.so.1"
+      ],
+      "licence": "LicenseRef-NVIDIA-CUDA-EULA (toolkit) / host driver",
+      "class": "PROPRIETARY_THIRD_PARTY",
+      "why_it_passes": "GPU artifacts link these dynamically and never bundle them; the operator's own toolkit and driver installation provides them at run time (posture S2 in the estate). Nothing under those terms is redistributed by us.",
+      "ruled_by": "policy 2026-09-18; the toolkit recipe cuda-toolkit-bin records the EULA text and checksum"
     }
   ],
   "secrets_patterns": {
@@ -368,7 +382,24 @@
     "email_not_licensor": "\\b(?!gmcdonald@symoneural\\.com\\b)(?!bhesley@symoneural\\.com\\b)(?!noreply@)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
     "home_path": "/home/[a-z_][a-z0-9_-]*/"
   },
-  "identifier_scan_extensions": [".json", ".md", ".txt", ".yaml", ".yml", ".toml", ".sh", ".py", ".ts", ".tsx", ".js", ".mjs", ".env.example", ".conf", ".bb", ".bbappend"],
+  "identifier_scan_extensions": [
+    ".json",
+    ".md",
+    ".txt",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".sh",
+    ".py",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".mjs",
+    ".env.example",
+    ".conf",
+    ".bb",
+    ".bbappend"
+  ],
   "weights_extensions": [
     ".safetensors",
     ".gguf",
