@@ -45,3 +45,29 @@ IMAGE_CLASSES:remove = "qemuboot"
 # kernel modules; both hooks are emptied.
 KERNEL_DEPLOY_DEPEND = ""
 KERNELDEPMODDEPEND = ""
+
+# ---------------------------------------------------------------------------
+# LICENCE POLICY, ENFORCED BY THE BUILD
+#
+# work/tools/licence-audit.py found GPL-3.0-only gdbm in the api and common proof
+# images. gdbm arrives through python3's dbm module, so nothing named it directly
+# and nothing would have caught it by reading a recipe. A hand-maintained
+# exclusion list would miss the next one the same way.
+#
+# INCOMPATIBLE_LICENSE makes BitBake refuse to place a matching package in the
+# rootfs at all. The build fails instead of shipping, which is the only kind of
+# guard worth having: it cannot pass while being wrong.
+#
+# AGPL is listed even though none is present today. It is the category that would
+# be triggered by SERVING the product over a network rather than by distributing
+# it, which is exactly what this runtime does, so it is the most expensive one to
+# discover late.
+#
+# LGPL is deliberately NOT here. glibc is LGPL-2.1 and is the C library; excluding
+# it would leave nothing to run. LGPL permits proprietary use when the library is
+# dynamically linked and the user can relink, which is how this image links it.
+INCOMPATIBLE_LICENSE = "GPL-3.0* LGPL-3.0* AGPL-3.0* SSPL*"
+
+# gdbm is dropped in recipes-devtools/python/python3_%.bbappend, NOT here. An image
+# recipe's variables apply to the image, not to other recipes, so setting
+# PACKAGECONFIG from this file would parse cleanly and do nothing at all.

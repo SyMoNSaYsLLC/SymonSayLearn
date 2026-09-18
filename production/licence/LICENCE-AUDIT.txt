@@ -1,0 +1,428 @@
+recipes in the layer: 1194
+     2  NETWORK_COPYLEFT     network copyleft — would reach a served product
+   286  STRONG_COPYLEFT      strong copyleft — would open a distributed product
+     2  GPL_LINKING_EXCEPTION GPL with a linking exception — permits non-GPL linking
+    94  WEAK_LIB_COPYLEFT    library copyleft — relink obligation
+     8  WEAK_FILE_COPYLEFT   file copyleft — publish modifications to those files
+     4  PROPRIETARY          SyMoNeuRaL's own code
+   647  PERMISSIVE           permissive — attribution only
+     9  LICENSEREF           vendor terms, reviewed individually
+   142  UNRESOLVED           NOT RESOLVED — counts against the audit
+
+SHIPPED, per built image manifest:
+  production/api/API-INSTALL-MANIFEST.txt
+    99 packages -> FAILS: STRONG_COPYLEFT=7, UNRESOLVED=4
+        84  PERMISSIVE
+         3  PROPRIETARY
+         7  STRONG_COPYLEFT
+         4  UNRESOLVED
+         1  WEAK_FILE_COPYLEFT
+  production/common/COMMON-INSTALL-MANIFEST.txt
+    127 packages -> FAILS: STRONG_COPYLEFT=7, UNRESOLVED=3
+         2  GPL_LINKING_EXCEPTION
+       110  PERMISSIVE
+         3  PROPRIETARY
+         7  STRONG_COPYLEFT
+         3  UNRESOLVED
+         2  WEAK_FILE_COPYLEFT
+  production/llm/LLM-INSTALL-MANIFEST.txt
+    40 packages -> FAILS: STRONG_COPYLEFT=5, UNRESOLVED=3
+         2  GPL_LINKING_EXCEPTION
+        30  PERMISSIVE
+         5  STRONG_COPYLEFT
+         3  UNRESOLVED
+
+COPYLEFT IN THE LAYER, and whether it reached an image:
+  SHIPPED      bzip2                                          Apache-2.0 AND BSD-3-Clause AND GPL-3.0-or-later AND MS-PL AND Zlib AND bzip2-1.0.6
+  SHIPPED      gdbm                                           GPL-3.0-only
+  SHIPPED      opkg-utils                                     GPL-2.0-or-later
+  SHIPPED      symoneural-certifi                             MPL-2.0
+  SHIPPED      symoneural-tqdm                                MIT AND MPL-2.0
+  SHIPPED      util-linux                                     BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND EUPL-1.2 AND GPL-1.0-or-later AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT
+  SHIPPED      xz                                             GPL-2.0-or-later AND GPL-3.0-or-later WITH Autoconf-exception-macro AND LGPL-2.1-or-later AND 0BSD
+  not shipped  acl                                            GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  acpid                                          GPL-2.0-or-later
+  not shipped  adwaita-icon-theme                             CC-BY-SA-3.0 OR LGPL-3.0-only
+  not shipped  alsa-lib                                       GPL-2.0-or-later AND LGPL-2.1-only
+  not shipped  alsa-plugins                                   GPL-2.0-or-later AND LGPL-2.1-only
+  not shipped  alsa-state                                     GPL-2.0-or-later AND MIT
+  not shipped  alsa-tools                                     GPL-2.0-only AND LGPL-2.0-or-later
+  not shipped  alsa-utils                                     GPL-2.0-only
+  not shipped  appstream                                      LGPL-2.1-only
+  not shipped  apt                                            GPL-2.0-or-later
+  not shipped  argp-standalone                                LGPL-2.1-only
+  not shipped  asciidoc                                       GPL-2.0-only
+  not shipped  aspell                                         LGPL-2.0-only OR LGPL-2.1-only
+  not shipped  at                                             GPL-2.0-or-later
+  not shipped  at-spi2-core                                   LGPL-2.1-or-later
+  not shipped  attr                                           GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  autoconf                                       GPL-3.0-or-later
+  not shipped  automake                                       GPL-2.0-only
+  not shipped  avahi                                          GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  avahi-libnss-mdns                              LGPL-2.1-or-later
+  not shipped  babeltrace2                                    BSD-2-Clause AND BSD-4-Clause AND CC-BY-SA-4.0 AND GPL-2.0-only AND GPL-3.0-or-later AND LGPL-2.1-only AND MIT AND PSF-2.0
+  not shipped  barebox-tools                                  GPL-2.0-only
+  not shipped  base-files                                     GPL-2.0-only
+  not shipped  base-passwd                                    GPL-2.0-only
+  not shipped  bash                                           GPL-3.0-or-later
+  not shipped  bash-completion                                GPL-2.0-only
+  not shipped  bc                                             GPL-3.0-or-later
+  not shipped  bind                                           MPL-2.0
+  not shipped  binutils                                       GPL-3.0-only
+  not shipped  binutils-cross                                 GPL-3.0-only
+  not shipped  binutils-cross-canadian                        GPL-3.0-only
+  not shipped  binutils-testsuite                             GPL-3.0-only
+  not shipped  bison                                          GPL-3.0-only
+  not shipped  blktrace                                       GPL-2.0-only
+  not shipped  blueprint-compiler                             LGPL-3.0-only
+  not shipped  bluez5                                         GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  bmaptool                                       GPL-2.0-only
+  not shipped  bootchart2                                     GPL-3.0-only
+  not shipped  btrfs-tools                                    GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  busybox                                        GPL-2.0-only AND bzip2-1.0.6
+  not shipped  busybox-inittab                                GPL-2.0-only
+  not shipped  ca-certificates                                GPL-2.0-or-later AND MPL-2.0
+  not shipped  cairo                                          GPL-3.0-or-later AND (LGPL-2.1-only OR MPL-1.1)
+  not shipped  ccache                                         BSL-1.0 AND GPL-3.0-or-later AND ISC AND MIT
+  not shipped  cdrtools-native                                CDDL-1.0 AND GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  chrpath                                        GPL-2.0-only
+  not shipped  connman                                        GPL-2.0-only
+  not shipped  connman-conf                                   GPL-2.0-only
+  not shipped  connman-gnome                                  GPL-2.0-only AND LGPL-2.1-only
+  not shipped  consolekit                                     GPL-2.0-or-later
+  not shipped  coreutils                                      GPL-3.0-or-later
+  not shipped  cpio                                           GPL-3.0-only
+  not shipped  cracklib                                       LGPL-2.1-or-later
+  not shipped  createrepo-c                                   GPL-2.0-only
+  not shipped  cronie                                         BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-or-later AND ISC
+  not shipped  cross-localedef-native                         LGPL-2.1-only
+  not shipped  cryptodev-linux                                GPL-2.0-only
+  not shipped  cryptodev-module                               GPL-2.0-only
+  not shipped  cryptodev-tests                                GPL-2.0-only
+  not shipped  dbus-glib                                      AFL-2.1 AND LGPL-2.0-or-later AND MIT OR GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT
+  not shipped  dbus-wait                                      GPL-2.0-only
+  not shipped  debian-kernel-inputs-6.12.107+deb13-amd64      GPL-2.0-only
+  not shipped  debianutils                                    GPL-2.0-only AND SMAIL-GPL
+  not shipped  debugedit                                      GPL-2.0-only AND GPL-3.0-only AND LGPL-2.1-only
+  not shipped  dejagnu                                        GPL-3.0-only
+  not shipped  desktop-file-utils                             GPL-2.0-or-later
+  not shipped  devtool-test-local                             GPL-2.0-or-later
+  not shipped  devtool-test-patch-gz                          GPL-2.0-or-later
+  not shipped  devtool-upgrade-test2                          GPL-2.0-only
+  not shipped  diffoscope                                     GPL-3.0-or-later
+  not shipped  diffutils                                      GPL-3.0-or-later
+  not shipped  distcc                                         GPL-2.0-only
+  not shipped  dmidecode                                      GPL-2.0-only
+  not shipped  dnf                                            GPL-2.0-only
+  not shipped  dosfstools                                     GPL-3.0-only
+  not shipped  dpkg                                           GPL-2.0-or-later
+  not shipped  dwarfsrcfiles                                  GPL-2.0-or-later
+  not shipped  e2fsprogs                                      BSD-3-Clause AND GPL-2.0-only AND LGPL-2.0-only AND MIT
+  not shipped  ed                                             GPL-2.0-only
+  not shipped  efibootmgr                                     GPL-2.0-or-later
+  not shipped  efivar                                         LGPL-2.1-or-later
+  not shipped  elfutils                                       GPL-3.0-or-later AND (GPL-2.0-or-later OR LGPL-3.0-or-later)
+  not shipped  ell                                            LGPL-2.1-only
+  not shipped  enchant2                                       LGPL-2.1-or-later
+  not shipped  epiphany                                       GPL-3.0-or-later
+  not shipped  ethtool                                        GPL-2.0-or-later
+  not shipped  eudev                                          GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  ffmpeg                                         BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-or-later AND IJG AND ISC AND LGPL-2.1-or-later AND MIT
+  not shipped  findutils                                      GPL-3.0-or-later
+  not shipped  flac                                           GFDL-1.3-no-invariants-or-later AND GPL-2.0-or-later AND LGPL-2.1-or-later AND BSD-3-Clause
+  not shipped  flex                                           BSD-3-Clause AND LGPL-2.0-or-later
+  not shipped  fribidi                                        LGPL-2.1-or-later
+  not shipped  gawk                                           AGPL-3.0-or-later AND GPL-3.0-or-later
+  not shipped  gconf                                          LGPL-2.0-or-later
+  not shipped  gcr                                            LGPL-2.0-only
+  not shipped  gdb                                            GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only
+  not shipped  gdb-cross                                      GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only
+  not shipped  gdb-cross-canadian                             GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only
+  not shipped  gdk-pixbuf                                     LGPL-2.1-or-later
+  not shipped  gettext                                        GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  ghostscript                                    AGPL-3.0-or-later
+  not shipped  gi-docgen                                      Apache-2.0 AND GPL-3.0-or-later
+  not shipped  git                                            BSD-3-Clause AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT
+  not shipped  gitrepotest                                    GPL-2.0-or-later
+  not shipped  gitunpackoffline                               GPL-2.0-or-later
+  not shipped  gitunpackoffline-fail                          GPL-2.0-or-later
+  not shipped  glib-2.0                                       BSD-3-Clause AND GCR-docs AND LGPL-2.1-or-later
+  not shipped  glib-2.0-initial                               BSD-3-Clause AND GCR-docs AND LGPL-2.1-or-later
+  not shipped  glib-networking                                LGPL-2.1-or-later
+  not shipped  gmp                                            GPL-2.0-or-later OR LGPL-3.0-or-later
+  not shipped  gnome-desktop-testing                          LGPL-2.0-or-later
+  not shipped  gnu-efi                                        BSD-2-Clause AND GPL-2.0-or-later
+  not shipped  gnupg                                          GPL-3.0-only AND LGPL-3.0-only
+  not shipped  gnutls                                         GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  gobject-introspection                          GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT
+  not shipped  gperf                                          GPL-3.0-or-later
+  not shipped  gpgme                                          GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  grep                                           GPL-3.0-only
+  not shipped  groff                                          GPL-3.0-only
+  not shipped  grub                                           GPL-3.0-only
+  not shipped  grub-efi                                       GPL-3.0-only
+  not shipped  gsettings-desktop-schemas                      LGPL-2.1-only
+  not shipped  gst-devtools                                   LGPL-2.1-or-later
+  not shipped  gst-examples                                   LGPL-2.0-or-later
+  not shipped  gstreamer1.0                                   LGPL-2.1-or-later
+  not shipped  gstreamer1.0-libav                             LGPL-2.1-or-later
+  not shipped  gstreamer1.0-plugins-bad                       GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  gstreamer1.0-plugins-base                      LGPL-2.1-or-later
+  not shipped  gstreamer1.0-plugins-good                      LGPL-2.1-or-later
+  not shipped  gstreamer1.0-plugins-ugly                      GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  gstreamer1.0-python                            LGPL-2.1-or-later
+  not shipped  gstreamer1.0-rtsp-server                       LGPL-2.1-or-later
+  not shipped  gtk+3                                          LGPL-2.0-only AND LGPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  gtk-doc                                        GPL-2.0-only
+  not shipped  gtk4                                           LGPL-2.0-only AND LGPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  gzip                                           GPL-3.0-or-later
+  not shipped  hdparm                                         BSD-2-Clause AND GPL-2.0-only AND hdparm
+  not shipped  hello-mod                                      GPL-2.0-only
+  not shipped  help2man                                       GPL-3.0-only
+  not shipped  hicolor-icon-theme                             GPL-2.0-only
+  not shipped  hwlatdetect                                    GPL-2.0-only
+  not shipped  i2c-tools                                      GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  icon-naming-utils                              GPL-2.0-only
+  not shipped  ifupdown                                       GPL-2.0-only
+  not shipped  incompatible-license                           GPL-3.0-only
+  not shipped  incompatible-license-alias                     GPL-3.0-only
+  not shipped  incompatible-licenses                          GPL-2.0-only AND GPL-3.0-only AND LGPL-3.0-only
+  not shipped  inetutils                                      GPL-3.0-only
+  not shipped  init-ifupdown                                  GPL-2.0-only
+  not shipped  init-system-helpers                            BSD-3-Clause AND GPL-2.0-only
+  not shipped  initscripts                                    GPL-2.0-only
+  not shipped  intltool                                       GPL-2.0-only
+  not shipped  iproute2                                       GPL-2.0-or-later
+  not shipped  iptables                                       GPL-2.0-or-later
+  not shipped  iputils                                        BSD-3-Clause AND GPL-2.0-or-later
+  not shipped  iso-codes                                      LGPL-2.1-or-later
+  not shipped  itstool                                        GPL-3.0-only
+  not shipped  json-glib                                      LGPL-2.1-or-later
+  not shipped  kbd                                            GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.0-or-later
+  not shipped  kea                                            MPL-2.0
+  not shipped  kern-tools-native                              GPL-2.0-only AND MIT
+  not shipped  kernel-devsrc                                  GPL-2.0-only
+  not shipped  kernel-module-testbar                          GPL-2.0-only
+  not shipped  kernel-module-testfoo                          GPL-2.0-only
+  not shipped  kexec-tools                                    GPL-2.0-only
+  not shipped  keymaps                                        GPL-2.0-only
+  not shipped  kmod                                           GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  l3afpad                                        GPL-2.0-or-later
+  not shipped  lame                                           LGPL-2.0-or-later
+  not shipped  ldconfig-native                                GPL-2.0-or-later
+  not shipped  libadwaita                                     LGPL-2.1-or-later
+  not shipped  libaio                                         LGPL-2.1-or-later
+  not shipped  libassuan                                      GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  libatomic-ops                                  GPL-2.0-only AND MIT
+  not shipped  libcap-ng                                      GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libcap-ng-python                               GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libcgroup                                      LGPL-2.1-only
+  not shipped  libcheck                                       LGPL-2.1-or-later
+  not shipped  libcomps                                       GPL-2.0-only
+  not shipped  libconfig                                      LGPL-2.1-only
+  not shipped  libdaemon                                      LGPL-2.1-or-later
+  not shipped  libdnf                                         LGPL-2.1-or-later
+  not shipped  libexif                                        LGPL-2.1-only
+  not shipped  libfakekey                                     LGPL-2.0-or-later
+  not shipped  libfm                                          GPL-2.0-or-later AND LGPL-2.0-or-later
+  not shipped  libfm-extra                                    LGPL-2.0-or-later
+  not shipped  libgcrypt                                      BSD-3-Clause AND GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libgit2                                        GPL-2.0-only WITH GCC-exception-2.0 AND MIT AND OpenSSL AND BSD-3-Clause AND Zlib AND ISC AND LGPL-2.1-or-later AND CC0-1.0 AND BSD-2-Clause
+  not shipped  libgloss                                       BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only AND TCL AND Apache-2.0 WITH LLVM-exception
+  not shipped  libgpg-error                                   GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libgudev                                       LGPL-2.1-only
+  not shipped  libical                                        LGPL-2.1-only OR MPL-2.0
+  not shipped  libidn2                                        GPL-3.0-or-later AND Unicode-DFS-2016 AND (GPL-2.0-or-later OR LGPL-3.0-only)
+  not shipped  libksba                                        GPL-3.0-or-later AND (GPL-2.0-or-later OR LGPL-3.0-or-later)
+  not shipped  libmatchbox                                    HPND AND LGPL-2.0-or-later
+  not shipped  libmicrohttpd                                  LGPL-2.1-or-later
+  not shipped  libmnl                                         LGPL-2.1-or-later
+  not shipped  libmpc                                         LGPL-3.0-only
+  not shipped  libnl                                          LGPL-2.1-only
+  not shipped  libnotify                                      LGPL-2.1-only
+  not shipped  libnsl2                                        LGPL-2.1-only
+  not shipped  libnss-nis                                     LGPL-2.1-only
+  not shipped  libpipeline                                    GPL-3.0-only
+  not shipped  libportal                                      LGPL-3.0-only
+  not shipped  libproxy                                       LGPL-2.1-or-later
+  not shipped  libptytty                                      GPL-2.0-only
+  not shipped  librepo                                        LGPL-2.1-only
+  not shipped  librsvg                                        LGPL-2.1-or-later
+  not shipped  libseccomp                                     LGPL-2.1-only
+  not shipped  libsecret                                      LGPL-2.1-only
+  not shipped  libsndfile1                                    LGPL-2.1-only
+  not shipped  libsoup                                        LGPL-2.0-only
+  not shipped  libtasn1                                       GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  libtraceevent                                  GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libtracefs                                     GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  libubootenv                                    LGPL-2.1-or-later
+  not shipped  libunistring                                   GPL-2.0-or-later OR LGPL-3.0-or-later
+  not shipped  liburcu                                        LGPL-2.1-or-later AND MIT
+  not shipped  libusb1                                        LGPL-2.1-or-later
+  not shipped  libxcrypt                                      0BSD AND BSD-3-Clause AND LGPL-2.1-only
+  not shipped  libxcrypt-compat                               0BSD AND BSD-3-Clause AND LGPL-2.1-only
+  not shipped  libxmlb                                        LGPL-2.1-only
+  not shipped  linux-dummy                                    GPL-2.0-only
+  not shipped  linux-libc-headers                             GPL-2.0-only
+  not shipped  logrotate                                      GPL-2.0-only
+  not shipped  lrzsz                                          GPL-2.0-or-later
+  not shipped  lsb-release                                    GPL-2.0-or-later
+  not shipped  ltp                                            BSD-2-Clause AND GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  lttng-modules                                  GPL-2.0-only AND LGPL-2.1-only AND MIT
+  not shipped  lttng-ust                                      GPL-2.0-only AND LGPL-2.1-or-later AND MIT
+  not shipped  lzip                                           GPL-2.0-or-later
+  not shipped  lzo                                            GPL-2.0-or-later
+  not shipped  lzop                                           GPL-2.0-or-later
+  not shipped  make                                           GPL-3.0-only
+  not shipped  make-mod-scripts                               GPL-2.0-only
+  not shipped  makedevs                                       GPL-2.0-only
+  not shipped  makedumpfile                                   GPL-2.0-only
+  not shipped  man-db                                         GPL-2.0-or-later AND GPL-3.0-or-later AND LGPL-2.1-or-later
+  not shipped  man-pages                                      BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND GPL-1.0-or-later AND GPL-2.0-only AND GPL-2.0-or-later AND MIT
+  not shipped  matchbox-config-gtk                            GPL-2.0-or-later
+  not shipped  matchbox-desktop                               GPL-2.0-or-later AND LGPL-2.0-or-later
+  not shipped  matchbox-keyboard                              LGPL-2.1-only
+  not shipped  matchbox-panel-2                               GPL-2.0-or-later
+  not shipped  matchbox-session                               GPL-2.0-only
+  not shipped  matchbox-session-sato                          GPL-2.0-or-later
+  not shipped  matchbox-terminal                              GPL-2.0-or-later
+  not shipped  matchbox-wm                                    GPL-2.0-or-later
+  not shipped  mc                                             GPL-3.0-only
+  not shipped  mdadm                                          GPL-2.0-only AND GPL-2.0-or-later
+  not shipped  menu-cache                                     LGPL-2.1-or-later
+  not shipped  mingetty                                       GPL-2.0-only
+  not shipped  mini-x-session                                 GPL-2.0-only
+  not shipped  minicom                                        GPL-2.0-or-later
+  not shipped  mmc-utils                                      GPL-2.0-only
+  not shipped  mpfr                                           LGPL-3.0-or-later
+  not shipped  mpg123                                         LGPL-2.1-only
+  not shipped  msmtp                                          GPL-3.0-only
+  not shipped  mtd-utils                                      GPL-2.0-or-later
+  not shipped  mtd-utils-selftest                             GPL-2.0-or-later
+  not shipped  mtools                                         GPL-3.0-only
+  not shipped  musl-locales                                   LGPL-3.0-or-later AND MIT
+  not shipped  musl-obstack                                   GPL-2.0-or-later
+  not shipped  musl-utils                                     BSD-2-Clause AND GPL-2.0-or-later
+  not shipped  nativesdk-qemu-helper                          GPL-2.0-only
+  not shipped  neard                                          GPL-2.0-only
+  not shipped  net-tools                                      GPL-2.0-or-later
+  not shipped  netbase                                        GPL-2.0-only
+  not shipped  nettle                                         GPL-2.0-or-later OR LGPL-3.0-or-later
+  not shipped  newlib                                         BSD-2-Clause AND BSD-3-Clause AND GPL-2.0-only AND GPL-3.0-only AND LGPL-2.0-only AND LGPL-3.0-only AND TCL AND Apache-2.0 WITH LLVM-exception
+  not shipped  nfs-utils                                      BSD-3-Clause AND GPL-2.0-or-later AND MIT
+  not shipped  npth                                           LGPL-2.0-or-later
+  not shipped  nss-myhostname                                 LGPL-2.1-only
+  not shipped  numactl                                        GPL-2.0-only AND LGPL-2.1-only
+  not shipped  ofono                                          GPL-2.0-only
+  not shipped  opkg                                           GPL-2.0-or-later
+  not shipped  pango                                          LGPL-2.0-or-later
+  not shipped  parted                                         GPL-3.0-or-later
+  not shipped  patch                                          GPL-3.0-only
+  not shipped  patchelf                                       GPL-3.0-only
+  not shipped  pciutils                                       GPL-2.0-or-later
+  not shipped  pcmanfm                                        GPL-2.0-only AND GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  perf                                           GPL-2.0-only
+  not shipped  piglit                                         BSD-3-Clause AND GPL-2.0-or-later AND GPL-3.0-only AND LGPL-2.0-or-later AND MIT
+  not shipped  pinentry                                       GPL-2.0-only
+  not shipped  pm-utils                                       GPL-2.0-only
+  not shipped  pong-clock                                     GPL-2.0-or-later
+  not shipped  powertop                                       GPL-2.0-only
+  not shipped  ppp                                            BSD-2-Clause AND GPL-2.0-or-later AND LGPL-2.0-or-later AND MIT AND RSA-MD
+  not shipped  procps                                         GPL-2.0-or-later AND LGPL-2.0-or-later
+  not shipped  pseudo                                         LGPL-2.1-only
+  not shipped  psmisc                                         GPL-2.0-only
+  not shipped  psplash                                        GPL-2.0-or-later
+  not shipped  ptest-runner                                   GPL-2.0-or-later
+  not shipped  pulseaudio                                     BSD-3-Clause AND LGPL-2.1-or-later AND MIT
+  not shipped  python3-chardet                                LGPL-2.1-only
+  not shipped  python3-dbusmock                               GPL-3.0-only
+  not shipped  python3-docutils                               BSD-2-Clause AND CC0-1.0 AND GPL-3.0-only
+  not shipped  python3-hypothesis                             MPL-2.0
+  not shipped  python3-kirk                                   GPL-2.0-only
+  not shipped  python3-lxml                                   BSD-3-Clause AND GPL-2.0-only AND MIT AND PSF-2.0
+  not shipped  python3-pathspec                               MPL-2.0
+  not shipped  python3-pip                                    Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND LGPL-2.1-only AND MIT AND MPL-2.0 AND PSF-2.0
+  not shipped  python3-pycairo                                LGPL-2.1-only AND MPL-1.1
+  not shipped  python3-pygobject                              LGPL-2.1-only
+  not shipped  python3-qemu-qmp                               GPL-2.0-only AND LGPL-2.0-only
+  not shipped  python3-rfc3987                                GPL-3.0-or-later
+  not shipped  python3-sbom-cve-check                         GPL-2.0-or-later
+  not shipped  python3-yamllint                               GPL-3.0-only
+  not shipped  qemu                                           GPL-2.0-only AND LGPL-2.1-only
+  not shipped  qemu-helper-native                             GPL-2.0-only
+  not shipped  quilt                                          GPL-2.0-only
+  not shipped  quilt-native                                   GPL-2.0-only
+  not shipped  quota                                          GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  readline                                       GPL-3.0-or-later
+  not shipped  resolvconf                                     GPL-2.0-or-later
+  not shipped  rng-tools                                      GPL-2.0-only
+  not shipped  rpm                                            GPL-2.0-only
+  not shipped  rpm-sequoia                                    Apache-2.0 AND BSL-1.0 AND LGPL-2.0-or-later AND MIT AND Unicode-DFS-2016 AND (Apache-2.0 OR MIT) AND (Apache-2.0 OR MIT OR Zlib) AND (MIT OR Unlicense)
+  not shipped  rpm-sequoia-crypto-policy                      LGPL-2.1-or-later
+  not shipped  rsync                                          GPL-3.0-or-later
+  not shipped  rt-tests                                       GPL-2.0-only AND GPL-2.0-or-later
+  not shipped  rust-out-of-tree-module                        GPL-2.0-only
+  not shipped  rxvt-unicode                                   GPL-3.0-only
+  not shipped  sato-screenshot                                GPL-2.0-only AND GPL-2.0-or-later
+  not shipped  sbc                                            GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  screen                                         GPL-3.0-or-later
+  not shipped  sed                                            GPL-3.0-or-later
+  not shipped  selftest-ed                                    GPL-2.0-only
+  not shipped  selftest-kmodule                               GPL-2.0-only
+  not shipped  service                                        GPL-2.0-only
+  not shipped  setserial                                      GPL-2.0-only
+  not shipped  shared-mime-info                               GPL-2.0-only
+  not shipped  slang                                          GPL-2.0-only
+  not shipped  squashfs-tools                                 GPL-2.0-only
+  not shipped  startup-notification                           LGPL-2.0-or-later
+  not shipped  strace                                         GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  stress-ng                                      GPL-2.0-only
+  not shipped  swig                                           BSD-3-Clause AND GPL-3.0-only
+  not shipped  symoneural-autoconf                            GPL-3.0-or-later
+  not shipped  symoneural-automake                            GPL-2.0-or-later
+  not shipped  symoneural-awcc                                GPL-3.0-only
+  not shipped  symoneural-bitbake                             GPL-2.0-only AND MIT
+  not shipped  symoneural-gstreamer                           LGPL-2.1-or-later
+  not shipped  symoneural-gstreamer-plugins-base              LGPL-2.1-or-later
+  not shipped  symoneural-libtool                             GPL-2.0-or-later AND LGPL-2.1-or-later
+  not shipped  symoneural-m4                                  GPL-3.0-or-later
+  not shipped  symoneural-openembedded-core                   MIT AND GPL-2.0-only
+  not shipped  sysfsutils                                     GPL-2.0-only AND LGPL-2.1-only
+  not shipped  syslinux                                       GPL-2.0-or-later
+  not shipped  sysstat                                        GPL-2.0-or-later
+  not shipped  systemd                                        GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  systemd-boot                                   GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  systemd-boot-native                            GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  systemd-bootchart                              GPL-2.0-only AND LGPL-2.1-only
+  not shipped  systemd-serialgetty                            GPL-2.0-or-later
+  not shipped  systemd-tools-native                           GPL-2.0-only AND LGPL-2.1-or-later
+  not shipped  systemtap                                      GPL-2.0-only
+  not shipped  sysvinit                                       GPL-2.0-or-later
+  not shipped  sysvinit-inittab                               GPL-2.0-only
+  not shipped  taglib                                         LGPL-2.1-only OR MPL-1.1
+  not shipped  tar                                            GPL-3.0-only
+  not shipped  texinfo                                        GPL-3.0-or-later
+  not shipped  time                                           GPL-3.0-only
+  not shipped  u-boot                                         GPL-2.0-or-later
+  not shipped  u-boot-tools                                   GPL-2.0-or-later
+  not shipped  update-rc.d                                    GPL-2.0-or-later
+  not shipped  usbutils                                       CC0-1.0 AND GPL-2.0-or-later AND LGPL-2.1-or-later AND MIT AND (GPL-2.0-only OR GPL-3.0-only)
+  not shipped  v86d                                           GPL-2.0-only
+  not shipped  vala                                           LGPL-2.1-only
+  not shipped  valgrind                                       BSD-3-Clause AND GPL-2.0-only AND GPL-2.0-or-later
+  not shipped  vte                                            GPL-3.0-only AND LGPL-3.0-or-later AND MIT
+  not shipped  watchdog                                       GPL-2.0-or-later
+  not shipped  webkitgtk                                      BSD-2-Clause AND LGPL-2.0-or-later
+  not shipped  wget                                           GPL-3.0-only
+  not shipped  which                                          GPL-3.0-or-later
+  not shipped  wic                                            GPL-2.0-only
+  not shipped  x11-volatiles                                  GPL-2.0-only
+  not shipped  x264                                           GPL-2.0-only
+  not shipped  xcursor-transparent-theme                      GPL-2.0-only
+  not shipped  xmlto                                          GPL-2.0-only
+  not shipped  xrestop                                        GPL-2.0-or-later
+  not shipped  xserver-nodm-init                              GPL-2.0-only
+  not shipped  xxhash                                         BSD-2-Clause AND GPL-2.0-only
+
+recipe vs source-lock.json disagreements: 1
+  symoneural-awcc                                recipe='GPL-3.0-only' lock='NOT-APPLICABLE'
