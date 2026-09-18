@@ -33,12 +33,12 @@
 # editing this number.
 set -u
 
-ENGINE_VENV=${SYM_CHAT_ENGINE_VENV:-/home/google/.venvs/vllm-0271-cu130}
-MODELS_DIR=${SYM_MODELS_DIR:-/home/google/symoneural-models}
+ENGINE_VENV=${SYM_CHAT_ENGINE_VENV:-$HOME/.venvs/vllm-0271-cu130}
+MODELS_DIR=${SYM_MODELS_DIR:-$HOME/symoneural-models}
 MODEL_DIR=${SYM_CHAT_MODEL_DIR:-$MODELS_DIR/gpt-oss-20b}
 SERVED_NAME=${SYM_CHAT_SERVED_NAME:-symon-ai}
 PORT=${SYM_CHAT_PORT:-8802}
-RUN_DIR=${SYM_RUN_DIR:-/home/google/symoneural-run}
+RUN_DIR=${SYM_RUN_DIR:-$HOME/symoneural-run}
 LOG=$RUN_DIR/logs/chat-unit.log
 
 mkdir -p "$RUN_DIR/logs"

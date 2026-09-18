@@ -258,6 +258,22 @@ def scan_archive(rep, unit, path: Path):
         rep.finding(unit, "REVIEW", "archive", f"{path.name}: could not open ({ex})")
     return members
 
+IDENT_RX = {k: re.compile(v) for k, v in POLICY.get("identifier_patterns", {}).items()}
+IDENT_EXT = tuple(POLICY.get("identifier_scan_extensions", []))
+_IDENT_REVIEW: dict[str, dict[str, set]] = {}
+
+def scan_identifiers(unit, label, text: str):
+    """Operator identifiers (UUIDs, non-licensor e-mails, home paths) are REVIEW, aggregated per unit."""
+    if not label.endswith(IDENT_EXT): return
+    for name, rx in IDENT_RX.items():
+        for m in rx.finditer(text):
+            _IDENT_REVIEW.setdefault(unit, {}).setdefault(name, set()).add(f"{label}: {m.group(0)[:48]}")
+
+def flush_identifier_reviews(rep):
+    for unit, kinds in _IDENT_REVIEW.items():
+        for name, hits in kinds.items():
+            rep.finding(unit, "REVIEW", f"identifier:{name}", f"{len(hits)} occurrence(s), e.g. {sorted(hits)[:4]}")
+
 def check_august(rep, unit, path: Path):
     mt = time.strftime("%Y-%m", time.gmtime(path.stat().st_mtime))
     if mt == "2026-08": rep.finding(unit, "FAIL", "august", f"{path.name} mtime is August 2026")
@@ -288,6 +304,7 @@ def check_repo_history(rep, repo: Path):
         data = subprocess.run(["git", "-C", str(repo), "cat-file", "-p", sha], capture_output=True).stdout
         if len(data) > BIG: rep.finding(unit, "FAIL", "size", f"{path}: {len(data)} bytes in history — weights or build output")
         scan_bytes(rep, unit, f"{path}@{sha[:9]}", data)
+        if len(data) < 4 << 20: scan_identifiers(unit, path, data.decode("utf-8", errors="replace"))
     rc, out, err, s = run(["git", "-C", str(repo), "log", "--format=%ci"])
     if any(l.startswith("2026-08") for l in out.splitlines()): rep.finding(unit, "FAIL", "august", "commits dated August 2026 in history")
     rep.finding(unit, "INFO", "repo", f"{n} blobs scanned across all refs")
@@ -325,12 +342,15 @@ def main():
                         census_elf(rep, unit, f, f.parent / "cargo-metadata.json"); scan_path_rules(rep, unit, str(rel), top=True)
                     else:
                         scan_path_rules(rep, unit, str(rel), top=True)
-                        if f.stat().st_size < BIG: scan_bytes(rep, unit, str(rel), f.read_bytes())
-                if not rep.unit(unit)["components"] and unit not in ("source", "symoneural-learn-hostrun"):
+                        if f.stat().st_size < BIG:
+                            data = f.read_bytes(); scan_bytes(rep, unit, str(rel), data)
+                            if len(data) < 4 << 20: scan_identifiers(unit, str(rel), data.decode("utf-8", errors="replace"))
+                if not rep.unit(unit)["components"] and unit not in ("source", "symoneural-learn-hostrun", "noncopyleft-image-policy"):
                     rep.finding(unit, "REVIEW", "census", "no dependency census could be derived for this unit — licence closure UNESTABLISHED")
-            flush_trademark_reviews(rep)
+            flush_trademark_reviews(rep); flush_identifier_reviews(rep)
             check_attribution(rep, a.notices or (a.stage / "THIRD-PARTY-NOTICES.md"))
         for r in a.repo: check_repo_history(rep, r)
+        if a.repo and not a.stage: flush_identifier_reviews(rep)
     finally:
         if not a.keep_tmp: shutil.rmtree(tmp, ignore_errors=True)
     # ---- print

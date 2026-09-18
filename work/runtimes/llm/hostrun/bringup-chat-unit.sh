@@ -28,7 +28,7 @@
 # something real, so they are ordered by what they cost.
 set -u
 
-RUN_DIR=${SYM_RUN_DIR:-/home/google/symoneural-run}
+RUN_DIR=${SYM_RUN_DIR:-$HOME/symoneural-run}
 LOG=$RUN_DIR/logs/chat-unit.log
 LADDER_LOG=$RUN_DIR/logs/chat-unit-bringup.log
 PORT=${SYM_CHAT_PORT:-8802}

@@ -32,8 +32,8 @@ and nothing above it knows which engine answers.
 | Direction | What |
 |---|---|
 | Serves | `127.0.0.1:8802` — the `chat` unit's registered port (`units.REGISTRY["chat"]`) |
-| Reads | `${SYM_MODELS_DIR:-/home/google/symoneural-models}/gpt-oss-20b` |
-| Writes | `${SYM_RUN_DIR:-/home/google/symoneural-run}/logs/chat-unit.log`, `chat-unit-bringup.log` |
+| Reads | `${SYM_MODELS_DIR:-$HOME/symoneural-models}/gpt-oss-20b` |
+| Writes | `${SYM_RUN_DIR:-$HOME/symoneural-run}/logs/chat-unit.log`, `chat-unit-bringup.log` |
 | Consumed by | `work/runtimes/api/app/symoneural_api/worker.py`, via `SYM_CHAT_URL` |
 
 **No credential.** The unit binds loopback and carries no key. The gateway on 9001
@@ -44,8 +44,8 @@ another copy of the same value with its own way of going stale.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SYM_CHAT_ENGINE_VENV` | `/home/google/.venvs/vllm-0271-cu130` | the acquired engine |
-| `SYM_MODELS_DIR` | `/home/google/symoneural-models` | weight store |
+| `SYM_CHAT_ENGINE_VENV` | `$HOME/.venvs/vllm-0271-cu130` | the acquired engine |
+| `SYM_MODELS_DIR` | `$HOME/symoneural-models` | weight store |
 | `SYM_CHAT_PORT` | `8802` | bind port |
 | `SYM_CHAT_SERVED_NAME` | `symon-ai` | the engine-side model name |
 | `SYM_MAX_MODEL_LEN` | `16384` | served context window; `models.py` must agree |

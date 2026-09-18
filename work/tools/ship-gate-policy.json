@@ -362,6 +362,13 @@
     "jwt": "eyJ[A-Za-z0-9_\\-]{10,}\\.eyJ[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}",
     "generic_assignment": "(?i)(api[_-]?key|secret|token|passwd|password)\\s*[=:]\\s*['\\\"][A-Za-z0-9_\\-/+]{24,}['\\\"]"
   },
+  "identifiers_rule": "operator identifiers are not secrets but do not belong in a product that becomes Apache-2.0 two years after release: UUIDs (Anthropic account / org ids), e-mail addresses other than the licensor contacts, and absolute home-directory paths are listed for REVIEW per unit; a build agent or reviewer must justify each or remove it",
+  "identifier_patterns": {
+    "uuid": "\\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\\b",
+    "email_not_licensor": "\\b(?!gmcdonald@symoneural\\.com\\b)(?!bhesley@symoneural\\.com\\b)(?!noreply@)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+    "home_path": "/home/[a-z_][a-z0-9_-]*/"
+  },
+  "identifier_scan_extensions": [".json", ".md", ".txt", ".yaml", ".yml", ".toml", ".sh", ".py", ".ts", ".tsx", ".js", ".mjs", ".env.example", ".conf", ".bb", ".bbappend"],
   "weights_extensions": [
     ".safetensors",
     ".gguf",

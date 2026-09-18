@@ -4,15 +4,15 @@
 # symoneural-learn: the glue that makes this build a product rather than a set of parts.
 #
 # Everything unique to the SymonSayLearn composition lives here and nowhere else:
-# the bring-up scripts for the chat unit, the systemd user units for the gateway and
+# the bring-up scripts for the chat unit and
 # the web interface, and the tracked client configuration. The runtimes themselves
 # are separate packages; this is what arranges them.
 #
 # First-party, built from the committed tree by symoneural-firstparty, so ${S} is a
 # `git archive` of what is COMMITTED. An uncommitted edit is not packaged, which is
 # the property that makes a release reproducible from a tag.
-SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up, units and client config"
-DESCRIPTION = "Scripts, systemd user units and the tracked Claude Desktop client \
+SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up scripts and client config"
+DESCRIPTION = "Bring-up scripts and the tracked Claude Desktop client \
 configuration for the SymonSayLearn runtime. Installs no weights and no credential."
 HOMEPAGE = "https://symoneural.com"
 LICENSE = "FSL-1.1-ALv2"
@@ -21,7 +21,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 inherit symoneural-firstparty
 SYMON_FP_PATH = "work/runtimes/llm/hostrun"
 
-# allarch: shell scripts, unit files and JSON. Nothing here is compiled, and a
+# allarch: shell scripts and JSON. Nothing here is compiled, and a
 # machine-specific package would force a rebuild per target for no reason.
 inherit allarch
 
