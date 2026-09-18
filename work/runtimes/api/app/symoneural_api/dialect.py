@@ -179,6 +179,31 @@ def _relay_error(status: int, parsed: dict[str, Any] | None, raw: str, request: 
                         headers={"x-request-id": rid})
 
 
+# Clients of this dialect may send a `thinking` block asking for more or less
+# deliberation. The engine behind this gateway does not take that field, and forwarding
+# it verbatim makes the engine decide what to do with an argument it never declared —
+# in the best case it is ignored, in the worst it is a 400 that the caller reads as
+# "the model refused" rather than "the gateway passed something through".
+#
+# So the field is consumed here. It is recognised, recorded on the request for anyone
+# reading logs, and removed before the request leaves. When the engine gains a real
+# knob for deliberation this function is where it gets wired, and callers that already
+# send the field keep working without changing anything.
+_EFFORTS = ("low", "medium", "high", "xhigh", "max")
+
+
+def _normalise_thinking(payload: dict) -> str | None:
+    block = payload.pop("thinking", None)
+    if not isinstance(block, dict):
+        return None
+    effort = block.get("effort")
+    if isinstance(effort, str) and effort in _EFFORTS:
+        return effort
+    # An unrecognised shape is dropped rather than rejected: a caller asking for
+    # something we do not implement should still get an answer.
+    return None
+
+
 @router.post("/v1/messages")
 async def create_message(request: Request):
     payload, bad = await _read_payload(request)
@@ -191,6 +216,7 @@ async def create_message(request: Request):
     payload["model"] = WORKER_MODEL_OVERRIDE or card.worker_model
     # Per-card defaults fill only what the caller left unset; see models.Sampling.
     card.sampling.apply(payload)
+    _normalise_thinking(payload)
     rid = _request_id(request)
     streaming = bool(payload.get("stream"))
 

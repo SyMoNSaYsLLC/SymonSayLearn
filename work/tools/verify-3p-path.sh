@@ -62,7 +62,7 @@ def chk(c, msg):
     global ok
     print(("  PASS  " if c else "  FAIL  ") + msg)
     if not c: ok = False
-chk(len(rows) == 3, f"three model rows ({len(rows)})")
+chk(len(rows) == 4, f"four model rows ({len(rows)})")  # chat, code, cowork and the background tier a client resolves for itself
 seen_default = {}
 for r in rows:
     i = r.get("id",""); lo = i.lower()
@@ -101,7 +101,7 @@ print("model=%s stop=%s thinking=%s in=%s out=%s text=%r"
       % (d.get("model"), d.get("stop_reason"), think,
          u.get("input_tokens"), u.get("output_tokens"), txt[:40]))
 PY
-for m in symon-sonnet symon-opus symon-fable symon-chat symon-coder symon-work; do
+for m in symon-sonnet symon-opus symon-fable symon-haiku symon-chat symon-coder symon-work; do
   out=$(curl -s -m 300 -X POST "${AUTH[@]}" "$GW/v1/messages" \
         -d "{\"model\":\"$m\",\"max_tokens\":64,\"messages\":[{\"role\":\"user\",\"content\":\"Reply with exactly: READY\"}]}")
   got=$(printf '%s' "$out" | python3 -I /tmp/.chk.$$.py 2>&1); rc=$?

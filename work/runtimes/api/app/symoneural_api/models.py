@@ -8,6 +8,7 @@ Three cards, one per surface a client exposes:
     symon-sonnet  Symon Chat     quick questions and drafting
     symon-opus    Symon Coder    writing and running code
     symon-fable   Symon Work     longer tasks, research, documents
+    symon-haiku   Symon Quick    short background work a client does for itself
 
 They are branches of one dialect, not three engines. Today all three resolve to the
 same `chat` unit and the same weights, and each card says so in `to_detail()`. The
@@ -55,7 +56,7 @@ FAMILY_TIER_FIELD = "anthropic_family_tier"
 
 # The surfaces a client exposes. Kept as data so a future first-party interface
 # reads the same registry instead of re-deriving the mapping.
-SURFACES: frozenset[str] = frozenset({"chat", "code", "cowork"})
+SURFACES: frozenset[str] = frozenset({"chat", "code", "cowork", "background"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -225,6 +226,38 @@ SYMON_WORK = ModelCard(
     sampling=Sampling(temperature=0.6, max_tokens_cap=8192),
 )
 
+SYMON_QUICK = ModelCard(
+    id="symon-haiku",
+    display_name="Symon Quick",
+    family_tier="haiku",
+    surface="background",
+    description="Short background work: titles, summaries and classification.",
+    worker_unit="chat",
+    worker_model="symon-ai",
+    context_window=_CONTEXT,
+    max_output_tokens=2048,
+    created_at=_CREATED,
+    upstream=_UPSTREAM,
+    licence="Apache-2.0",
+    is_family_default=True,
+    # Background work wants the obvious answer, not an interesting one.
+    sampling=Sampling(temperature=0.3, max_tokens_cap=2048),
+)
+
+# WHY A FOURTH CARD ON A SURFACE NOBODY OPENS
+# -------------------------------------------
+# A client does not only use the model a person picks. It resolves a tier name to a
+# model id for its own background work — titling a conversation, summarising, deciding
+# what to do next — and it does that through one environment variable per tier, set
+# from whichever discovered row claims that tier. MEASURED against a reference client
+# on 2026-09-18: with no row claiming `haiku`, that variable is set to the empty string
+# for every session, and the background work either falls back or fails quietly.
+#
+# So `background` is a surface in the sense that matters here — a job the deployment
+# serves — even though no tab opens onto it. The card points at the same unit as the
+# others; what it adds is that a client asking for the quick tier gets an answer from
+# us rather than nothing.
+
 REGISTRY: dict[str, ModelCard] = {}
 
 # WHY THE IDS CARRY A TIER WORD
@@ -290,5 +323,5 @@ def worker_models() -> set[str]:
     return {c.worker_model for c in REGISTRY.values()}
 
 
-for _card in (SYMON_CHAT, SYMON_CODER, SYMON_WORK):
+for _card in (SYMON_CHAT, SYMON_CODER, SYMON_WORK, SYMON_QUICK):
     register(_card)
