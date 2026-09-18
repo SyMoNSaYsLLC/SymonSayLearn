@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Route classification — the estate's authorisation model.
 
 Every route in every unit carries exactly one class. The class decides what is

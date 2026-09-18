@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # claude-desktop-fix - repair the Claude Desktop developer configuration.
 #
 # Fixes, all verified against this machine on 2026-09-13:

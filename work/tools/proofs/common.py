@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Common clean-root proof body: run INSIDE the extracted image by tools/clean-root-proof.
 
 Imports the Torch + Transformers runtime closure (every symoneural-* distribution the

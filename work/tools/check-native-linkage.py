@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """check-native-linkage.py - reconstruction v1.1 §69, the native linkage audit.
 
 Audits every first-party / boundary native artifact the reconstruction names:

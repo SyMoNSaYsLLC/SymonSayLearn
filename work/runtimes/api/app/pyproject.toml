@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # The SyMoNeuRaL API Python package. First-party; built by the estate recipe
 # symoneural-api-python (python_flit_core) from the committed tree. The runtime
 # dependencies below are what tools/check-python-runtime-closures.py reads to
@@ -9,6 +12,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "symoneural-api"
 version = "1.0.0"
+license = {file = "LICENSE"}
 description = "SyMoNeuRaL API - the estate's generic control plane and application layer"
 requires-python = ">=3.12"
 dependencies = [

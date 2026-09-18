@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # cuda-clean-root-proof - P7 C5/C9: the estate CUDA authority proven from PACKAGES.
 #
 # Extracts cuda-toolkit-bin (runtime libraries) and symoneural-cuda-probe from the

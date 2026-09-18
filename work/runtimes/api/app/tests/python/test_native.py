@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """ctypes binding tests; run with SYM_API_NATIVE=<path to libsymoneural-api.so> (skipped otherwise).
 Includes the cross-language proof: a lock taken through the C ABI is seen by the
 Python implementation and vice versa - same file, same contract."""

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """check-determinism.py - run the full scanner suite twice into isolated dirs and
 require byte-identical records. Also writes acquisition/SHA256SUMS and
 acquisition/control-plane.json (scanner identity)."""

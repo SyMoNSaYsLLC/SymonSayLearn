@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Scan acquired SyMoNeuRaL sources for vendored/bundled third-party code.
 Finds collisions (same component vendored in >1 place) and collects licence evidence.
 NON-AUTHORITATIVE research artifact."""

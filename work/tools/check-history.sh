@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # check-history.sh - has this been tried before, and did it fail?
 #
 # RULE (Garrett, 2026-09-13): "whatever decisions you make it needs to be somehow

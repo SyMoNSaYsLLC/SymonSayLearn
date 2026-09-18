@@ -1,0 +1,75 @@
+NOTICE — SyMoNsAyLeaRn
+======================
+
+Licence    FSL-1.1-ALv2 — Functional Source License, Version 1.1, Apache-2.0 future licence
+Position   Proprietary, source-available. Not closed, not open source.
+Licensor   SymonSaysLLC (parent company)
+
+               Developer   Garrett McDonald    gmcdonald@symoneural.com
+               Business    Ben Hesley          bhesley@symoneural.com
+
+The full terms are in LICENSE beside this file. Every copy of LICENSE in this tree is
+byte-identical to the root copy (same md5); if any copy ever differs, the root governs.
+
+WHAT YOU MAY DO
+---------------
+
+Read it, build it, modify it, run it internally, teach with it, research with it, and
+provide professional services around it. What you may not do is offer it — or a
+substitute built from it — to others as a commercial product or service. On the second
+anniversary of the date a release is made available (the date of its git tag) that
+release becomes available under the Apache License, Version 2.0, automatically.
+
+WHAT THIS LICENCE COVERS
+------------------------
+
+SymonSaysLLC's own work:
+
+    work/recipes/**          recipes, classes and layer configuration
+    work/runtimes/*/app/**   first-party application source
+    work/runtimes/*/hostrun  bring-up scripts and units
+    work/tools/**            build, scan, verify and proof tooling
+    work/config/**           deployment configuration
+    production/**            proof output and build records
+    reports/**               dated records
+    scripts/**, symonlearn, CMakeLists.txt, README.md, BUILD.md, LICENSE, NOTICE
+
+NOT COVERED — third-party source acquired at pinned commits:
+
+    upstream/**
+
+Every tree under upstream/ is the work of its own authors and remains under its own
+licence. Nothing in LICENSE grants, restricts or otherwise affects any right in that
+material. Each acquired tree keeps its own licence file, and the recipe that builds it
+records that licence and a checksum of its text read from the tree itself.
+
+RECIPE METADATA
+---------------
+
+First-party recipes that build our own code declare LICENSE = "FSL-1.1-ALv2" with
+LIC_FILES_CHKSUM pinned to the md5 of LICENSE. Image and packagegroup recipes declare
+MIT, which is OpenEmbedded's convention for build metadata that produces no code of
+its own; the images they assemble are governed by the licences of what goes into them.
+
+MODEL WEIGHTS
+-------------
+
+No model weights are in this repository and none are licensed by LICENSE. Weights are
+acquired separately, carry their own terms (the gpt-oss checkpoint is Apache-2.0), and
+the runtime reads them from a path given at run time and never packages them.
+
+THIRD-PARTY NOTICES
+-------------------
+
+A build combines this work with acquired third-party material. When a build is
+distributed, the third-party terms travel with it. The licence audit that proves no
+strong copyleft ships is `tools/licence-audit.py --check`; its output is recorded under
+production/licence/ in the estate repository.
+
+REVIEW STATUS
+-------------
+
+This position was chosen by SymonSaysLLC on 2026-09-18 and the text above records it.
+It has not been reviewed by a lawyer. Before this software is distributed outside
+SymonSaysLLC under these terms, that review should happen — in particular on the
+Competing Use definition and on the covered / not-covered boundary.

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The SyMoNeuRaL API — the estate's generic control plane and application layer.
 
 First-party code. Serves on symoneural-fastapi / symoneural-uvicorn /

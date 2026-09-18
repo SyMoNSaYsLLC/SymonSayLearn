@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-llm - the estate-owned LLM runtime (reconstruction v1.1 §49-§56, L4):
 # the recorded unit `chat` (HTTP, port 8802, SYM_CHAT_TOKEN, fail-closed) over
 # libsymoneural-llm through ctypes, with the Anthropic Messages adapter as one
@@ -7,8 +10,8 @@
 # packages below plus the native library.
 SUMMARY = "SyMoNeuRaL LLM runtime - the chat unit over libsymoneural-llm (Python)"
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f6737acf372c75a15aaeb6e6eca2c340"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty python_flit_core
 SYMON_FP_PATH = "work/runtimes/llm/app"

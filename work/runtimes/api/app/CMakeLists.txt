@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # libsymoneural-api - the native half of the SyMoNeuRaL API (reconstruction v1.1 §29-§34).
 # Produces libsymoneural-api.so (+ .a), public headers, and symoneural-api-util.
 # Depends on libc/POSIX only. Built by the estate recipe symoneural-api (symoneural-firstparty) and,

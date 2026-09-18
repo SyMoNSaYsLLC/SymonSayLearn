@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # Clean-target proof image for the SymonSayLearn runtime.
 #
 # Every other image in this directory proves ONE runtime imports and runs from a

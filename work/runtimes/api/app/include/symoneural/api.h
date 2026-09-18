@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* symoneural/api.h — the stable C ABI of libsymoneural-api.
  *
  * The native half of the SyMoNeuRaL API owns low-level platform primitives:
@@ -17,7 +20,7 @@
  * process (fork/exec/waitpid); a supervisor that exits abandons its children
  * to their process group, which sym_unit_stop() addresses as -pid.
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
  */
 #ifndef SYMONEURAL_API_H
 #define SYMONEURAL_API_H

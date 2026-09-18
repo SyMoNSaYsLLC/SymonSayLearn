@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-learn-web: the first-party web interface for the SymonSayLearn runtime.
 #
 # ============================================================================
@@ -39,7 +42,8 @@ DESCRIPTION = "The first-party web interface for the SymonSayLearn runtime: the 
 overview, model registry, rack view and the three surfaces. Serves on 127.0.0.1:8812 \
 and reaches the gateway on 9001; no external origin appears in its configuration."
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "CLOSED"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty
 SYMON_FP_PATH = "work/runtimes/web/app"

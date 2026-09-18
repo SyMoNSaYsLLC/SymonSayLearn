@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """API clean-root proof body: run INSIDE the extracted image by tools/clean-root-proof.
 
 API already has a proof — `tools/api-clean-root-proof`, from an earlier phase, which covers

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # libsymoneural-llm - the SyMoNeuRaL-owned inference ABI over libllama + libggml
 # (reconstruction v1.1 §49-§56, L3). Produces libsymoneural-llm.so (+ .a), the public
 # header symoneural/llm.h, and symoneural-llm-util. Links the estate's own libllama and

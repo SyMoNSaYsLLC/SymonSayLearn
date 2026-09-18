@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """scan-source-collisions.py - cross-runtime source collision map (v1.2 §9c).
 
 Keyed by normalised logical source name. Every provider kind is treated on equal

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # libsymoneural-llm - the SyMoNeuRaL-owned inference ABI over libllama + libggml
 # (reconstruction v1.1 §49-§56, L3), plus symoneural-llm-util. First-party code built
 # from the committed tree HEAD:Symoneural-LLM/app (symoneural-firstparty); the native
@@ -5,8 +8,8 @@
 # sysroot - never a host library, never a build tree.
 SUMMARY = "SyMoNeuRaL LLM native library (libsymoneural-llm) and utility"
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f6737acf372c75a15aaeb6e6eca2c340"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty cmake pkgconfig
 SYMON_FP_PATH = "work/runtimes/llm/app"

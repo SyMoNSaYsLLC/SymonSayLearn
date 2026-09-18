@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* Placeholder. The shell, navigation and design system are real; this surface is
  * not built yet. It says so rather than rendering an empty frame that looks
  * finished, because a page that looks done and does nothing is worse than a page

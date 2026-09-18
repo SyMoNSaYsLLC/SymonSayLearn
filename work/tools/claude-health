@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # claude-health - is Claude Desktop about to freeze?
 #
 # The freezes that corrupt Kate and Dolphin windows are CPU/thread starvation,

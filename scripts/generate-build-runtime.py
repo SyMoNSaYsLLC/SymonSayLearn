@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """generate-build-runtime.py — writes the symoneural-build runtime's toolset.
 
 scripts -> source -> project code. This is the scripts tier: it READS the OE/bitbake

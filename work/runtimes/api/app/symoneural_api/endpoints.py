@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The endpoint register — every gateway route, who answers it, and whether it exists.
 
 docs/api/ENDPOINT-REGISTER.md is the prose; this is the same register as data, so the

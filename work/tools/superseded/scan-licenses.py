@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """scan-licenses.py - find EVERY licence-bearing file inside each acquired source
 tree and compare it against what the curated recipe declares in LIC_FILES_CHKSUM.
 

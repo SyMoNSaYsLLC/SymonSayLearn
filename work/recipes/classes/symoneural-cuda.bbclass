@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-cuda - the ONE way a recipe reaches CUDA in this estate (ruling
 # cuda-toolkit-authority, P7, 2026-09-14: CUDA 13.4.1 for Blackwell sm_120).
 #

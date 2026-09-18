@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Ravencalc clean-root proof body: run INSIDE the extracted image by tools/clean-root-proof.
 Imports the numerics closure, refuses build frontends, and performs one meaningful
 consumer operation per library (the same calls a RavenCalc request would make)."""

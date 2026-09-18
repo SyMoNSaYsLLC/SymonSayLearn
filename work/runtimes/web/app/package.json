@@ -2,6 +2,7 @@
   "name": "symoneural-web",
   "version": "1.0.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "description": "SyMoNeuRaL web interface: the estate's own surface over its own runtimes.",
   "scripts": {
     "dev": "next dev -p 8812",

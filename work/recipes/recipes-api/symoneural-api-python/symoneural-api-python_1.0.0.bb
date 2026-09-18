@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural_api: the generic Python API (FastAPI service, application registry,
 # demo policy, unit supervisor binding, ctypes binding to libsymoneural-api).
 # First-party, built from HEAD:Symoneural-API/app by symoneural-firstparty.
@@ -8,7 +11,8 @@
 # libsymoneural-api.so.1 (with a recorded Python fallback when absent).
 SUMMARY = "SyMoNeuRaL API - generic control plane and application layer (Python)"
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "CLOSED"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty python_flit_core
 SYMON_FP_PATH = "work/runtimes/api/app"

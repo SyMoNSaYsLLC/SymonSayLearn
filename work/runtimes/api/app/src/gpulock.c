@@ -4,7 +4,9 @@
  * contract shared with the Python control plane, so a C holder is visible to
  * Python and the reverse.
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
+ * Copyright (c) 2026 SyMoNeuRaL. Copyright 2026 SymonSaysLLC
+ * Copyright (c) 2026 SyMoNeuRaL. SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
  */
 
 #define _POSIX_C_SOURCE 200809L

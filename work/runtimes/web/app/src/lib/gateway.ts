@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* The typed client for this estate's own surfaces.
  *
  * Two upstreams, both loopback, both reached through the rewrites in

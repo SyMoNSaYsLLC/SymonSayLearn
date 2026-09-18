@@ -326,10 +326,20 @@ as failure.
 
 ## 8. Licence
 
-**Not yet declared.** First-party recipes carry `LICENSE = "CLOSED"` and there is no
-licence text in this repository. That declaration belongs to Garrett; when the text
-exists it goes in `work/recipes/files/custom-licenses/` as a `LicenseRef-` token, and
-every first-party recipe references it in the same change.
+**FSL-1.1-ALv2 — Functional Source License 1.1, Apache-2.0 future licence.** SyMoNsAyLeaRn
+is proprietary and source-available: you may read, build, modify and use it for any
+purpose that is not a competing commercial product or service, and on the second
+anniversary of each release that release becomes Apache-2.0. The canonical text is
+`LICENSE` at the repository root; `NOTICE` states exactly which paths it covers.
+
+Every first-party recipe declares `LICENSE = "FSL-1.1-ALv2"` (a registered SPDX id
+whose text OE-core ships in `common-licenses`) with `LIC_FILES_CHKSUM` pinned to the
+md5 of the shipped `LICENSE`, so a build fails if the Notice changes without the
+recipes following. Image and packagegroup recipes keep OpenEmbedded's `MIT`
+metadata convention; they build nothing of their own.
+
+Licensor: SymonSaysLLC — Garrett McDonald (Developer, gmcdonald@symoneural.com),
+Ben Hesley (Business, bhesley@symoneural.com).
 
 Acquired upstream source keeps its own licence, recorded per recipe with a
 `LIC_FILES_CHKSUM` read from the tree rather than from a layer recipe.

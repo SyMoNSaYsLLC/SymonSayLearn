@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Diffuse clean-root proof body: run INSIDE the extracted image by tools/clean-root-proof.
 
 Diffuse is the first runtime in this harness whose surface is NOT Python. There is

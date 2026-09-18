@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Backend protocol: what libsymoneural-llm exposes, expressed for Python.
 
 Every backend yields TOKENS as text pieces through a generator so streaming,

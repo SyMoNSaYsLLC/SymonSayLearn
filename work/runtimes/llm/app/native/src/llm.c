@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* llm.c — libsymoneural-llm: the SyMoNeuRaL-owned inference ABI over libllama + libggml.
  *
  * Everything llama.cpp-specific lives in this one translation unit. The public
@@ -10,7 +13,7 @@
  * v0.23.0): llama_model_load_from_file, llama_init_from_model, llama_memory_clear,
  * llama_vocab_is_eog, llama_set_abort_callback. Deprecated spellings are not used.
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
  */
 #define _GNU_SOURCE         /* realpath(3) and dladdr(3); a superset of _XOPEN_SOURCE 700 */
 #include "symoneural/llm.h"

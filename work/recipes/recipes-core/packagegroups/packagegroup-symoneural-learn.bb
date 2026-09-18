@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # The SymonSayLearn runtime: ONE deployable surface for this whole build.
 #
 # Every other packagegroup in this directory is a SLICE of the estate - one runtime,

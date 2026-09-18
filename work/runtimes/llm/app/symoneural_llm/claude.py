@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Anthropic Messages protocol adapter — one consumer of the native inference API.
 
 Translates POST /v1/messages (messages, system, stream, tools, tool_choice,

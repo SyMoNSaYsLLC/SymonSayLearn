@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* symoneural/llm.h — the stable C ABI of libsymoneural-llm (design v1.0.0, L3).
  *
  * A SyMoNeuRaL-owned inference boundary on top of libllama + libggml. Public
@@ -11,7 +14,7 @@
  * client never supplies a filesystem path · no secret-bearing diagnostics ·
  * no protocol parsing (Anthropic/OpenAI live in Python).
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
  */
 #ifndef SYMONEURAL_LLM_H
 #define SYMONEURAL_LLM_H

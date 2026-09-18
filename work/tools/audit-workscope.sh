@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # audit-workscope.sh — the full pipeline audit for the SyMoNeuRaL estate.
 #
 # Two questions per acquired source, both answered from disk:

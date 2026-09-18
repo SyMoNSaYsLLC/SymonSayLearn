@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """scan-oe-providers.py - inventory providers from the LOCKED OE-Core metadata on
 disk and build the provider-collision graph. No bitbake execution: PN/PV come from
 recipe filenames, PROVIDES from static recipe text.

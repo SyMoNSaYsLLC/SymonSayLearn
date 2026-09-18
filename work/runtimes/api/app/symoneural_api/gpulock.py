@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The GPU lock — one card, several units that each want all of it.
 
 15.92 GiB. A chat weight set and an image weight set do not both fit, so the

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The gateway process — one loopback port, the /v1 dialect, and the credential.
 
 This is the thing a client configures. It is NOT a rack unit: it has no entry in

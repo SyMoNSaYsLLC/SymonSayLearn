@@ -5,7 +5,9 @@
  * that its stack is built from source it holds. nvidia-smi is invoked as a
  * SUBPROCESS whose absence degrades to present=false rather than a link error.
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
+ * Copyright (c) 2026 SyMoNeuRaL. Copyright 2026 SymonSaysLLC
+ * Copyright (c) 2026 SyMoNeuRaL. SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
  */
 
 #define _POSIX_C_SOURCE 200809L

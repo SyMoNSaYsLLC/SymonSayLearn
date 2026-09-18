@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symonlearn — activates the build runtime, in the shape of poky's oe-init-build-env.
 #
 #     source ./symonlearn                    environment only; every script becomes a verb

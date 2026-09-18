@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-pristine.bbclass - build from a DISPOSABLE EXPORT of an acquired tree.
 #
 # Replaces externalsrc. externalsrc points ${S} directly at the acquired source,

@@ -2,7 +2,9 @@
  * the primitives in gpulock.c / rack.c / unit.c onto stable status codes and
  * bounded buffers, and holds the ONE priority table.
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
+ * Copyright (c) 2026 SyMoNeuRaL. Copyright 2026 SymonSaysLLC
+ * Copyright (c) 2026 SyMoNeuRaL. SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
  */
 #define _POSIX_C_SOURCE 200809L
 #include "symoneural/api.h"

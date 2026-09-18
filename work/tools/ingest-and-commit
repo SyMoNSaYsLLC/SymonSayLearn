@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # ingest-and-commit <component> - S2 steps a-h for one tree: ingest (tools/ingest-tree),
 # then ONE commit carrying the tree and the lock records. Never `git add`s the source
 # path: the tree is already in the index from upstream's tree object, and add would

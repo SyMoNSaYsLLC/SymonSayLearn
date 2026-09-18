@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* util-main.c — symoneural-llm-util: an argv-driven operator/proof tool over the
  * libsymoneural-llm ABI. It exists so a clean root can exercise the native chain
  * without Python. Every argument is positional; there is no shell, no config file,
@@ -10,7 +13,7 @@
  *   symoneural-llm-util tokenize <registry_root> <model_id> <text>
  *   symoneural-llm-util generate <registry_root> <model_id> <prompt> [max_tokens] [temperature] [seed]
  *
- * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: MIT
+ * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2
  */
 #define _POSIX_C_SOURCE 200809L
 #include "symoneural/llm.h"

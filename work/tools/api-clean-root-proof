@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # api-clean-root-proof - the §37/§42 proof: a root filesystem installed by opkg from the
 # package feed (symoneural-image-api), NO source tree, NO PYTHONPATH, NO pip, NO devtool.
 # Extracts the image tarball, runs the TARGET interpreter through the target loader and

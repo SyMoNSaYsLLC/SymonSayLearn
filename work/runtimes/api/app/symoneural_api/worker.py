@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """The chat worker client — the gateway's one way to reach an inference engine.
 
 The worker is the `chat` unit (units.REGISTRY["chat"], 127.0.0.1:8802). It binds

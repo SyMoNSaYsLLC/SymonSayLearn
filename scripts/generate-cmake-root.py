@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """generate-cmake-root.py — writes the root CMakeLists.txt from what the tree contains.
 
 The domino: symonlearn -> symonbake -> bitbake -> recipe (inherit cmake) -> CMakeLists.txt.

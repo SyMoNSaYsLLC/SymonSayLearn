@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """HTTP surface regression via FastAPI's TestClient (needs fastapi + httpx on the interpreter)."""
 import importlib, os, sys, tempfile, unittest
 from pathlib import Path

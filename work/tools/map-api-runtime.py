@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """map-api-runtime.py - one machine-readable map of what the API runtime IS.
 
 Reads disk only: source-lock (direct + Tier-B trees), provider-decisions (Python

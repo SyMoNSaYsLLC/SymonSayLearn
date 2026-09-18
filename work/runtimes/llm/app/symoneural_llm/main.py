@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """symoneural-llm — the estate-owned LLM runtime, run as the recorded unit `chat`.
 
 The API registry (Symoneural-API/app/symoneural_api/units.py) records unit `chat`

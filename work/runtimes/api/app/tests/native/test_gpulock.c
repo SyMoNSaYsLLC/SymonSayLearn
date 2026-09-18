@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: FSL-1.1-ALv2
+// Copyright 2026 SymonSaysLLC
+// SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* gpulock regression: the protocol both halves must keep. */
 #define _POSIX_C_SOURCE 200809L
 #include "symoneural/gpulock.h"

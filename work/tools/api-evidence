@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """api-evidence - reconstruction v1.1 §44/§69 provenance artefacts for the API runtime,
 generated FROM DISK (the deployed image, its package feed, the extracted clean root).
 

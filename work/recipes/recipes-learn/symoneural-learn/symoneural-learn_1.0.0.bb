@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-learn: the glue that makes this build a product rather than a set of parts.
 #
 # Everything unique to the SymonSayLearn composition lives here and nowhere else:
@@ -12,7 +15,8 @@ SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up, units and client con
 DESCRIPTION = "Scripts, systemd user units and the tracked Claude Desktop client \
 configuration for the SymonSayLearn runtime. Installs no weights and no credential."
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "CLOSED"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty
 SYMON_FP_PATH = "work/runtimes/llm/hostrun"
@@ -38,9 +42,10 @@ do_install() {
     install -d ${D}${datadir}/symoneural-learn
     install -m 0644 ${S}/SOURCE-TREE ${D}${datadir}/symoneural-learn/SOURCE-TREE
 
-    # The terms travel with the runtime. LICENSE = "CLOSED" tells OpenEmbedded this is
-    # not open source; it does not put the text anywhere an installed root can read it.
-    # Shipping the file is what makes the declaration checkable on a target.
+    # The terms travel with the runtime. LICENSE = "FSL-1.1-ALv2" is the SPDX token for the
+    # Functional Source License (source-available, Apache-2.0 after two years); OE-core
+    # ships its canonical text. Shipping the file is what makes the declaration checkable
+    # on a target, and LIC_FILES_CHKSUM pins the exact Notice this build was made under.
     install -m 0644 ${S}/LICENSE ${D}${datadir}/symoneural-learn/LICENSE
 }
 

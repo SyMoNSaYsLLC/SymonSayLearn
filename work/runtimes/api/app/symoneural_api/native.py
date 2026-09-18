@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """ctypes binding to libsymoneural-api — the narrow FFI over the C ABI.
 
 Loads ONE explicit library, checks the ABI major before declaring a single

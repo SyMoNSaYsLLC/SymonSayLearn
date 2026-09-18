@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # libsymoneural-api + symoneural-api-util: the NATIVE half of the SyMoNeuRaL API
 # (reconstruction v1.1 §29-§34). C17, libc/POSIX only - readelf NEEDED must show
 # libc.so.6 and nothing else; tools/api-clean-root-proof checks that on the target
@@ -8,7 +11,8 @@
 # licence text in the repository today; that declaration is Garrett's to make.
 SUMMARY = "SyMoNeuRaL API native library and utility"
 HOMEPAGE = "https://symoneural.com"
-LICENSE = "CLOSED"
+LICENSE = "FSL-1.1-ALv2"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24be8021d54bb3ba168e56c716f6ee7"
 
 inherit symoneural-firstparty cmake
 SYMON_FP_PATH = "work/runtimes/api/app"

@@ -1,0 +1,18 @@
+{
+ "schema": "symoneural-acquisition/1",
+ "component": "wasmer",
+ "runtime": "llm",
+ "upstream_url": "https://github.com/wasmerio/wasmer",
+ "commit_sha": "a6dc5e093e151cbc0647871a6be0ba8fc7259c11",
+ "commit_date": "2026-09-17 14:23:36 +0200",
+ "nearest_tag": "v7.4.0",
+ "declared_license": "MIT",
+ "license_file": "LICENSE",
+ "license_md5": "71afdf3349f1efb1361cfd1e9e85bb8d",
+ "copyright": "Copyright (c) 2019-present Wasmer, Inc. and its affiliates.",
+ "acquired": "2026-09-18",
+ "tree": "upstream/llm/wasm/wasmer",
+ "size_on_disk": "3.4G",
+ "full_history": true,
+ "note": "Garrett's pick over wasm3 (2026-09-18): Rust, MIT, matches the Rust direction for the LLM engine and backend. Full clone with history for provenance work. Build only out-of-tree (CARGO_TARGET_DIR outside the tree, --locked) per R1. Crate-closure licence census owed before anything built from it ships."
+}

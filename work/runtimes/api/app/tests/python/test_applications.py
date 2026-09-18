@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """Generic application-registry tests (not about DispatchOS) and, separately, the DispatchOS ones."""
 import importlib, os, sys, unittest
 from pathlib import Path

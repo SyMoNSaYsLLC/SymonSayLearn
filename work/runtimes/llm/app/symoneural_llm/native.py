@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """ctypes binding to libsymoneural-llm — the Backend the runtime uses on a target.
 
 Loads ONE explicit library, checks the ABI major before declaring a single

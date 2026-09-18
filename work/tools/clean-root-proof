@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # clean-root-proof <Runtime> <image-recipe> - the §37/§42 proof for any runtime whose
 # surface is Python: extract the image's rootfs tarball, run the TARGET interpreter
 # through the target loader with an EMPTY environment (no PYTHONPATH, no source tree,

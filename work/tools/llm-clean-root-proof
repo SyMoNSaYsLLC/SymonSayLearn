@@ -1,4 +1,7 @@
 #!/bin/bash
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # llm-clean-root-proof - the §37/§42 + P9 L6/L7 proof for the LLM runtime: a root
 # filesystem installed by opkg from the package feed (symoneural-image-llm), NO source
 # tree, NO PYTHONPATH, NO pip, NO devtool, NO model weights. Extracts the image tarball

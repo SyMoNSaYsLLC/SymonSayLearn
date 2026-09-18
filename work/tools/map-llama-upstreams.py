@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """map-llama-upstreams.py - L0: what the pinned llama.cpp IS made of, from disk.
 
 Answers, with evidence paths: the llama.cpp pin and its tags; the ggml revision

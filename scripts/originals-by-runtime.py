@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: FSL-1.1-ALv2
+# Copyright 2026 SymonSaysLLC
+# SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """originals-by-runtime.py - every ORIGINAL upstream source sectioned by its future symoneural
 runtime, with build status. Reads the curated and derived records and runs tools/audit-workscope.sh
 for the per-component status; writes generated/ORIGINALS-BY-RUNTIME.md (and any extra --out paths).
