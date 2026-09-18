@@ -258,8 +258,8 @@ def census_elf(rep: Report, unit: str, elf: Path, static_meta: Path | None):
         for p in meta.get("packages", []):
             k, why = classify(p.get("license"), static=True, component=p["name"])
             rep.component(unit, p["name"], p["version"], p.get("license"), k, why, f"cargo metadata (static closure) {static_meta.name}")
-    elif not needed or len(needed) < 4:
-        rep.finding(unit, "REVIEW", "static", f"{elf.name} looks statically linked and no cargo-metadata.json sits beside it — static closure census missing")
+    elif not needed:
+        rep.finding(unit, "REVIEW", "static", f"{elf.name} has no dynamic dependencies (fully static) and no cargo-metadata.json sits beside it — static closure census missing")
 
 def census_manifest(rep: Report, unit: str, manifest: Path):
     cur = {}
