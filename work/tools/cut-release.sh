@@ -84,4 +84,13 @@ if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
 fi
 "${CMD[@]}"; rc=$?
 [ $rc -eq 0 ] || { echo "   gh release create rc=$rc"; exit 8; }
-gh release view "$TAG" --json tagName,isLatest,assets --jq '{tag:.tagName, latest:.isLatest, assets:[.assets[].name]}'
+# `isLatest` is not a field every gh build exposes; asking for it makes this final
+# confirmation exit 1 AFTER the release has been created and every asset uploaded,
+# which reads as a failed cut when nothing failed. Ask only for fields that are
+# always present, and report the asset count and each asset's upload state, which is
+# what actually needs confirming.
+gh release view "$TAG" --json tagName,isDraft,isPrerelease,url,assets \
+  --jq '{tag:.tagName, draft:.isDraft, prerelease:.isPrerelease, url:.url,
+         assets:(.assets|length), pending:[.assets[]|select(.state!="uploaded")|.name]}'; rc=$?
+[ $rc -eq 0 ] || echo "   release created; the confirmation query failed rc=$rc — check the URL above"
+exit 0
