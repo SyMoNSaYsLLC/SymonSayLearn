@@ -1,0 +1,52 @@
+# symoneural-learn: the glue that makes this build a product rather than a set of parts.
+#
+# Everything unique to the SymonSayLearn composition lives here and nowhere else:
+# the bring-up scripts for the chat unit, the systemd user units for the gateway and
+# the web interface, and the tracked client configuration. The runtimes themselves
+# are separate packages; this is what arranges them.
+#
+# First-party, built from the committed tree by symoneural-firstparty, so ${S} is a
+# `git archive` of what is COMMITTED. An uncommitted edit is not packaged, which is
+# the property that makes a release reproducible from a tag.
+SUMMARY = "SyMoNeuRaL SymonSayLearn composition - bring-up, units and client config"
+DESCRIPTION = "Scripts, systemd user units and the tracked Claude Desktop client \
+configuration for the SymonSayLearn runtime. Installs no weights and no credential."
+HOMEPAGE = "https://symoneural.com"
+LICENSE = "CLOSED"
+
+inherit symoneural-firstparty
+SYMON_FP_PATH = "work/runtimes/llm/hostrun"
+
+# allarch: shell scripts, unit files and JSON. Nothing here is compiled, and a
+# machine-specific package would force a rebuild per target for no reason.
+inherit allarch
+
+# The composition is useless without the surfaces it arranges, so they are runtime
+# dependencies rather than a note in a document.
+RDEPENDS:${PN} += " \
+    symoneural-api-python \
+    bash \
+"
+
+do_install() {
+    install -d ${D}${libexecdir}/symoneural-learn
+    install -m 0755 ${S}/serve-chat-unit.sh    ${D}${libexecdir}/symoneural-learn/serve-chat-unit
+    install -m 0755 ${S}/bringup-chat-unit.sh  ${D}${libexecdir}/symoneural-learn/bringup-chat-unit
+
+    # The identity travels with the package so an installed root can say which tree
+    # it was built from without consulting anything else.
+    install -d ${D}${datadir}/symoneural-learn
+    install -m 0644 ${S}/SOURCE-TREE ${D}${datadir}/symoneural-learn/SOURCE-TREE
+}
+
+FILES:${PN} = " \
+    ${libexecdir}/symoneural-learn \
+    ${datadir}/symoneural-learn \
+"
+
+# The bring-up scripts invoke an engine by path from the environment; they do not
+# compile one in. The chat unit's engine is currently an ACQUIRED upstream build run
+# from a host virtualenv, which rules section 3.10 governs as a recorded substitution
+# and which this recipe therefore cannot package. Replacing it with an estate build
+# is the next phase; when it lands, the engine becomes an RDEPENDS row here and the
+# SYM_CHAT_ENGINE_VENV default disappears.
