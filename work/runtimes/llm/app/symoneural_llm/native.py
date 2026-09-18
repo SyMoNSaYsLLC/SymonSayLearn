@@ -159,7 +159,7 @@ class LlamaBackend:
     """
 
     def __init__(self, registry_root: str, *, n_threads: int = 0, n_ctx: int = 4096, seed: int = 0,
-                 native: Native | None = None) -> None:
+                 gpu_layers: int = 0, native: Native | None = None) -> None:
         self._n = native or load()
         self._root = os.path.abspath(registry_root)
         self._n_ctx = int(n_ctx)
@@ -167,7 +167,10 @@ class LlamaBackend:
         self._loaded: dict[str, _Loaded] = {}
         self._infos: dict[str, ModelInfo] = {}
         rt = ctypes.c_void_p()
-        p = _RuntimeParams(ctypes.sizeof(_RuntimeParams), self._root.encode(), int(n_threads), 0)
+        # gpu_layers: 0 keeps every layer on the CPU (the historical default); -1 offloads all of
+        # them; N offloads the first N. The library refuses a non-zero value when no GPU backend
+        # is loaded (SYM_LLM_EBACKEND), so a CPU-only host is never silently slow.
+        p = _RuntimeParams(ctypes.sizeof(_RuntimeParams), self._root.encode(), int(n_threads), int(gpu_layers))
         self._n.check(self._n._lib.sym_llm_runtime_open(ctypes.byref(p), ctypes.byref(rt)))
         self._rt = rt
 

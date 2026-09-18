@@ -50,7 +50,8 @@ def make_backend(args: argparse.Namespace) -> Backend:
     if getattr(args, "fake", False):
         return FakeBackend()
     from .native import LlamaBackend
-    return LlamaBackend(_registry_root(args.registry_root), n_threads=args.threads, n_ctx=args.n_ctx, seed=args.seed)
+    return LlamaBackend(_registry_root(args.registry_root), n_threads=args.threads, n_ctx=args.n_ctx, seed=args.seed,
+                        gpu_layers=args.gpu_layers)
 
 
 def make_adapter(backend: Backend, allowed: str | None) -> MessagesAdapter:
@@ -216,6 +217,8 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--allowed-models", default=os.environ.get("SYM_LLM_ALLOWED_MODELS"), help="comma-separated ids clients may name")
         p.add_argument("--threads", type=int, default=0); p.add_argument("--n-ctx", type=int, default=4096)
         p.add_argument("--seed", type=int, default=0)
+        p.add_argument("--gpu-layers", type=int, default=int(os.environ.get("SYM_LLM_GPU_LAYERS", "0")),
+                       help="layers offloaded to the GPU backend: 0 none (default), -1 all, N the first N (default: $SYM_LLM_GPU_LAYERS)")
         p.add_argument("--fake", action="store_true", help="FakeBackend (tests only; no native library)")
     s = sub.add_parser("serve"); common(s)
     s.add_argument("--host", default="127.0.0.1"); s.add_argument("--port", type=int, default=DEFAULT_PORT)
