@@ -275,7 +275,7 @@ def check_attribution(rep, notices: Path | None):
         elif missing: rep.finding(unit, "FAIL", "attribution", f"{len(missing)} components absent from THIRD-PARTY-NOTICES: {missing[:12]}{' …' if len(missing) > 12 else ''}")
 
 def check_repo_history(rep, repo: Path):
-    unit = f"repo:{repo.name}"
+    unit = f"repo:{repo.resolve().name}"
     rc, out, err, s = run(["git", "-C", str(repo), "rev-list", "--objects", "--all"])
     if rc: return rep.finding(unit, "REVIEW", "repo", f"not a git repo or unreadable: {err[-200:]}")
     n = 0

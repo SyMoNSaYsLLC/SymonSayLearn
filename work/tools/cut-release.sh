@@ -17,7 +17,10 @@
 #   5. gh release create <tag> with the notes as the body and every asset attached; GitHub adds the
 #      source tarball itself. A pre-existing release of that tag aborts — releases are immutable here.
 # Nothing is uploaded on a dry run; the exact gh command is printed instead.
-set -eo pipefail   # deliberately not -u
+#
+# No `set -e`: every step checks its own exit code and exits with a documented number
+# (3 tag/tree, 4 stage, 5 gate, 6 layout, 7 exists, 8 gh). No `set -u` either.
+set -o pipefail
 
 TAG=${1:?tag, e.g. v1.0.0}; STAGE=${2:?stage dir}; shift 2
 DRY=0; PRE=""
@@ -54,10 +57,17 @@ while IFS= read -r f; do
   [ "$arch" = "$rest" ] && arch="noarch"
   case "$arch" in noarch|x86_64|aarch64|armv7|i686) ;; *) echo "   $rel: unknown arch dir '$arch' — stage layout is <unit>/<arch>/<file>"; exit 6;; esac
   name=$base
-  if ! printf '%s' "$name" | grep -q -E -- "-(noarch|linux-(x86_64|aarch64|armv7|i686))[.-]"; then
-    ext=${name#*.}; stem=${name%%.*}
-    if [ "$arch" = noarch ]; then name="${stem}-noarch.${ext}"; else name="${stem}-linux-${arch}.${ext}"; fi
-  fi
+  case "$name" in
+    *.whl) ;;   # a wheel's own tag (py3-none-any / cp313-…-linux_x86_64) already states the arch; pip parses the name
+    *)
+      if ! printf '%s' "$name" | grep -q -E -- "-(noarch|linux-(x86_64|aarch64|armv7|i686))[.-]"; then
+        case "$name" in
+          *.tar.*) ext="tar.${name##*.}"; stem=${name%.tar.*};;
+          *)       ext=${name##*.};       stem=${name%.*};;
+        esac
+        if [ "$arch" = noarch ]; then name="${stem}-noarch.${ext}"; else name="${stem}-linux-${arch}.${ext}"; fi
+      fi;;
+  esac
   ASSETS+=("$f#$name")
 done < <(find "$STAGE" -mindepth 2 -type f | sort)
 for extra in SHA256SUMS THIRD-PARTY-NOTICES.md SHIP-GATE-REPORT.json; do ASSETS+=("$STAGE/$extra#$extra"); done
@@ -67,7 +77,11 @@ echo "== 5. publish"
 if gh release view "$TAG" >/dev/null 2>&1; then echo "   release $TAG already exists — releases are immutable; bump the tag"; exit 7; fi
 CMD=(gh release create "$TAG" --title "SyMoNsAyLeaRn $TAG" --notes-file "$STAGE/RELEASE-NOTES.md" --target "$HEAD" $PRE "${ASSETS[@]}")
 if [ $DRY -eq 1 ]; then echo "   DRY RUN — would run:"; printf '   %q ' "${CMD[@]}"; echo; exit 0; fi
-git rev-parse -q --verify "refs/tags/$TAG" >/dev/null || { git tag -a "$TAG" -m "SyMoNsAyLeaRn $TAG"; git push origin "refs/tags/$TAG"; echo "   tag pushed"; }
+if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+  git tag -a "$TAG" -m "SyMoNsAyLeaRn $TAG"; rc=$?; [ $rc -eq 0 ] || { echo "   git tag rc=$rc"; exit 8; }
+  git push origin "refs/tags/$TAG"; rc=$?;   [ $rc -eq 0 ] || { echo "   tag push rc=$rc"; exit 8; }
+  echo "   tag $TAG created at $HEAD and pushed"
+fi
 "${CMD[@]}"; rc=$?
 [ $rc -eq 0 ] || { echo "   gh release create rc=$rc"; exit 8; }
 gh release view "$TAG" --json tagName,isLatest,assets --jq '{tag:.tagName, latest:.isLatest, assets:[.assets[].name]}'
