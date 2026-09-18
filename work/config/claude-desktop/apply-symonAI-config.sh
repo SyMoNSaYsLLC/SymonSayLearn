@@ -22,7 +22,26 @@ set -u
 SRC=$(dirname -- "${BASH_SOURCE[0]}")/symonAI.json
 PROFILE=${CLAUDE_3P_DIR:-$HOME/.config/Claude-3p}
 LIB=$PROFILE/configLibrary
-ID=symonAI
+# The app loads a config-library entry ONLY when its id matches /^[a-f0-9-]{36}$/
+# (a plain UUID). An id like "symonAI" is written and applied without complaint, and
+# then silently ignored at load: _meta.json said appliedId "symonAI" all day on
+# 2026-09-18 while the app quietly used an older UUID-named entry instead. Reuse the
+# id already applied if it is a valid UUID, so repeated runs update one entry rather
+# than accumulating them; otherwise mint a new one.
+ID=${CLAUDE_3P_ENTRY_ID:-$(
+  python3 -I - "$PROFILE/configLibrary/_meta.json" <<'PYID'
+import json, re, sys, uuid
+try:
+    cur = json.load(open(sys.argv[1])).get("appliedId", "")
+except Exception:
+    cur = ""
+print(cur if re.fullmatch(r"[a-f0-9-]{36}", str(cur)) else str(uuid.uuid4()))
+PYID
+)}
+case "$ID" in
+  [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]-*) ;;
+  *) echo "refusing: entry id '$ID' is not a UUID; the app would ignore the entry" >&2; exit 2;;
+esac
 STAMP=$(date +%Y%m%d-%H%M%S)
 
 die() { echo "ERROR: $*" >&2; exit 1; }

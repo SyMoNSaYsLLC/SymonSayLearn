@@ -5,9 +5,9 @@
 
 Three cards, one per surface a client exposes:
 
-    symon-chat    Symon Chat     quick questions and drafting
-    symon-coder   Symon Coder    writing and running code
-    symon-work    Symon Work     longer tasks, research, documents
+    symon-sonnet  Symon Chat     quick questions and drafting
+    symon-opus    Symon Coder    writing and running code
+    symon-fable   Symon Work     longer tasks, research, documents
 
 They are branches of one dialect, not three engines. Today all three resolve to the
 same `chat` unit and the same weights, and each card says so in `to_detail()`. The
@@ -29,7 +29,7 @@ two cards on one tier would be indistinguishable to a client that selects by tie
 
 A row as this gateway emits it (see `to_row()`):
 
-    {"type": "model", "id": "symon-chat", "display_name": "Symon Chat",
+    {"type": "model", "id": "symon-sonnet", "display_name": "Symon Chat",
      "created_at": "2026-09-18T00:00:00Z", "description": "...",
      "anthropic_family_tier": "sonnet", "is_family_default": true,
      "max_input_tokens": 16384, "max_output_tokens": 4096}
@@ -173,7 +173,7 @@ _UPSTREAM = "20B MXFP4 mixture-of-experts, 24 layers, 32 experts, 4 active; prov
 _CREATED = "2026-09-18T00:00:00Z"
 
 SYMON_CHAT = ModelCard(
-    id="symon-chat",
+    id="symon-sonnet",
     display_name="Symon Chat",
     family_tier="sonnet",
     surface="chat",
@@ -190,7 +190,7 @@ SYMON_CHAT = ModelCard(
 )
 
 SYMON_CODER = ModelCard(
-    id="symon-coder",
+    id="symon-opus",
     display_name="Symon Coder",
     family_tier="opus",
     surface="code",
@@ -209,7 +209,7 @@ SYMON_CODER = ModelCard(
 )
 
 SYMON_WORK = ModelCard(
-    id="symon-work",
+    id="symon-fable",
     display_name="Symon Work",
     family_tier="fable",
     surface="cowork",
@@ -227,6 +227,28 @@ SYMON_WORK = ModelCard(
 
 REGISTRY: dict[str, ModelCard] = {}
 
+# WHY THE IDS CARRY A TIER WORD
+# -----------------------------
+# A model id is a wire identifier, and clients of this dialect filter the /v1/models
+# rows they will offer. MEASURED against a reference client on 2026-09-18: a row
+# survives only when its id matches `^(sonnet|opus|haiku|fable|mythos)(-[\d.]+)?$`
+# or contains one of `claude`, `anthropic`, or a tier word; ids containing a
+# competitor token are rejected outright. `symon-chat` satisfies none of those, so
+# every row was discovered and then dropped, and the picker stayed empty while the
+# request path worked perfectly.
+#
+# So the id carries the tier word the protocol requires and `display_name` carries
+# ours: the picker shows "Symon Chat", the wire says "symon-sonnet". The tier word is
+# a protocol identifier, not a claim about whose model this is; the same applies to
+# the tier field these cards already emit.
+#
+# The former ids stay valid as aliases so anything written against them keeps working.
+ALIASES: dict[str, str] = {
+    "symon-chat": "symon-sonnet",
+    "symon-coder": "symon-opus",
+    "symon-work": "symon-fable",
+}
+
 
 def register(card: ModelCard) -> ModelCard:
     card.validate()
@@ -243,10 +265,12 @@ def register(card: ModelCard) -> ModelCard:
 
 
 def model(model_id: str) -> ModelCard:
+    resolved = ALIASES.get(model_id, model_id)
     try:
-        return REGISTRY[model_id]
+        return REGISTRY[resolved]
     except KeyError:
-        raise KeyError(f"unknown model {model_id!r}; known: {sorted(REGISTRY)}") from None
+        known = sorted(set(REGISTRY) | set(ALIASES))
+        raise KeyError(f"unknown model {model_id!r}; known: {known}") from None
 
 
 def cards() -> list[ModelCard]:
