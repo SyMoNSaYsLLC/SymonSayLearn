@@ -213,7 +213,9 @@ def _unit_root(elf: Path) -> Path:
 
 def _carried_licence(root: Path, lib: str) -> tuple[str, str]:
     """A library bundled in the unit → the licence text carried beside it (licenses/ or LICENSE.<component>)."""
-    tokens = [t for t in re.split(r"[-_.]", lib.replace(".so", "")) if len(t) > 2 and t not in ("lib",)]
+    stem = re.sub(r"\.so(\.\d+)*$", "", lib)
+    stem = stem[3:] if stem.startswith("lib") else stem          # libggml-base → ggml-base; libllama → llama
+    tokens = [t for t in re.split(r"[-_.]", stem) if len(t) > 2] or [stem]
     cands = [p for p in root.rglob("*") if p.is_file() and ("licenses" in p.parts or p.name.upper().startswith(("LICENSE", "COPYING")))]
     for p in cands:
         if any(t in str(p).lower() for t in tokens):
@@ -232,8 +234,9 @@ def census_elf(rep: Report, unit: str, elf: Path, static_meta: Path | None):
         if lib.lower() in EXC_MATCH:
             ex = EXC_MATCH[lib.lower()]
             rep.component(unit, lib, ex["component"], ex["licence"], "PERMISSIVE", f"recorded exception: {ex['why_it_passes']}", "readelf NEEDED → policy exception"); continue
-        # 2. a library carried inside the unit itself → its carried licence text
-        if list(root.rglob(lib)):
+        # 2. a library carried inside the unit itself (by soname or by versioned file name) → its carried licence text
+        soname_stem = re.sub(r"\.so(\.\d+)*$", "", lib)
+        if list(root.rglob(lib)) or any(p.name.startswith(soname_stem + ".so") for p in root.rglob(soname_stem + ".so*")):
             lic, src = _carried_licence(root, lib)
             if lic == "FSL-1.1-ALv2": rep.component(unit, lib, "first-party", lic, "PERMISSIVE", "first-party", "carried in the unit"); continue
             k, why = classify(lic, component=lib)
