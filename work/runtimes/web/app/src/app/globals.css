@@ -1,0 +1,560 @@
+/* SyMoNeuRaL web interface — the design system.
+ *
+ * Everything visual is a token defined here. No component hardcodes a colour, a
+ * radius or a shadow, so rebranding is an edit to section 1 of this file and
+ * nothing else. That is the whole reason tokens exist; a palette scattered across
+ * forty components is not a palette, it is forty decisions.
+ *
+ * WHERE THE DEPTH COMES FROM
+ * --------------------------
+ * Depth in a good interface is not "add a drop shadow". It is four things working
+ * together, and each is a token group below:
+ *
+ *   1. Surfaces step in LIGHTNESS, not just in shadow. A raised card is a
+ *      different colour from the page, so it reads as raised even with shadows
+ *      disabled, on a cheap panel, or for someone with reduced contrast settings.
+ *   2. Shadows are LAYERED and LOW opacity — a tight contact shadow plus a wide
+ *      ambient one. A single large blurred shadow reads as a sticker; two reads
+ *      as an object resting on something.
+ *   3. Raised surfaces carry a HAIRLINE TOP HIGHLIGHT, one pixel of slightly
+ *      lighter colour along the top edge. This is what makes a surface look lit
+ *      from above rather than pasted on.
+ *   4. Neutrals are WARM, never pure grey. Pure #808080 greys read as dead
+ *      screens; a few degrees of warmth makes the same layout feel like a
+ *      material.
+ *
+ * COLOUR, AND AN UNRESOLVED QUESTION
+ * ----------------------------------
+ * The brand marks on this machine are symoneural-mark-teal.svg and
+ * symoneural-mark-green.svg, so teal and green are the accents. The hex values
+ * below are NOT taken from those files: every asset in ~/Desktop/brand is dated
+ * 2026-08-16, and rules section 3.2 bars material dated August 2026. They are a
+ * considered stand-in, chosen to sit correctly against these neutrals, and they
+ * are wrong until Garrett confirms the real values. Changing them is two lines.
+ */
+
+/* ========================================================================== */
+/* 1. BRAND — the only block to edit when the real values land                 */
+/* ========================================================================== */
+:root {
+  /* Teal: the primary accent. Actions, focus, the active surface. */
+  --brand-teal-h: 176;
+  --brand-teal-s: 100%;
+  --brand-teal-l: 22%;
+
+  /* Green: the secondary accent. Healthy state, "serving", success. */
+  --brand-green-h: 142;
+  --brand-green-s: 46%;
+  --brand-green-l: 34%;
+
+  /* Warmth of the neutral ramp, in degrees of hue. 0 would be dead grey.
+     Small values do a lot; above about 40 it stops reading as neutral. */
+  --neutral-h: 30;
+  --neutral-s: 8%;
+}
+
+/* ========================================================================== */
+/* 2. SCALES — spacing, radius, type, motion                                   */
+/* ========================================================================== */
+:root {
+  /* A 4px base on a 1.5 ratio. Named by size rather than by use, because a
+     token called --space-card-padding is a decision you cannot reuse. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code",
+    "Liberation Mono", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.875rem;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.55;
+
+  /* Motion. Everything decelerates: things arrive and settle, they do not
+     coast to a stop. Durations are short enough not to be waited on. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 280ms;
+}
+
+/* ========================================================================== */
+/* 3. LIGHT THEME — surfaces, text, lines, shadows                             */
+/* ========================================================================== */
+:root {
+  --surface-sunken: hsl(var(--neutral-h) var(--neutral-s) 94%);
+  --surface-base: hsl(var(--neutral-h) var(--neutral-s) 97.5%);
+  --surface-raised: hsl(var(--neutral-h) calc(var(--neutral-s) - 2%) 100%);
+  --surface-overlay: hsl(var(--neutral-h) calc(var(--neutral-s) - 2%) 100%);
+  --surface-inset: hsl(var(--neutral-h) var(--neutral-s) 91%);
+
+  --text-strong: hsl(var(--neutral-h) 12% 12%);
+  --text-default: hsl(var(--neutral-h) 9% 24%);
+  --text-muted: hsl(var(--neutral-h) 7% 45%);
+  --text-faint: hsl(var(--neutral-h) 6% 60%);
+  --text-on-accent: hsl(var(--neutral-h) 20% 99%);
+
+  --line-subtle: hsl(var(--neutral-h) 10% 89%);
+  --line-default: hsl(var(--neutral-h) 10% 82%);
+  --line-strong: hsl(var(--neutral-h) 10% 70%);
+
+  --accent: hsl(var(--brand-teal-h) var(--brand-teal-s) var(--brand-teal-l));
+  --accent-hover: hsl(var(--brand-teal-h) var(--brand-teal-s) calc(var(--brand-teal-l) - 4%));
+  --accent-soft: hsl(var(--brand-teal-h) 40% 94%);
+  --accent-line: hsl(var(--brand-teal-h) 35% 80%);
+
+  --ok: hsl(var(--brand-green-h) var(--brand-green-s) var(--brand-green-l));
+  --ok-soft: hsl(var(--brand-green-h) 40% 94%);
+  --warn: hsl(38 78% 42%);
+  --warn-soft: hsl(38 80% 95%);
+  --bad: hsl(5 62% 46%);
+  --bad-soft: hsl(5 70% 96%);
+
+  /* Two layers, always. Contact shadow is tight and slightly stronger; ambient
+     is wide and very weak. Together they place the object in a room. */
+  --shadow-1:
+    0 1px 2px hsl(var(--neutral-h) 20% 20% / 0.06),
+    0 1px 3px hsl(var(--neutral-h) 20% 20% / 0.04);
+  --shadow-2:
+    0 1px 2px hsl(var(--neutral-h) 20% 20% / 0.07),
+    0 4px 12px hsl(var(--neutral-h) 20% 20% / 0.06);
+  --shadow-3:
+    0 2px 4px hsl(var(--neutral-h) 20% 20% / 0.08),
+    0 12px 32px hsl(var(--neutral-h) 20% 20% / 0.10);
+
+  /* The lit edge. Applied as an inset box-shadow on raised surfaces. */
+  --highlight-top: inset 0 1px 0 hsl(0 0% 100% / 0.9);
+
+  --focus-ring: 0 0 0 2px var(--surface-base), 0 0 0 4px var(--accent-line);
+
+  color-scheme: light;
+}
+
+/* ========================================================================== */
+/* 4. DARK THEME                                                               */
+/*                                                                             */
+/* Not an inversion. In dark, elevation goes UP in lightness while shadows lose */
+/* most of their power, because a shadow on a dark ground is nearly invisible.  */
+/* The lit top edge does the work instead, so it is stronger here.              */
+/* ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface-sunken: hsl(var(--neutral-h) 9% 7%);
+    --surface-base: hsl(var(--neutral-h) 8% 10%);
+    --surface-raised: hsl(var(--neutral-h) 7% 13.5%);
+    --surface-overlay: hsl(var(--neutral-h) 7% 16%);
+    --surface-inset: hsl(var(--neutral-h) 9% 8.5%);
+
+    --text-strong: hsl(var(--neutral-h) 14% 96%);
+    --text-default: hsl(var(--neutral-h) 10% 87%);
+    --text-muted: hsl(var(--neutral-h) 8% 64%);
+    --text-faint: hsl(var(--neutral-h) 7% 48%);
+    --text-on-accent: hsl(var(--neutral-h) 20% 99%);
+
+    --line-subtle: hsl(var(--neutral-h) 8% 19%);
+    --line-default: hsl(var(--neutral-h) 8% 25%);
+    --line-strong: hsl(var(--neutral-h) 8% 36%);
+
+    /* The brand teal is too dark to read on a dark ground, so the accent
+       lightens. Same hue, different job. */
+    --accent: hsl(var(--brand-teal-h) 62% 48%);
+    --accent-hover: hsl(var(--brand-teal-h) 64% 55%);
+    --accent-soft: hsl(var(--brand-teal-h) 40% 16%);
+    --accent-line: hsl(var(--brand-teal-h) 40% 30%);
+
+    --ok: hsl(var(--brand-green-h) 48% 52%);
+    --ok-soft: hsl(var(--brand-green-h) 35% 15%);
+    --warn: hsl(38 72% 58%);
+    --warn-soft: hsl(38 40% 15%);
+    --bad: hsl(5 66% 62%);
+    --bad-soft: hsl(5 40% 16%);
+
+    --shadow-1: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-2: 0 1px 2px hsl(0 0% 0% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.3);
+    --shadow-3: 0 2px 4px hsl(0 0% 0% / 0.45), 0 12px 32px hsl(0 0% 0% / 0.4);
+
+    --highlight-top: inset 0 1px 0 hsl(0 0% 100% / 0.055);
+
+    --focus-ring: 0 0 0 2px var(--surface-base), 0 0 0 4px var(--accent);
+
+    color-scheme: dark;
+  }
+}
+
+/* Explicit override, so a preference control can win over the system. */
+:root[data-theme="dark"] {
+  --surface-sunken: hsl(var(--neutral-h) 9% 7%);
+  --surface-base: hsl(var(--neutral-h) 8% 10%);
+  --surface-raised: hsl(var(--neutral-h) 7% 13.5%);
+  --surface-overlay: hsl(var(--neutral-h) 7% 16%);
+  --surface-inset: hsl(var(--neutral-h) 9% 8.5%);
+  --text-strong: hsl(var(--neutral-h) 14% 96%);
+  --text-default: hsl(var(--neutral-h) 10% 87%);
+  --text-muted: hsl(var(--neutral-h) 8% 64%);
+  --text-faint: hsl(var(--neutral-h) 7% 48%);
+  --line-subtle: hsl(var(--neutral-h) 8% 19%);
+  --line-default: hsl(var(--neutral-h) 8% 25%);
+  --line-strong: hsl(var(--neutral-h) 8% 36%);
+  --accent: hsl(var(--brand-teal-h) 62% 48%);
+  --accent-hover: hsl(var(--brand-teal-h) 64% 55%);
+  --accent-soft: hsl(var(--brand-teal-h) 40% 16%);
+  --accent-line: hsl(var(--brand-teal-h) 40% 30%);
+  --ok: hsl(var(--brand-green-h) 48% 52%);
+  --ok-soft: hsl(var(--brand-green-h) 35% 15%);
+  --warn: hsl(38 72% 58%);
+  --warn-soft: hsl(38 40% 15%);
+  --bad: hsl(5 66% 62%);
+  --bad-soft: hsl(5 40% 16%);
+  --shadow-1: 0 1px 2px hsl(0 0% 0% / 0.4);
+  --shadow-2: 0 1px 2px hsl(0 0% 0% / 0.4), 0 4px 12px hsl(0 0% 0% / 0.3);
+  --shadow-3: 0 2px 4px hsl(0 0% 0% / 0.45), 0 12px 32px hsl(0 0% 0% / 0.4);
+  --highlight-top: inset 0 1px 0 hsl(0 0% 100% / 0.055);
+  color-scheme: dark;
+}
+
+/* ========================================================================== */
+/* 5. BASE                                                                     */
+/* ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--surface-base);
+  color: var(--text-default);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.011em;
+  margin: 0;
+}
+
+code,
+pre,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* Motion is a courtesy, not a requirement. Anyone who has asked the operating
+   system to stop animating things has already told us what they want. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================================================== */
+/* 6. PRIMITIVES                                                               */
+/* ========================================================================== */
+
+/* The raised surface. Lightness step + hairline top highlight + two-layer
+   shadow. All three, or it does not read as an object. */
+.panel {
+  background: var(--surface-raised);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1), var(--highlight-top);
+}
+
+.panel-lifted {
+  background: var(--surface-raised);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2), var(--highlight-top);
+  transition: box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.panel-lifted:hover {
+  box-shadow: var(--shadow-3), var(--highlight-top);
+  transform: translateY(-1px);
+}
+
+/* Inset: input wells and code blocks. Recessed by a DARKER surface plus an
+   inner shadow along the top, the exact inverse of the raised treatment. */
+.inset {
+  background: var(--surface-inset);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 2px hsl(var(--neutral-h) 20% 20% / 0.05);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-weight: 500;
+  color: var(--text-default);
+  background: var(--surface-raised);
+  border: 1px solid var(--line-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1), var(--highlight-top);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.btn:hover {
+  border-color: var(--line-strong);
+}
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-1);
+}
+.btn-accent {
+  color: var(--text-on-accent);
+  background: var(--accent);
+  border-color: transparent;
+}
+.btn-accent:hover {
+  background: var(--accent-hover);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+}
+.badge-ok {
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-color: color-mix(in srgb, var(--ok) 25%, transparent);
+}
+.badge-warn {
+  color: var(--warn);
+  background: var(--warn-soft);
+  border-color: color-mix(in srgb, var(--warn) 25%, transparent);
+}
+.badge-bad {
+  color: var(--bad);
+  background: var(--bad-soft);
+  border-color: color-mix(in srgb, var(--bad) 25%, transparent);
+}
+.badge-muted {
+  color: var(--text-muted);
+  background: var(--surface-inset);
+  border-color: var(--line-subtle);
+}
+
+/* A status dot with a soft halo, so state is visible at a glance and does not
+   depend on colour alone being distinguishable. */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex: none;
+}
+.dot-ok {
+  background: var(--ok);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 18%, transparent);
+}
+.dot-bad {
+  background: var(--bad);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bad) 18%, transparent);
+}
+.dot-idle {
+  background: var(--text-faint);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--text-faint) 15%, transparent);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+.faint {
+  color: var(--text-faint);
+}
+
+/* ========================================================================== */
+/* 7. APP SHELL                                                                */
+/* ========================================================================== */
+.shell {
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  min-height: 100dvh;
+}
+
+.sidebar {
+  background: var(--surface-sunken);
+  border-right: 1px solid var(--line-subtle);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    145deg,
+    hsl(var(--brand-teal-h) 55% 42%),
+    hsl(var(--brand-green-h) 45% 34%)
+  );
+  box-shadow: var(--shadow-1), var(--highlight-top);
+  flex: none;
+}
+.brand-name {
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.nav-link:hover {
+  background: color-mix(in srgb, var(--text-default) 6%, transparent);
+  color: var(--text-default);
+  text-decoration: none;
+}
+.nav-link[aria-current="page"] {
+  background: var(--surface-raised);
+  color: var(--text-strong);
+  box-shadow: var(--shadow-1), var(--highlight-top);
+}
+
+.main {
+  padding: var(--space-6) var(--space-7);
+  max-width: 1100px;
+}
+
+.page-head {
+  margin-bottom: var(--space-6);
+}
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+}
+.page-sub {
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.card-body {
+  padding: var(--space-5);
+}
+.card-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* One gutter rule for narrow viewports, so nothing ever touches the edge. */
+@media (max-width: 860px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .main {
+    padding: var(--space-5) 16px;
+  }
+}
