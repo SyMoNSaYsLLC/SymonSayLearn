@@ -14,6 +14,7 @@ has never executed on the GPU.
 | It has never generated a token on the GPU | every correct decode so far ran with the GPU hidden; the card is occupied |
 | It answers without any credential | `symoneural-llm request --prompt-style channels` returned a proper dialect message with a thinking block, `stop_reason: max_tokens`, 65 in / 24 out |
 | The substitution is deliberate and recorded | the engine-identity rule, and the cutover record |
+| Tools work end to end | given a weather tool the model answered `stop_reason=tool_use` with `name=get_weather` and `input={'city': 'Paris'}`; fed that call and a result back it answered "The current weather in Paris is 14 °C with light rain." with `stop_reason=end_turn` |
 | The Rust engine we evaluated is unusable | it decodes garbage, identically with the GPU disabled, which clears our kernels and toolkit and isolates the fault to that engine's model implementation |
 
 ## Why this path is separate
@@ -39,10 +40,7 @@ is a much smaller obstacle than the one previously recorded here.
 1. **Measure our runtime on the GPU**, during a deliberate window with the substitution
    stopped. One-shot `request` with `--gpu-layers -1` is enough for correctness and speed;
    no port, no credential, no cutover.
-2. **Tool calling.** The channels prompt style renders no tools and can never emit a tool-use
-   block, so no client can drive tools against our models. The work is in the channel parser:
-   emit a tool-use block, set the stop reason accordingly, and assert both in tests.
-3. **The cutover itself**, once 1 and 2 hold.
+2. **The cutover itself**, once 1 holds.
 
 ## Blocked
 

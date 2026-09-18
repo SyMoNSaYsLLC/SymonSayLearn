@@ -39,9 +39,10 @@ is wrong for a single operator who needs to change settings. Quarantined, not de
 
 ## Next
 
-- Tool calling. The channels prompt style cannot yet emit a tool-use block, so the model
-  cannot drive tools from this client. Tracked in [own-runtime.md](own-runtime.md), because
-  the change is in the runtime rather than the client.
+- Tool calling is **built and verified against the real checkpoint**, in the runtime rather
+  than the client; see [own-runtime.md](own-runtime.md). What remains for this path is
+  exercising it through the client itself, which needs the runtime serving rather than the
+  stand-in engine.
 - The Code surface over SSH. The host entry exists; the allowlist is unset.
 - Effort levels. Measured: effort is entirely client configuration and nothing the gateway
   emits can turn it on. It needs an explicit model list in the client's own configuration,
