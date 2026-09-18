@@ -33,6 +33,12 @@ import httpx
 # the `chat` unit's registered port, not a second copy of that number by accident.
 BASE_URL = os.environ.get("SYM_CHAT_URL", "http://127.0.0.1:8802").rstrip("/")
 
+# The chat unit may require a bearer credential of its own — the estate's own runtime
+# refuses to serve without SYM_CHAT_TOKEN; the recorded substitution engine takes none.
+# Sent only when configured, read once at start, never logged or echoed.
+_CHAT_TOKEN = os.environ.get("SYM_CHAT_TOKEN")
+_CHAT_HEADERS: dict[str, str] = {"Authorization": f"Bearer {_CHAT_TOKEN}"} if _CHAT_TOKEN else {}
+
 CONNECT_TIMEOUT_S = float(os.environ.get("SYM_GW_CONNECT_TIMEOUT", "2.0"))
 READ_TIMEOUT_S = float(os.environ.get("SYM_GW_READ_TIMEOUT", "900"))
 
@@ -50,7 +56,7 @@ def client() -> httpx.AsyncClient:
     """One client for the process: connection reuse, and one place to close."""
     global _client
     if _client is None:
-        _client = httpx.AsyncClient(base_url=BASE_URL, timeout=_TIMEOUT)
+        _client = httpx.AsyncClient(base_url=BASE_URL, timeout=_TIMEOUT, headers=_CHAT_HEADERS)
     return _client
 
 
