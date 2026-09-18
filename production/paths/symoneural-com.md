@@ -1,7 +1,7 @@
 # symoneural-com — inference through a browser
 
 **State: partial.** The site builds, serves, and holds a real conversation with our own
-models. Five of seven surfaces are real; the rest are honest placeholders. Nothing is
+models. Six of seven surfaces are real; the rest are honest placeholders. Nothing is
 public yet.
 
 ## What is true, and how it was proved
@@ -14,6 +14,7 @@ public yet.
 | The credential never reaches the browser | read server-side only; the page renders a 16-character fingerprint and never the value |
 | Chat answers through the site | `POST /api/chat` streamed 60 events in correct order and returned "Paris is the capital of France." with the reasoning block kept separate |
 | A malformed request is refused | `{"messages":[]}` returns the dialect envelope `invalid_request_error: model is required` |
+| It installs from a published release and runs | v1.2.0: checksums verify, the unit installs, its launcher starts it, and it serves every surface |
 
 ## Architecture, and the one rule that shapes it
 
@@ -29,7 +30,8 @@ a live answer, and a client-side fetch would need a secret in the browser.
 | Overview | real — live probes of gateway, credential, chat unit, control plane |
 | Models | real — the live registry, including whether each row survives a client's own filter |
 | Chat, Code, Cowork | real — one conversation component, each surface preferring its own tier, streamed answers with reasoning folded away |
-| Rack, Settings | placeholders that say so rather than rendering an empty frame |
+| Settings | real — the values this process is actually using, with credentials as a fingerprint |
+| Rack | placeholder; it needs the control plane, which is protected and not listening |
 
 ## Next
 

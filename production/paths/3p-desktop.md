@@ -11,7 +11,9 @@ in the application, not a locked policy.
 | The client runs in third-party mode | every process carries `--user-data-dir=/home/google/.config/Claude-3p` |
 | It reaches our gateway | its log records `inference apiHost=http://localhost:9001` |
 | It obtains the credential without one being stored | `helper ok (elapsed=11ms stdoutBytes=64)` |
-| All three models are offered | `Model discovery: 3 found in 27ms; picker = 3 (discovery)` |
+| Models are offered | `Model discovery: 3 found in 27ms; picker = 3 (discovery)`; a fourth tier has since been added |
+| The quick tier is no longer empty | `symon-haiku` claims the haiku tier, so the per-tier default a client sets for its own background work resolves to one of ours instead of an empty string |
+| A deliberation request no longer reaches the engine | a message carrying a `thinking` block returns `end_turn` with text, where the field was previously forwarded to an engine that never declared it |
 | A request completes end to end | 41-check suite, `work/tools/verify-3p-path.sh`, all passing |
 
 ## The three faults that had to be fixed, and why each was invisible
@@ -41,7 +43,11 @@ is wrong for a single operator who needs to change settings. Quarantined, not de
   cannot drive tools from this client. Tracked in [own-runtime.md](own-runtime.md), because
   the change is in the runtime rather than the client.
 - The Code surface over SSH. The host entry exists; the allowlist is unset.
-- Model effort levels, which the client offers per model and our registry does not yet carry.
+- Effort levels. Measured: effort is entirely client configuration and nothing the gateway
+  emits can turn it on. It needs an explicit model list in the client's own configuration,
+  which also lets each entry carry a nicer label than its wire id.
+- The Code surface over SSH. Measured: the host resolves, the daemon listens, and the remote
+  engine is already installed. Three configuration keys stand between here and a session.
 
 ## Blocked
 
