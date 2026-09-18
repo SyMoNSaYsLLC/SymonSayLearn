@@ -1,5 +1,5 @@
 {
-  "_comment": "SyMoNeuRaL third-party inference configuration. Canonical copy; apply-symonAI-config.sh installs it into the app's config library under a generated UUID. NO CREDENTIAL IS STORED HERE and none is needed: inferenceCredentialHelper names a script that prints the token on demand, so the key stays in ~/.config/symoneural/gateway-9001.key (0600) and never enters this file, the app profile, or git. This is a USER configuration, not an MDM policy: a policy under /etc/claude-desktop locks every field and shows the deployment as Organization-managed.",
+  "_comment": "SyMoNeuRaL third-party inference configuration. Canonical copy; apply-symonAI-config.sh installs it into the app's config library under a generated UUID. NO CREDENTIAL IS STORED HERE and none is needed: inferenceCredentialHelper names a script that prints the token on demand, so the key stays in ~/.config/symoneural/gateway-9001.key (0600) and never enters this file, the app profile, or git. This is a USER configuration, not an MDM policy: a policy under /etc/claude-desktop locks every field and shows the deployment as Organization-managed. The SSH allowlist names the one host a Code session may reach; it resolves through ~/.ssh/config to a loopback address, so a remote session never leaves this machine. inferenceModels is set because effort ceilings and display labels cannot come from discovery: the gateway has no field for either.",
   "inferenceProvider": "gateway",
   "inferenceCredentialKind": "helper-script",
   "inferenceGatewayBaseUrl": "http://localhost:9001",
@@ -28,10 +28,44 @@
   "builtinBrowserBlockedDomains": [],
   "sshTransport": "system-openssh",
   "sshClientPath": "/usr/bin/ssh",
-  "sshHostAllowlist": [],
+  "sshHostAllowlist": [
+    "symon"
+  ],
   "chatAdvancedFileAnalysisEnabled": false,
   "disableEssentialTelemetry": true,
   "disableNonessentialTelemetry": true,
   "organizationInstructions": "You are operating inside the SyMoNeuRaL estate on the host `symon`. Inference is served by SyMoNeuRaL's own runtimes on this machine. Never propose routing inference to a third-party API or pointing tooling at someone else's hosted model.\n\nThe authoritative rules are ~/.claude/symoneuralrules.md. Read it before acting.\n\nEvidence, not assertion. Work is complete only when its artifact exists on disk or a consumer has exercised it, and the report names the evidence: a path, a hash, or command output. Check exit codes directly (cmd; rc=$?), never through a pipeline. Reproduce a problem before explaining it. When a document and the disk disagree, the disk is correct.\n\nNever do these:\n- git add . or git add -A. Stage explicit paths only.\n- Print, generate or commit a secret. Fingerprints and file locations only.\n- Write into acquired upstream source under upstream/. It is read-only.\n- Use material dated August 2026. It predates the fresh start.\n- Delete Garrett's files. Move or quarantine them and say exactly where they went.\n\nScope: do what was asked. Name adjacent work and stop; do not build it.\n\nStatus: sequence is not status. Never present a status board as current unless you just verified it.\n\nTone: lead with the finding. State failures plainly and show the output. Correct an error in one sentence and continue. Never round a partial result up to a complete one; say which part is done and which is not.\n\nRepository: the symoneural-learn checkout. Weights: SYM_MODELS_DIR. Runtime state and logs: SYM_RUN_DIR. Defaults: config/symoneural-learn.env.example.",
-  "inferenceCredentialHelper": "/usr/local/libexec/symoneural-gateway-credential"
+  "inferenceCredentialHelper": "/usr/local/libexec/symoneural-gateway-credential",
+  "inferenceModels": [
+    {
+      "name": "symon-sonnet",
+      "labelOverride": "Symon Chat",
+      "anthropicFamilyTier": "sonnet",
+      "isFamilyDefault": true,
+      "maxEffort": "high"
+    },
+    {
+      "name": "symon-opus",
+      "labelOverride": "Symon Coder",
+      "anthropicFamilyTier": "opus",
+      "isFamilyDefault": true,
+      "maxEffort": "max"
+    },
+    {
+      "name": "symon-fable",
+      "labelOverride": "Symon Work",
+      "anthropicFamilyTier": "fable",
+      "isFamilyDefault": true,
+      "maxEffort": "max"
+    },
+    {
+      "name": "symon-haiku",
+      "labelOverride": "Symon Quick",
+      "anthropicFamilyTier": "haiku",
+      "isFamilyDefault": true,
+      "maxEffort": "medium"
+    }
+  ],
+  "defaultModelEffort": "medium",
+  "alwaysStartWithDefaultModel": false
 }
