@@ -11,7 +11,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "symoneural-api"
-version = "1.0.0"
+version = "1.1.0"
 license = {file = "LICENSE"}
 description = "SyMoNeuRaL API - the estate's generic control plane and application layer"
 requires-python = ">=3.12"
