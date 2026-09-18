@@ -3,9 +3,9 @@
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 """CLI clean-root proof body: run INSIDE the extracted image by tools/clean-root-proof.
 
-Imports the anthropic + mcp runtime closure, refuses build frontends, and performs one
+Imports the Messages-dialect client SDK + mcp runtime closure, refuses build frontends, and performs one
 meaningful operation per library. NOTHING here touches the network: the estate's product
-is its own runtimes, so the Anthropic SDK is exercised as a local library (type
+is its own runtimes, so the client SDK is exercised as a local library (type
 construction and serialisation), never by calling a hosted service.
 """
 import importlib, os, sys
@@ -55,7 +55,7 @@ for f in ("maturin", "hatchling", "pdm", "flit_core", "setuptools_scm", "build",
 if not bad:
     import json as _json
 
-    # jiter: the Rust JSON parser anthropic streams responses through
+    # jiter: the Rust JSON parser the client SDK streams responses through
     import jiter
     assert jiter.from_json(b'{"a":[1,2,{"b":null}],"c":true}') == {"a": [1, 2, {"b": None}], "c": True}
 
@@ -105,7 +105,7 @@ if not bad:
     assert req.method == "POST" and req.url.host == "symoneural.invalid"
     assert _json.loads(req.content)["id"] == "dispatchos"
 
-    # anthropic SDK as a LOCAL library: the client is constructed and a request is
+    # the client SDK as a LOCAL library: the client is constructed and a request is
     # BUILT, never sent. SyMoNeuRaL's own runtimes are the product; this SDK is a
     # protocol/type dependency of the CLI, not an inference backend.
     import anthropic
@@ -143,7 +143,7 @@ if not bad:
         yield {"data": "ok"}
     assert EventSourceResponse(_gen()).status_code == 200
 
-    # docstring-parser: what the anthropic SDK uses to turn tool functions into schemas
+    # docstring-parser: what the client SDK uses to turn tool functions into schemas
     import docstring_parser
     parsed = docstring_parser.parse("Do a thing.\n\nArgs:\n    unit: which unit\n")
     assert parsed.short_description == "Do a thing." and parsed.params[0].arg_name == "unit"
@@ -151,7 +151,7 @@ if not bad:
     print("  meaningful ops PASS: jiter parsed nested JSON; jsonschema accepted/rejected "
           "against minimum (attrs+referencing+rpds-py); pyjwt RS256 signed and verified over "
           "cryptography's Rust/OpenSSL binding via cffi and rejected a tampered token; "
-          "python-multipart parsed a form part; httpx2 built a POST (unsent); anthropic SDK "
+          "python-multipart parsed a form part; httpx2 built a POST (unsent); the client SDK "
           "built a /v1/messages request locally, never sent; mcp InitializeRequest round-tripped "
           "through mcp-types/pydantic; opentelemetry span; sse-starlette EventSourceResponse 200; "
           "docstring-parser parsed an Args block")

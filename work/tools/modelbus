@@ -20,7 +20,7 @@ CARRIED FORWARD FROM R-184 (the multi-coder surface, 2026-09-02, since deleted)
   agreement or disagreement, and preserves every answer including the rejected one.
   The judgement is the operator's. Anything cleverer takes a decision that is his.
 
-  That rule was paid for: Symon answered "1,2,3,4,5,6,7,8,9,10" and Claude answered
+  That rule was paid for: Symon answered "1,2,3,4,5,6,7,8,9,10" and another party answered
   "1, 2, 3, 4, 5, 6, 7, 8, 9, 10". Same answer. Reporting it as a disagreement
   would have sent the operator to a decision he should never have been asked to
   make - so comparison normalises spacing around separators and NOTHING else.

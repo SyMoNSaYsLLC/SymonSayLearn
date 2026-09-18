@@ -8,14 +8,14 @@
 # brought into history and proven it hasn't already failed or caused issues. We
 # shall not make the same error twice. Our next mistake best be a new one."
 #
-# 134 Claude transcripts / ~372 MB span 2026-08 to now. That corpus holds the
+# 134 agent-session transcripts / ~372 MB span 2026-08 to now. That corpus holds the
 # record of what was already tried. Finding one prior decision in it took four
 # manual searches; this makes it one command.
 #
 # Run BEFORE committing to any approach:
-#     tools/check-history.sh 'nvidia-driver-userspace'
+#     tools/check-history.sh 'driver-userspace'
 #     tools/check-history.sh 'do_rootfs'
-#     tools/check-history.sh 'gpt-oss' --failures
+#     tools/check-history.sh 'symon-chat' --failures
 #
 # Exit 0 always: absence of a hit is NOT proof of safety, only absence of record.
 

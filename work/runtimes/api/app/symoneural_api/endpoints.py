@@ -12,11 +12,11 @@ rule it enforces can be executed rather than asserted:
 Three namespaces, no bleed (the nine rules, 2026-09-17):
 
   root            /health /ready /version /metrics   bare operational probes
-  DIALECT  /v1/*          OpenAI and Anthropic in their EXACT shapes, so unmodified
-                          SDKs and Claude Code work with no shim
+  DIALECT  /v1/*          the chat-completions and Messages dialects in their EXACT
+                          shapes, so unmodified conforming clients work with no shim
   NATIVE   /symoneural/v1/*   everything first-party
-  RESERVED /api/*        held for the Ollama dialect, verbatim, if it is ever built.
-                          Ollama's native surface IS /api/* (server/routes.go @ 5ed8dde3:
+  RESERVED /api/*        held for the acquired model-runner's own dialect, verbatim, if
+                          it is ever built. That surface IS /api/* (server/routes.go @ 5ed8dde3:
                           /api/chat 1897, /api/tags 1875), and the eight routes this
                           estate serves there today collide with it by name. That is why
                           the namespace is being vacated, not extended.
@@ -87,7 +87,7 @@ REGISTRY: tuple[Endpoint, ...] = (
 
     # ---- /v1 dialects ------------------------------------------------------------
     Endpoint("GET", "/v1/models", Namespace.DIALECT, _APP, "api", EndpointState.BUILT,
-             note="symoneural_api.gateway on 127.0.0.1:9001; projection of models.REGISTRY. Rows carry anthropic_family_tier, "
+             note="symoneural_api.gateway on 127.0.0.1:9001; projection of models.REGISTRY. Rows carry the family-tier field (models.FAMILY_TIER_FIELD), "
                   "without which a conforming client drops every first-party id. Proven 2026-09-18."),
     Endpoint("GET", "/v1/models/{model}", Namespace.DIALECT, _APP, "api", EndpointState.BUILT,
              note="symoneural_api.gateway on 127.0.0.1:9001; adds x-symoneural provenance. Proven 2026-09-18."),
@@ -100,7 +100,7 @@ REGISTRY: tuple[Endpoint, ...] = (
     Endpoint("GET", "/v1/responses/{id}", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED),
     Endpoint("POST", "/v1/responses/{id}/cancel", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED),
     Endpoint("POST", "/v1/embeddings", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED,
-             worker="llama-server", note="404 in the OpenAI envelope unless capabilities.embeddings"),
+             worker="llama-server", note="404 in the chat-completions dialect's envelope unless capabilities.embeddings"),
     Endpoint("POST", "/v1/messages", Namespace.DIALECT, _APP, "chat", EndpointState.BUILT,
              worker="acquired vLLM build (host stand-in, rules 3.10)",
              note="symoneural_api.gateway on 127.0.0.1:9001; streaming and non-streaming. The client probe shape "
@@ -109,8 +109,8 @@ REGISTRY: tuple[Endpoint, ...] = (
              EndpointState.BUILT, worker="acquired vLLM build (host stand-in, rules 3.10)",
              note="symoneural_api.gateway on 127.0.0.1:9001; the engine tokenizes, so the count is exact. An estimate is never "
                   "returned wearing an exact count's shape. Proven 2026-09-18."),
-    # The image rows. sd-server at pin 7f410a37 serves these two in the OpenAI dialect
-    # (examples/server/routes_openai.cpp); the estate runs sd-cli per render instead, but
+    # The image rows. sd-server at pin 7f410a37 serves these two in the public images dialect
+    # (examples/server/routes_openai.cpp at that pin); the estate runs sd-cli per render instead, but
     # the gateway's shape is the dialect's, not the engine's.
     Endpoint("POST", "/v1/images/generations", Namespace.DIALECT, _APP, "image",
              EndpointState.DESIGNED, worker="sd-cli",

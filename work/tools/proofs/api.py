@@ -216,7 +216,7 @@ if not bad:
     # ...and sigils deliberately does not, with the reason on the record
     assert ep.for_unit("sigils") == () and "no recorded definition" in ep.UNROUTED["sigils"]
 
-    # the eight routes served today are all in the namespace reserved for Ollama
+    # the eight routes served today are all in the reserved /api/* dialect namespace
     assert {e.namespace for e in ep.built()} == {ep.Namespace.RESERVED}, \
         "a BUILT route escaped /api/*: %r" % ({e.key: str(e.namespace) for e in ep.built()},)
     n_built, n_total = len(ep.built()), len(ep.REGISTRY)

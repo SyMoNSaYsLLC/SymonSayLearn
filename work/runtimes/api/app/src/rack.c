@@ -1,8 +1,8 @@
 /* rack.c — rack telemetry from sysfs, procfs and nvidia-smi.
  *
- * Deliberately no NVML. NVML is a closed NVIDIA library; linking it would put a
- * proprietary blob behind a status endpoint, and the estate's whole claim is
- * that its stack is built from source it holds. nvidia-smi is invoked as a
+ * Deliberately no link against the GPU management library. It is closed; linking
+ * it would put a proprietary blob behind a status endpoint, and the estate's whole
+ * claim is that its stack is built from source it holds. nvidia-smi is invoked as a
  * SUBPROCESS whose absence degrades to present=false rather than a link error.
  *
  * Copyright (c) 2026 SyMoNeuRaL. SPDX-License-Identifier: FSL-1.1-ALv2

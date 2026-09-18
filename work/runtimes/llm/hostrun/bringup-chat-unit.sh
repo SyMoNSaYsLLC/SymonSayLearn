@@ -12,8 +12,8 @@
 # path by an explicit range check in
 # fused_moe/experts/gpt_oss_triton_kernels_moe.py:
 #
-#     # covers SM90 and SM100, excludes SM120
-#     return cap is not None and (9, 0) <= (cap.major, cap.minor) < (11, 0)
+#     the gate admits a compute capability of at least 9.0 and below 11.0 (SM90 and
+#     SM100) and nothing else, so SM120 falls outside it (stated in our words)
 #
 # so the only remaining path is Marlin, which REPACKS the MoE weights into its own
 # kernel format during process_weights_after_loading. That repack peaks above the
@@ -46,8 +46,8 @@ stop_unit() {
 
 # Success is the unit answering on its port, not the log containing a hopeful line.
 #
-# The grace period is not padding. The launcher runs `vllm --version` before it
-# execs `vllm serve`, and during those seconds NOTHING matches the `vllm serve`
+# The grace period is not padding. The launcher runs the engine's `--version` before
+# it execs the serve command, and during those seconds NOTHING matches the `vllm serve`
 # pattern. An earlier version of this function used pgrep as an immediate failure
 # condition and killed a rung five seconds in, while the engine was still starting —
 # it went on to load the model successfully 36 seconds after being recorded as

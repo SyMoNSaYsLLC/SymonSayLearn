@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: FSL-1.1-ALv2
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
-# claude-config — version-control Claude Desktop's settings so they cannot be
+# desktop-assistant-config — version-control the desktop assistant app's settings so they cannot be
 # lost or corrupted irrecoverably.
 #
 # Settings are NOT per account. claude_desktop_config.json carries no account or
@@ -10,9 +10,9 @@
 # across accounts by construction — the real risk is that a single corrupt file
 # breaks all four at once, with no way back.
 #
-#   claude-config save     snapshot live config into the repo
-#   claude-config diff     what changed since the last snapshot
-#   claude-config restore  put the repo's copy back (backs up live first)
+#   desktop-assistant-config save     snapshot live config into the repo
+#   desktop-assistant-config diff     what changed since the last snapshot
+#   desktop-assistant-config restore  put the repo's copy back (backs up live first)
 #
 # Never snapshots buddy-tokens.json or anything holding a credential.
 set -u
@@ -65,7 +65,7 @@ PY
       [ -f "$LIVE/$f" ] && cp -p "$LIVE/$f" "$LIVE/$f.bak-$ts"
       cp "$REPO/$f" "$LIVE/$f" && echo "  restored  $f  (live backed up .bak-$ts)"
     done
-    echo "  RESTART Claude Desktop for these to take effect."
+    echo "  RESTART the desktop assistant app for these to take effect."
     ;;
-  *) echo "usage: claude-config {save|diff|restore}"; exit 1 ;;
+  *) echo "usage: desktop-assistant-config {save|diff|restore}"; exit 1 ;;
 esac

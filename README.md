@@ -7,7 +7,7 @@ The runtimes are the product. Nothing here forwards a request to a hosted model.
 third-party line compiled is committed at a pinned commit and verified byte-identical to
 upstream before a build is allowed to touch it.
 
-There is one GPU — an RTX 5070 Ti, 15.92 GiB, sm_120 — and one lock. Every unit that wants
+There is one GPU — a 16 GB card (15.92 GiB, compute capability 12.0, sm_120) — and one lock. Every unit that wants
 the card queues behind that lock, and that single constraint shapes most of what follows.
 
 ## State
@@ -40,7 +40,7 @@ SymonSayLearn/
 │   ├── common/ ············· ml · text · util · data ··· torch · transformers · tokenizers
 │   ├── cli/ ················ mcp · anthropic · json · tls · http · auth · ffi · text · data
 │   ├── crypto/ ············· stratum ··················· Stratum V2
-│   ├── platform/ ··········· kernel · alienware ········ NVIDIA open kernel · AWCC
+│   ├── platform/ ··········· kernel · alienware ········ open-gpu-kernel-modules · AWCC
 │   ├── build/ ·············· bitbake · autotools · ninja · devtools
 │   └── adaptive-fabric/  live/  remix/  streamer/  web/
 │

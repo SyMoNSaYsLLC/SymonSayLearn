@@ -1,7 +1,7 @@
 /* symoneural/rack.h — rack telemetry: what the hardware is actually doing.
  *
  * Reads the GPU, thermal and memory state that the rack surface reports. No
- * NVML dependency: NVML is a closed NVIDIA library, and linking it would put a
+ * dependency on the GPU management library: it is closed, and linking it would put a
  * proprietary blob in the path of a status endpoint. Everything here comes from
  * sysfs, procfs or nvidia-smi's text output.
  *

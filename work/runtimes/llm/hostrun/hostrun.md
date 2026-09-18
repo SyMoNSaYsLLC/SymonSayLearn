@@ -59,12 +59,9 @@ MEASURED on this host, 2026-09-18:
 
 The checkpoint is MXFP4 mixture-of-experts and this card is compute capability 12.0
 (SM120). The engine excludes SM120 from its Triton MoE path by an explicit range
-check in `fused_moe/experts/gpt_oss_triton_kernels_moe.py`:
-
-```python
-# covers SM90 and SM100, excludes SM120
-return cap is not None and (9, 0) <= (cap.major, cap.minor) < (11, 0)
-```
+check in `fused_moe/experts/gpt_oss_triton_kernels_moe.py`: the gate admits a compute
+capability of at least 9.0 and below 11.0 — SM90 and SM100 — and nothing else, so
+SM120 falls outside it. (Stated in our words; the engine's source is not quoted here.)
 
 So installing `triton_kernels` does not help — the gate is the capability, not the
 module. The only remaining path is Marlin, which **repacks** the MoE weights into its

@@ -24,7 +24,7 @@ S2=${SYM_CUDA_S2:-0}; HOSTDRV=/usr/lib/x86_64-linux-gnu; DRV=''
 case "$S2" in
   0) ;;
   1) DRV=$(cat /sys/module/nvidia/version 2>/dev/null)
-     [[ "$DRV" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo 'FAIL: S2 needs a verified loaded NVIDIA driver version' >&2; exit 1; } ;;
+     [[ "$DRV" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo 'FAIL: S2 needs a verified loaded GPU driver version' >&2; exit 1; } ;;
   *) echo 'FAIL: SYM_CUDA_S2 must be 0 or 1' >&2; exit 2 ;;
 esac
 IMG=$(ls -t $ROOT/Symoneural-LLM/build/devtool-master/tmp/deploy/images/*/symoneural-image-llm-*.rootfs-*.tar.gz 2>/dev/null | head -1)

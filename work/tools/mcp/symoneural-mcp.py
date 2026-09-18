@@ -10,7 +10,7 @@ Why this exists. Three things were reported complete in this estate that had
 never executed: a Fortran runtime never built, a distro config never loaded, and
 assertion tasks whose names never bound. Each was found only when something
 downstream needed it. R16 ("declared is not done — name the evidence") is the
-rule; this server is the instrument, so any Claude session can check state
+rule; this server is the instrument, so any agent session can check state
 against the tree instead of trusting a transcript.
 
 Tools:

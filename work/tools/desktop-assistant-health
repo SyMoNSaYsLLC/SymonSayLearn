@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: FSL-1.1-ALv2
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
-# claude-health - is Claude Desktop about to freeze?
+# desktop-assistant-health - is the desktop assistant app about to freeze?
 #
 # The freezes that corrupt Kate and Dolphin windows are CPU/thread starvation,
 # not GPU and not RAM. Evidence from a real lockup on this box:
@@ -32,7 +32,7 @@ warn=0
 awk -v l="$load" -v c="$cores" 'BEGIN{exit !(l > c*0.6)}' && {
     echo "  ! load ${load} is high for ${cores} cores - run tools/nice-builds"; warn=1; }
 [ "${thr:-0}" -gt "$THR_THREAD" ] && {
-    echo "  ! ${thr} threads (>${THR_THREAD}) - RESTART Claude Desktop; they are not reaped"; warn=1; }
+    echo "  ! ${thr} threads (>${THR_THREAD}) - RESTART the desktop assistant app; they are not reaped"; warn=1; }
 [ "${procs:-0}" -gt "$THR_PROC" ] && {
     echo "  ! ${procs} processes (>${THR_PROC}) - helper accumulation, restart the app"; warn=1; }
 [ "${builds:-0}" -gt 2 ] && {

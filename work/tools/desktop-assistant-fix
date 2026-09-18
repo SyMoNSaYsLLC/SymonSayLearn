@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: FSL-1.1-ALv2
 # Copyright 2026 SymonSaysLLC
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
-# claude-desktop-fix - repair the Claude Desktop developer configuration.
+# desktop-assistant-fix - repair the desktop assistant app's developer configuration.
 #
 # Fixes, all verified against this machine on 2026-09-13:
 #   1. inferenceProvider="gateway" -> http://localhost:9001, where NOTHING listens.
@@ -17,7 +17,7 @@
 #   - Backs up both config files, timestamped, mode 0600, before any write.
 #   - NEVER reads, prints or copies the API key. json round-trip preserves it.
 #   - Nothing is deleted. The stale log is MOVED to a quarantine directory.
-#   - Refuses to run while Claude Desktop is up, because the app rewrites its
+#   - Refuses to run while the desktop assistant app is up, because the app rewrites its
 #     config on exit and would silently undo the edit.
 set -uo pipefail
 
@@ -41,12 +41,12 @@ done
 say()  { printf '  %s\n' "$*"; }
 head2(){ printf '\n== %s ==\n' "$*"; }
 [ "$APPLY" -eq 1 ] && MODE="APPLY" || MODE="DRY RUN (pass --apply to make changes)"
-printf '\nclaude-desktop-fix  [%s]\n' "$MODE"
+printf '\ndesktop-assistant-fix  [%s]\n' "$MODE"
 
 # ---------------------------------------------------------------- preflight
 head2 "preflight"
 if pgrep -f 'claude-desktop|claude_desktop' >/dev/null 2>&1; then
-    say "Claude Desktop is RUNNING - continuing anyway."
+    say "desktop assistant app is RUNNING - continuing anyway."
     # An earlier version refused here, on the belief that the app rewrites its
     # config on exit. MEASURED, and it does not:
     #   desktop started         10:57:42
@@ -56,7 +56,7 @@ if pgrep -f 'claude-desktop|claude_desktop' >/dev/null 2>&1; then
     # changes do not take effect until a restart - which is a different claim.
     say "NOTE: edits apply at next app start, so restart when convenient."
 else
-    say "Claude Desktop not running - safe to edit"
+    say "desktop assistant app not running - safe to edit"
 fi
 for f in "$APP_CFG" "$DEV_CFG"; do
     [ -f "$f" ] && say "found $(basename "$f")  mode $(stat -c %a "$f")" \
@@ -172,11 +172,11 @@ fi
 
 head2 "next"
 if [ "$APPLY" -eq 1 ]; then
-    say "1. Start Claude Desktop."
+    say "1. Start the desktop assistant app."
     say "2. Developer -> Open MCP Log File, confirm 'connected successfully'."
     say "3. Ask for estate_status to prove the tools are live."
 else
     say "This was a DRY RUN. Nothing changed."
-    say "Quit Claude Desktop, then run:  tools/claude-desktop-fix --apply"
+    say "Quit the desktop assistant app, then run:  tools/desktop-assistant-fix --apply"
 fi
 echo

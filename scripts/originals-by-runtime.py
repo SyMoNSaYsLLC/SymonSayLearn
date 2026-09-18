@@ -79,9 +79,9 @@ def main():
             out.append(("\n- Pending (NOT ACQUIRED): %s %s `%s` %s" % (r["component"], r.get("tag", ""), r["sha"][:12], (r.get("upstream_url") or "").replace("https://github.com/", "gh:"))).rstrip()
                        + ((" — " + why[:200]) if why else ""))
         if rt == "Platform":
-            out.append("\n- BINARY-EXTERNAL build inputs (not sources): Debian linux-headers/kbuild/image 6.12.107+deb13-amd64 (6.12.107-1) pinned by sha256 — Debian profile only. External providers still missing for a fresh-machine GPU: NVIDIA driver userspace and GSP firmware 615.71.09 (BLOCKED); acpi_call kernel module for AWCC (NOT ACQUIRED).")
+            out.append("\n- BINARY-EXTERNAL build inputs (not sources): Debian linux-headers/kbuild/image 6.12.107+deb13-amd64 (6.12.107-1) pinned by sha256 — Debian profile only. External providers still missing for a fresh-machine GPU: the GPU driver userspace and GSP firmware 615.71.09 (BLOCKED); acpi_call kernel module for AWCC (NOT ACQUIRED).")
         if rt in ("LLM", "Common"):
-            out.append("\n- BINARY-EXTERNAL inputs (not sources): cuda-toolkit-bin 13.4.1 (NVIDIA EULA)%s — pinned by NVIDIA debian13 index sha256." % (", cudnn-bin 9.25.1.1 (NVIDIA SLA)" if rt == "Common" else ""))
+            out.append("\n- BINARY-EXTERNAL inputs (not sources): cuda-toolkit-bin 13.4.1 (LicenseRef-NVIDIA-CUDA-EULA)%s — pinned by the toolkit vendor's debian13 index sha256." % (", cudnn-bin 9.25.1.1 (LicenseRef-NVIDIA-cuDNN-SLA)" if rt == "Common" else ""))
         if rt == "Crypto":
             out.append("\n- Pending: kawpowminer — DEFERRED to P11 / Phase 20e (GPL-3.0 product/distribution ruling required).")
     out.append("\n\n## Planned runtimes without a source directory yet\n")

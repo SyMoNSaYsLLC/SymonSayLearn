@@ -2,7 +2,7 @@
 # and, through their RDEPENDS, the runtime closure their wheels declare
 # (tools/check-python-runtime-closures.py --runtime Common must PASS for this group to
 # mean anything). The API packagegroup supplies the shared web stack that
-# huggingface-hub reaches through httpx.
+# the model-hub client package reaches through httpx.
 # symoneural-accelerate rejoins the group for the P7 C7 proof (2026-09-14). It was
 # DEFERRED BY RECORDED RULING against the USE_DISTRIBUTED=0 torch because
 # Accelerator.prepare() imports torch.distributed.tensor (accelerate/utils/other.py

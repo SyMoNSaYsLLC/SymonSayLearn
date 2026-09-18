@@ -20,7 +20,7 @@ if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
 fi
 [ "$#" -le 1 ] || { echo 'FAIL: use --help for usage' >&2; exit 2; }
 DRV=$(cat /sys/module/nvidia/version 2>/dev/null)
-[[ "$DRV" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo 'FAIL: S2 needs a verified loaded NVIDIA driver version' >&2; exit 1; }
+[[ "$DRV" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo 'FAIL: S2 needs a verified loaded GPU driver version' >&2; exit 1; }
 FEED=$(ls -d $ROOT/Symoneural-*/build/devtool-master/tmp/deploy/ipk 2>/dev/null | head -50)
 newest() { ls -t $ROOT/Symoneural-*/build/devtool-master/tmp/deploy/ipk/*/$1 2>/dev/null | head -1; }
 TK=$(newest 'cuda-toolkit-bin_13.4.1-r0_*.ipk'); PROBE=$(newest 'symoneural-cuda-probe_1.0-r0_*.ipk')
@@ -50,7 +50,7 @@ echo "--- run through the target loader (env -i)"
 OUT=$(env -i LD_DEBUG=libs "$LD" --inhibit-cache --library-path "$R/lib:$R/usr/lib:$HOSTDRV" "$BIN" 2>"$R/ld-debug.txt"); rc=$?
 echo "  rc=$rc"; echo "  $OUT"
 echo "--- what the loader actually mapped"
-# S2 precisely: a library outside the root is admitted only if the installed NVIDIA
+# S2 precisely: a library outside the root is admitted only if the installed GPU
 # DRIVER packages own it (dpkg -S); libcuda.so.1 dlopens its own JIT/NVVM helpers,
 # and those are driver files too. Anything else from the host is a leak and FAILS.
 grep -oE 'calling init: [^ ]+' "$R/ld-debug.txt" | awk '{print $3}' | sort -u > "$R/mapped.txt"

@@ -330,8 +330,8 @@ if not bad:
     from pygments.formatters import TerminalFormatter
     assert "import" in highlight("import torch", PythonLexer(), TerminalFormatter())
     from markdown_it import MarkdownIt
-    html = MarkdownIt().render("# Common\n\n[hub](https://huggingface.co/x)")
-    assert "<h1>Common</h1>" in html and 'href="https://huggingface.co/x"' in html, html
+    html = MarkdownIt().render("# Common\n\n[hub](https://example.org/x)")
+    assert "<h1>Common</h1>" in html and 'href="https://example.org/x"' in html, html
     import shellingham
     try:
         shellingham.detect_shell(); shell_note = "detected"

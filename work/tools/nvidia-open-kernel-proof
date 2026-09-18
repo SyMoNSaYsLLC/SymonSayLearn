@@ -335,13 +335,13 @@ def debian(args):
     say("    kernel Module.symvers: %d exported symbols" % len(ksym))
     ownsym_path = root / "usr/include/symoneural-nvidia-open-kernel-debian/Module.symvers"
     own = load_symvers(ownsym_path) if ownsym_path.exists() else {}
-    say("    -dev Module.symvers (this build): %d symbols exported by the NVIDIA modules" % len(own))
+    say("    -dev Module.symvers (this build): %d symbols exported by the built GPU modules" % len(own))
     for ko in kos:
         mv = dump_modversions(ko)
         k_ok = sum(1 for s, c in mv.items() if s in ksym and ksym[s][0] == c)
         n_ok = sum(1 for s, c in mv.items() if s not in ksym and s in own and own[s][0] == c)
         bad = [s for s, c in mv.items() if not ((s in ksym and ksym[s][0] == c) or (s in own and own[s][0] == c))]
-        say("    %s: %d imports -> %d kernel CRC matches, %d NVIDIA-module CRC matches, %d unmatched%s" % (
+        say("    %s: %d imports -> %d kernel CRC matches, %d built-module CRC matches, %d unmatched%s" % (
             ko.stem, len(mv), k_ok, n_ok, len(bad), (": " + " ".join(bad[:5])) if bad else ""))
         check(len(mv) > 0 and not bad, "%s: all %d symbol CRCs resolve" % (ko.stem, len(mv)))
         check("module_layout" in mv, "%s: imports module_layout (MODVERSIONS ABI anchor)" % ko.stem)
@@ -442,7 +442,7 @@ def estate(args):
     say("date      : %s" % time.strftime("%Y-%m-%d %H:%M:%S %z"))
     say("host      : kernel %s (the host kernel is NOT the target; nothing here is loaded or booted)" % os.uname().release)
     say("build dir : %s" % bd.relative_to(ROOT))
-    say("NOTE      : a qemux86-64 build/package/staged-install result - not a boot, module-load or RTX 5070 Ti result.")
+    say("NOTE      : a qemux86-64 build/package/staged-install result - not a boot, module-load or on-card result.")
 
     say("\n## 1. Source identity (SOURCES-100 verification from HEAD)")
     r = run([sys.executable, str(ROOT / "work/tools/ingest-tree"), "verify", "open-gpu-kernel-modules"], cwd=ROOT)
@@ -501,7 +501,7 @@ def estate(args):
     check(all(("kernel-module-%s-%s" % (m, kver)) in mdep for m in MODULES), "meta package depends on all four module packages", mdep)
     check(EXCLUDED not in mdep and not any(EXCLUDED in f for f in ipk_files(ours["symoneural-nvidia-open-kernel-dbg"])), "no %s anywhere" % EXCLUDED)
     dev_files = ipk_files(ours["symoneural-nvidia-open-kernel-dev"])
-    check(dev_files == ["./usr/include/symoneural-nvidia-open-kernel/Module.symvers"], "-dev holds exactly the NVIDIA Module.symvers", " ".join(dev_files))
+    check(dev_files == ["./usr/include/symoneural-nvidia-open-kernel/Module.symvers"], "-dev holds exactly the built modules' Module.symvers", " ".join(dev_files))
 
     say("\n## 4. Disposable root, installed from the package feed with the estate's own opkg")
     root = new_root("Platform", args.root)
@@ -547,7 +547,7 @@ def estate(args):
     check(not list(root.rglob("*peermem*")), "no %s in the root" % EXCLUDED)
     check(not list(root.rglob("*.ko.xz")) or True, "in-tree modules uncompressed or compressed as the kernel config dictates (informational)")
     check(not (root / "usr/lib/modules" / kver / "updates/dkms").exists() and not list(root.rglob("dkms")), "no Debian DKMS path in the root")
-    check(not list(root.rglob("libcuda*")) and not list(root.rglob("libnvidia*")) and not list(root.rglob("*.bin")), "no NVIDIA userspace library or firmware blob was pulled into the root")
+    check(not list(root.rglob("libcuda*")) and not list(root.rglob("libnvidia*")) and not list(root.rglob("*.bin")), "no GPU driver userspace library or firmware blob was pulled into the root")
     if not kos:
         return finish(root, args)
 

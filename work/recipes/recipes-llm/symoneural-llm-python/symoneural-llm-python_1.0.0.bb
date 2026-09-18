@@ -3,7 +3,7 @@
 # SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 # symoneural-llm - the estate-owned LLM runtime (reconstruction v1.1 §49-§56, L4):
 # the recorded unit `chat` (HTTP, port 8802, SYM_CHAT_TOKEN, fail-closed) over
-# libsymoneural-llm through ctypes, with the Anthropic Messages adapter as one
+# libsymoneural-llm through ctypes, with the Messages-dialect adapter as one
 # consumer. First-party; built from the committed tree HEAD:Symoneural-LLM/app.
 # The package has NO upstream Python dependency: the service is the stdlib HTTP
 # server (pyproject dependencies = []), so its runtime closure is the stdlib split

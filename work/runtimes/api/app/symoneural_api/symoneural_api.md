@@ -91,22 +91,22 @@ the engine already emits is a second implementation of one spec, and the two dri
 The gateway exists for what the engine cannot do:
 
 1. **`GET /v1/models` in the shape a client will accept.** This is the load-bearing
-   one. Measured from Claude Desktop 2.2553.0 (`resources/app.asar`), a discovered
-   row survives only if `qo(id)` passes **or** the row declares
-   `anthropic_family_tier`:
+   one. Clients that implement the dialect filter the model list: a row is kept when its
+   id matches the dialect's family patterns **or** the row carries the family-tier field
+   (`FAMILY_TIER_FIELD` in `models.py`); ids carrying an upstream vendor's name are
+   commonly dropped outright. No `symon-*` id matches a family pattern, so the tier field
+   is the only reason a first-party model appears in a picker at all, and the upstream
+   checkpoint's own name could never be offered. A row as this gateway emits it:
 
-   ```js
-   Wo   = ["sonnet","opus","haiku","fable","mythos"]
-   Ko   = /^(sonnet|opus|haiku|fable|mythos)(-[\d.]+)?$/
-   Mxe  = ["claude", ...Wo, "anthropic"]
-   Nxe  = /...|gpt|...|openai|.../         // hard blocklist
-   qo(id) = Nxe.test(id) ? false : Ko.test(id) || Mxe.some(m => id.includes(m))
+   ```json
+   {"id": "symon-chat", "type": "model", "display_name": "Symon Chat",
+    "anthropic_family_tier": "sonnet", "is_family_default": true}
    ```
 
    No `symon-*` id matches an allow-pattern, so without the tier field every row is
    dropped and the picker comes back empty. The upstream checkpoint name is worse
-   than dropped: `gpt` and `openai` are both blocklist entries, so the model can
-   **never** be offered under it. An engine emitting plain OpenAI-shaped model rows
+   than dropped: ids carrying an upstream vendor's name are blocklisted outright, so the
+   model can **never** be offered under it. An engine emitting plain chat-completions model rows
    cannot satisfy this; a first-party gateway is not a preference here, it is the
    only way a Symon-branded model is selectable.
 
@@ -180,10 +180,10 @@ command's own output:
 |---|---|
 | `GET /health`, no credential | `200 {"status":"ok"}` with `x-request-id` |
 | `GET /v1/models`, wrong credential | `401 authentication_error` |
-| `GET /v1/models?limit=1000`, `x-api-key` | `200`, three rows, each carrying `anthropic_family_tier` |
+| `GET /v1/models?limit=1000`, `x-api-key` | `200`, three rows, each carrying the family-tier field |
 | `GET /v1/models/symon-coder` | `200` with `x-symoneural` provenance |
 | `GET /v1/nope` | `404 not_found_error` in the dialect envelope |
-| `POST /v1/messages` model `gpt-oss-20b` | `404`, refused by name |
+| `POST /v1/messages` with the upstream checkpoint's own name | `404`, refused by name |
 | **`POST /v1/messages`, the client probe shape** | **`200` in 0.365 s, `content` an array, `model` returned as `symon-chat`** |
 | `GET /ready` | `200 {"status":"ready"}` naming all three models |
 

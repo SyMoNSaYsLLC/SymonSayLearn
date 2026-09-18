@@ -58,7 +58,7 @@ def main():
     ua = os.path.join(LL, "scripts/ui-assets.cmake")
     if os.path.isfile(ua):
         t = open(ua).read()
-        fetches.append({"where": "scripts/ui-assets.cmake", "what": "work/tools/server WebUI dist.tar.gz (+ .sha256) from a GitHub release or Hugging Face bucket at CONFIGURE time",
+        fetches.append({"where": "scripts/ui-assets.cmake", "what": "work/tools/server WebUI dist.tar.gz (+ .sha256) from a hosted release or model-hub bucket at CONFIGURE time",
                         "gated_by": "LLAMA_USE_PREBUILT_UI (default ON) together with LLAMA_BUILD_SERVER (default ${LLAMA_STANDALONE}); LLAMA_BUILD_UI builds it from tools/ui with npm instead",
                         "production": "file(DOWNLOAD ...dist.tar.gz?download=true ...) at line %d" % (t[:t.find("file(DOWNLOAD")].count("\n") + 1)})
     for f in glob.glob(os.path.join(LL, "**/CMakeLists.txt"), recursive=True) + glob.glob(os.path.join(LL, "cmake/*.cmake")):

@@ -3,7 +3,7 @@
 // SyMoNsAyLeaRn — SyMoNeuRaL, a subdivision of SymonSaysLLC. Terms: see LICENSE.
 /* symoneural/gpulock.h — single-card arbitration for native units.
  *
- * One RTX 5070 Ti, 15.92 GiB. A chat weight set and an image weight set do not
+ * One 16 GB card (compute capability 12.0), 15.92 GiB reported. A chat weight set and an image weight set do not
  * both fit, so exactly one surface may hold the device at a time.
  *
  * The Python control plane implements the same protocol; this is the C half,
