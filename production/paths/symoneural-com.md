@@ -1,7 +1,7 @@
 # symoneural-com — inference through a browser
 
 **State: partial.** The site builds, serves, and holds a real conversation with our own
-models. Three of seven surfaces are real; the rest are honest placeholders. Nothing is
+models. Five of seven surfaces are real; the rest are honest placeholders. Nothing is
 public yet.
 
 ## What is true, and how it was proved
@@ -28,8 +28,8 @@ a live answer, and a client-side fetch would need a secret in the browser.
 |---|---|
 | Overview | real — live probes of gateway, credential, chat unit, control plane |
 | Models | real — the live registry, including whether each row survives a client's own filter |
-| Chat | real — model picker from the live registry, streamed answer, reasoning folded away |
-| Code, Cowork, Rack, Settings | placeholders that say so rather than rendering an empty frame |
+| Chat, Code, Cowork | real — one conversation component, each surface preferring its own tier, streamed answers with reasoning folded away |
+| Rack, Settings | placeholders that say so rather than rendering an empty frame |
 
 ## Next
 
