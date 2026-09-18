@@ -24,8 +24,13 @@ import uuid
 from dataclasses import dataclass
 from typing import Any, Iterator
 
+from . import channels
 from .backend import GenerateParams
 from .inference import InferenceService
+
+# Prompt styles. "transcript" is the documented plain format below; "channels" is the format
+# some checkpoints were trained on (channels.py). Chosen per deployment, never guessed.
+PROMPT_STYLES = ("transcript", "channels")
 
 TOOL_CALL = re.compile(r"<tool_call>(\{.*?\})</tool_call>", re.S)
 
@@ -89,13 +94,26 @@ def parse_output(text: str) -> list[dict]:
 
 
 class MessagesAdapter:
-    def __init__(self, svc: InferenceService, *, allowed_models: frozenset[str] | None = None) -> None:
+    def __init__(self, svc: InferenceService, *, allowed_models: frozenset[str] | None = None,
+                 prompt_style: str = "transcript") -> None:
         self.svc = svc
         self.allowed_models = allowed_models
+        if prompt_style not in PROMPT_STYLES:
+            raise ValueError(f"unknown prompt style {prompt_style!r}; one of {PROMPT_STYLES}")
+        self.prompt_style = prompt_style
+
+    def _prompt(self, req: dict) -> str:
+        if self.prompt_style == "channels":
+            try:
+                return channels.build_prompt(req)
+            except ValueError as exc:
+                raise ProtocolError(400, str(exc))
+        return build_prompt(req)
 
     def _params(self, req: dict) -> GenerateParams:
         return GenerateParams(max_tokens=int(req.get("max_tokens", 256)), temperature=float(req.get("temperature", 0.7)),
-                              top_p=float(req.get("top_p", 0.95)), stop=tuple(req.get("stop_sequences") or ()))
+                              top_p=float(req.get("top_p", 0.95)),
+                              stop=tuple(req.get("stop_sequences") or ()) + (channels.STOPS if self.prompt_style == "channels" else ()))
 
     def _validate(self, req: dict) -> str:
         model = req.get("model")
@@ -113,11 +131,13 @@ class MessagesAdapter:
         model = self._validate(req)
         s = self.svc.open_session(model)
         try:
-            c = self.svc.generate(s.session_id, build_prompt(req), self._params(req))
+            c = self.svc.generate(s.session_id, self._prompt(req), self._params(req))
         finally:
             self.svc.close_session(s.session_id)
-        content = parse_output(c.text)
+        content = channels.parse_output(c.text) if self.prompt_style == "channels" else parse_output(c.text)
         stop = "tool_use" if any(b["type"] == "tool_use" for b in content) else {"end_turn": "end_turn", "max_tokens": "max_tokens", "stop_sequence": "stop_sequence", "cancelled": "end_turn"}[c.stop_reason]
+        if self.prompt_style == "channels" and stop == "stop_sequence" and not req.get("stop_sequences"):
+            stop = "end_turn"            # the channel terminator ended the turn; it is not the caller's stop
         return {"id": "msg_" + uuid.uuid4().hex[:24], "type": "message", "role": "assistant", "model": model, "content": content,
                 "stop_reason": stop, "stop_sequence": None, "usage": {"input_tokens": c.input_tokens, "output_tokens": c.output_tokens}}
 
@@ -129,13 +149,21 @@ class MessagesAdapter:
             return f"event: {name}\ndata: {json.dumps(data)}\n\n"
         msg_id = "msg_" + uuid.uuid4().hex[:24]
         yield ev("message_start", {"type": "message_start", "message": {"id": msg_id, "type": "message", "role": "assistant", "model": model, "content": [], "stop_reason": None, "usage": {"input_tokens": 0, "output_tokens": 0}}})
-        yield ev("content_block_start", {"type": "content_block_start", "index": 0, "content_block": {"type": "text", "text": ""}})
         try:
-            for piece in self.svc.stream(s.session_id, build_prompt(req), self._params(req)):
-                yield ev("content_block_delta", {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": piece}})
-            sess = self.svc.session(s.session_id)
-            stop = sess.last_stop
-            yield ev("content_block_stop", {"type": "content_block_stop", "index": 0})
+            if self.prompt_style == "channels":
+                splitter = channels.ChannelStream()
+                for piece in self.svc.stream(s.session_id, self._prompt(req), self._params(req)):
+                    yield from channels.sse(iter(splitter.feed(piece)))
+                yield from channels.sse(iter(splitter.finish()))
+                sess = self.svc.session(s.session_id)
+                stop = "end_turn" if sess.last_stop == "stop_sequence" and not req.get("stop_sequences") else sess.last_stop
+            else:
+                yield ev("content_block_start", {"type": "content_block_start", "index": 0, "content_block": {"type": "text", "text": ""}})
+                for piece in self.svc.stream(s.session_id, self._prompt(req), self._params(req)):
+                    yield ev("content_block_delta", {"type": "content_block_delta", "index": 0, "delta": {"type": "text_delta", "text": piece}})
+                sess = self.svc.session(s.session_id)
+                stop = sess.last_stop
+                yield ev("content_block_stop", {"type": "content_block_stop", "index": 0})
             yield ev("message_delta", {"type": "message_delta", "delta": {"stop_reason": stop, "stop_sequence": None}, "usage": {"output_tokens": sess.output_tokens}})
             yield ev("message_stop", {"type": "message_stop"})
         finally:

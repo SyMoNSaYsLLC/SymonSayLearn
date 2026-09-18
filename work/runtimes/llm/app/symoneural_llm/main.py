@@ -54,10 +54,10 @@ def make_backend(args: argparse.Namespace) -> Backend:
                         gpu_layers=args.gpu_layers)
 
 
-def make_adapter(backend: Backend, allowed: str | None) -> MessagesAdapter:
+def make_adapter(backend: Backend, allowed: str | None, prompt_style: str = "transcript") -> MessagesAdapter:
     svc = InferenceService(backend)
     models = frozenset(m.strip() for m in allowed.split(",") if m.strip()) if allowed else None
-    return MessagesAdapter(svc, allowed_models=models)
+    return MessagesAdapter(svc, allowed_models=models, prompt_style=prompt_style)
 
 
 def service_capabilities(adapter: MessagesAdapter, backend: Backend) -> dict[str, Any]:
@@ -154,7 +154,7 @@ def serve(args: argparse.Namespace) -> int:
         sys.stderr.write(f"symoneural-llm: unconfigured: {TOKEN_ENV} is not provisioned; refusing to serve\n")
         return EX_CONFIG
     backend = make_backend(args)
-    adapter = make_adapter(backend, args.allowed_models)
+    adapter = make_adapter(backend, args.allowed_models, args.prompt_style)
     handler = type("BoundHandler", (Handler,), {"adapter": adapter, "backend": backend, "token": token})
     httpd = ThreadingHTTPServer((args.host, args.port), handler)
     httpd.daemon_threads = True
@@ -176,7 +176,7 @@ def serve(args: argparse.Namespace) -> int:
 def request(args: argparse.Namespace) -> int:
     """One request through the same adapter, in-process: the proof path."""
     backend = make_backend(args)
-    adapter = make_adapter(backend, args.allowed_models)
+    adapter = make_adapter(backend, args.allowed_models, args.prompt_style)
     try:
         if args.file:
             with open(args.file, encoding="utf-8") as f:
@@ -202,7 +202,7 @@ def request(args: argparse.Namespace) -> int:
 def capabilities(args: argparse.Namespace) -> int:
     backend = make_backend(args)
     try:
-        print(json.dumps(service_capabilities(make_adapter(backend, args.allowed_models), backend)))
+        print(json.dumps(service_capabilities(make_adapter(backend, args.allowed_models, args.prompt_style), backend)))
         return 0
     finally:
         close = getattr(backend, "close", None)
@@ -217,6 +217,8 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--allowed-models", default=os.environ.get("SYM_LLM_ALLOWED_MODELS"), help="comma-separated ids clients may name")
         p.add_argument("--threads", type=int, default=0); p.add_argument("--n-ctx", type=int, default=4096)
         p.add_argument("--seed", type=int, default=0)
+        p.add_argument("--prompt-style", choices=("transcript", "channels"), default=os.environ.get("SYM_LLM_PROMPT_STYLE", "transcript"),
+                       help="how requests are rendered for the model and its output split back (default: $SYM_LLM_PROMPT_STYLE or transcript)")
         p.add_argument("--gpu-layers", type=int, default=int(os.environ.get("SYM_LLM_GPU_LAYERS", "0")),
                        help="layers offloaded to the GPU backend: 0 none (default), -1 all, N the first N (default: $SYM_LLM_GPU_LAYERS)")
         p.add_argument("--fake", action="store_true", help="FakeBackend (tests only; no native library)")
