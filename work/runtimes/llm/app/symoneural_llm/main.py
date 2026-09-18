@@ -118,6 +118,22 @@ class Handler(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if not self._authorised():
             return self._json(*_error(401, "authentication_error", "bearer token required"))
+        if path == "/v1/messages/count_tokens":
+            try:
+                n = int(self.headers.get("Content-Length", "0"))
+                if n <= 0 or n > 4 << 20:
+                    return self._json(*_error(413, "invalid_request_error", "body length"))
+                req = json.loads(self.rfile.read(n))
+                model = req.get("model")
+                if not model or not isinstance(req.get("messages"), list):
+                    return self._json(*_error(400, "invalid_request_error", "model and messages are required"))
+                if self.adapter.allowed_models is not None and model not in self.adapter.allowed_models:
+                    return self._json(*_error(403, "permission_error", f"model {model!r} not permitted"))
+                # The count is the prompt as the model will actually see it — same rendering as a
+                # generation — tokenised by the library, not estimated.
+                return self._json(200, {"input_tokens": len(self.backend.tokenize(model, self.adapter._prompt(req)))})
+            except (ValueError, KeyError) as exc:
+                return self._json(*_error(400, "invalid_request_error", str(exc)))
         if path != "/v1/messages":
             return self._json(*_error(404, "not_found_error", "no such route"))
         try:
