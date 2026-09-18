@@ -66,11 +66,15 @@ tree is committed at a commit, carries a `tree_sha`, and is re-verified against 
 every `do_unpack`. Nothing is ever compiled in place — a build compiles a throwaway export
 — which is why the directory can be read-only and stay that way.
 
-**`production/`** is the product and its proof in one place. `runtimes/` holds the code we
-author, one directory per runtime, named for the unit it serves, so that a route, a unit, a
-directory and a recipe group are the same word. Beside it sits the output that proves each
-one: the render, the clean-root trace, the exit status. `production/runtimes/api/README.md`
-is the API map — every route, C symbol and Python function, generated from the source.
+**`production/`** holds the proof, not the code. One directory per unit — `api/`, `llm/`,
+`crypto/`, `cuda/`, `live/`, `ravencalc/`, `platform/`, `common/`, `build/` — each carrying
+what a run produced: the render, the clean-root trace, the exit status, the licence audit,
+the bench numbers, the cutover record. There is no `production/runtimes/`; an earlier
+version of this document described one and it never existed.
+
+**The code we author lives in `work/runtimes/`**, one directory per runtime, named for the
+unit it serves, so that a route, a unit, a directory and a recipe group are the same word.
+Fifteen of them today, from `api/` and `llm/` through `crypto/`, `live/` and `web/`.
 
 **`work/`** is how anything gets built. `recipes/` carries three classes every recipe
 inherits: `pristine` (the disposable export), `cuda` (one toolkit authority, one GPU
