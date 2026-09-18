@@ -24,6 +24,8 @@ envelope to decide whether a failure is retryable gets the wrong answer from
 
 from __future__ import annotations
 
+import os
+
 import json
 from typing import Any
 
@@ -31,6 +33,11 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from . import models, worker
+
+# The name the engine behind SYM_CHAT_URL answers to. Unset, each card's own
+# worker_model is sent; set, it wins for every card — the knob turned when the engine
+# is swapped (rules 3.10) and its model id is not the one the cards were written for.
+WORKER_MODEL_OVERRIDE = os.environ.get("SYM_CHAT_WORKER_MODEL") or None
 
 router = APIRouter()
 
@@ -181,7 +188,7 @@ async def create_message(request: Request):
     if bad is not None:
         return bad
 
-    payload["model"] = card.worker_model
+    payload["model"] = WORKER_MODEL_OVERRIDE or card.worker_model
     # Per-card defaults fill only what the caller left unset; see models.Sampling.
     card.sampling.apply(payload)
     rid = _request_id(request)
@@ -245,7 +252,7 @@ async def count_tokens(request: Request) -> JSONResponse:
     card, bad = _resolve_model(payload, request)
     if bad is not None:
         return bad
-    payload["model"] = card.worker_model
+    payload["model"] = WORKER_MODEL_OVERRIDE or card.worker_model
     try:
         status, parsed, raw = await worker.post_json("/v1/messages/count_tokens", payload)
     except worker.WorkerUnavailable as exc:

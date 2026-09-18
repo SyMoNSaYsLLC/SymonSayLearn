@@ -1,0 +1,124 @@
+{
+ "timestamp": "20260918-082649",
+ "url": "http://127.0.0.1:9001",
+ "model": "symon-chat",
+ "duration_s": 20,
+ "workers": 2,
+ "max_tokens": 48,
+ "version": {
+  "gateway": "1.0.0",
+  "chat_unit": "http://127.0.0.1:8802",
+  "credential_fingerprint": "8a34a51d2f0a7a0e",
+  "registry": [
+   {
+    "type": "model",
+    "id": "symon-chat",
+    "display_name": "Symon Chat",
+    "created_at": "2026-09-18T00:00:00Z",
+    "description": "Quick questions and drafting, served from this host.",
+    "anthropic_family_tier": "sonnet",
+    "is_family_default": true,
+    "max_input_tokens": 16384,
+    "max_output_tokens": 4096,
+    "x-symoneural": {
+     "surface": "chat",
+     "unit": "chat",
+     "worker_model": "symon-ai",
+     "upstream": "20B MXFP4 mixture-of-experts, 24 layers, 32 experts, 4 active; provenance in the estate model register",
+     "licence": "Apache-2.0",
+     "shares_weights_with": [
+      "symon-coder",
+      "symon-work"
+     ]
+    }
+   },
+   {
+    "type": "model",
+    "id": "symon-coder",
+    "display_name": "Symon Coder",
+    "created_at": "2026-09-18T00:00:00Z",
+    "description": "Writing and running code against this estate.",
+    "anthropic_family_tier": "opus",
+    "is_family_default": true,
+    "max_input_tokens": 16384,
+    "max_output_tokens": 8192,
+    "x-symoneural": {
+     "surface": "code",
+     "unit": "chat",
+     "worker_model": "symon-ai",
+     "upstream": "20B MXFP4 mixture-of-experts, 24 layers, 32 experts, 4 active; provenance in the estate model register",
+     "licence": "Apache-2.0",
+     "shares_weights_with": [
+      "symon-chat",
+      "symon-work"
+     ]
+    }
+   },
+   {
+    "type": "model",
+    "id": "symon-work",
+    "display_name": "Symon Work",
+    "created_at": "2026-09-18T00:00:00Z",
+    "description": "Longer tasks: research, analysis and documents.",
+    "anthropic_family_tier": "fable",
+    "is_family_default": true,
+    "max_input_tokens": 16384,
+    "max_output_tokens": 8192,
+    "x-symoneural": {
+     "surface": "cowork",
+     "unit": "chat",
+     "worker_model": "symon-ai",
+     "upstream": "20B MXFP4 mixture-of-experts, 24 layers, 32 experts, 4 active; provenance in the estate model register",
+     "licence": "Apache-2.0",
+     "shares_weights_with": [
+      "symon-chat",
+      "symon-coder"
+     ]
+    }
+   }
+  ],
+  "engine_reports": [
+   {
+    "id": "default",
+    "object": "model",
+    "created": 1789734405,
+    "owned_by": "local",
+    "root": "default"
+   },
+   {
+    "id": "/home/google/symoneural-models/symon-chat",
+    "object": "model",
+    "created": 1789734405,
+    "owned_by": "local",
+    "root": "/home/google/symoneural-models/symon-chat",
+    "status": "loaded"
+   }
+  ]
+ },
+ "catalogue_p50_s": 0.001107,
+ "count_tokens": {
+  "status": 200,
+  "latency_s": 0.011028,
+  "input_tokens": "82"
+ },
+ "single_stream": {
+  "requests": 56,
+  "output_tokens": 2685,
+  "wall_ms": 19696,
+  "tokens_per_s": 136.3,
+  "p50_s": 0.328614,
+  "p95_s": 0.334491
+ },
+ "streaming": {
+  "first_event_ms": 35,
+  "total_ms": 351,
+  "events": 3
+ },
+ "concurrent": {
+  "workers": 2,
+  "requests": 62,
+  "output_tokens": 2945,
+  "wall_ms": 19684,
+  "tokens_per_s": 149.6
+ }
+}
