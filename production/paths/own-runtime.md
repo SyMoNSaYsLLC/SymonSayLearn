@@ -10,7 +10,9 @@ has never executed on the GPU.
 |---|---|
 | Our runtime is built with GPU support | the staged CUDA module carries 143 kernels for this card, counted with `cuobjdump` |
 | Our runtime decodes correctly | the CPU oracle answered " Paris." at temperature 0 through this exact path |
-| It has never run on the GPU | no run log exists; the only correct decode ran with the GPU disabled |
+| Its CUDA backend loads on this card | `capabilities` reports `gpu:CUDA` in the native capability list with the GPU visible, and `cpu` with it hidden — the first observation of that string on this host |
+| It has never generated a token on the GPU | every correct decode so far ran with the GPU hidden; the card is occupied |
+| It answers without any credential | `symoneural-llm request --prompt-style channels` returned a proper dialect message with a thinking block, `stop_reason: max_tokens`, 65 in / 24 out |
 | The substitution is deliberate and recorded | the engine-identity rule, and the cutover record |
 | The Rust engine we evaluated is unusable | it decodes garbage, identically with the GPU disabled, which clears our kernels and toolkit and isolates the fault to that engine's model implementation |
 
@@ -21,11 +23,22 @@ engine. That is the whole point of the dialect boundary: this swap changes throu
 provenance and changes nothing a client can observe. Progress on the other two paths is
 therefore not progress on this one, and vice versa.
 
+## What actually blocks the GPU measurement — corrected
+
+The credential was assumed to block this. It does not. The token gate is in `serve()` alone;
+the one-shot `request` subcommand has no gate, and it runs today.
+
+What blocks it is the card. The substitution engine holds 14.8 GB of 16.3 GB, and the
+checkpoint is 13 GB, so there is no room for a second resident copy. Measuring our runtime on
+the GPU therefore requires stopping the substitution first, which takes the desktop path and
+the website down for the duration. That is a scheduling decision, not a missing input, and it
+is a much smaller obstacle than the one previously recorded here.
+
 ## Next
 
-1. **Exercise our runtime on the GPU on a spare port**, with its own model name, touching
-   neither 8802 nor 9001. This measures correctness and speed against the substitution without
-   a cutover and without a credential.
+1. **Measure our runtime on the GPU**, during a deliberate window with the substitution
+   stopped. One-shot `request` with `--gpu-layers -1` is enough for correctness and speed;
+   no port, no credential, no cutover.
 2. **Tool calling.** The channels prompt style renders no tools and can never emit a tool-use
    block, so no client can drive tools against our models. The work is in the channel parser:
    emit a tool-use block, set the stop reason accordingly, and assert both in tests.
