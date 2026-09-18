@@ -1,0 +1,81 @@
+SyMoNeuRaL — Licence for First-Party Software
+=============================================
+
+Copyright (c) 2026 SymonSays LLC. All rights reserved.
+
+
+WHAT THIS LICENCE COVERS, AND WHAT IT DOES NOT
+----------------------------------------------
+
+This repository contains two kinds of material, under different terms. Read this
+section before relying on anything below it.
+
+COVERED by this licence — SyMoNeuRaL's own work:
+
+    work/recipes/**          recipes, classes and layer configuration
+    work/runtimes/*/app/**   first-party application source
+    work/tools/**            build, scan, verify and proof tooling
+    work/config/**           deployment configuration
+    production/**            proof output and build records
+    reports/**               dated records
+    scripts/**, symonlearn, CMakeLists.txt, README.md, BUILD.md
+
+NOT COVERED by this licence — third-party source acquired at pinned commits:
+
+    upstream/**
+
+Every tree under upstream/ is the work of its own authors and remains under its own
+licence. Nothing in this file grants, restricts, or otherwise affects any right in
+that material. Each acquired tree keeps its own licence file, and the recipe that
+builds it records that licence and a checksum of its text read from the tree itself.
+
+A build of this software combines both kinds of material. When it is distributed,
+the third-party terms travel with it; see THIRD-PARTY-NOTICES.
+
+
+TERMS FOR THE COVERED MATERIAL
+-------------------------------
+
+All rights are reserved by SymonSays LLC.
+
+No licence, express or implied, is granted to use, copy, modify, merge, publish,
+distribute, sublicense, or sell the covered material, or to create derivative works
+from it, except under a separate written agreement signed by SymonSays LLC.
+
+Access to this repository, or possession of a copy of it, does not grant any such
+licence.
+
+THE COVERED MATERIAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL SYMONSAYS LLC BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE COVERED MATERIAL OR ITS USE
+OR OTHER DEALINGS.
+
+
+MODEL WEIGHTS
+-------------
+
+No model weights are contained in this repository, and none are licensed by this
+file. Weights are acquired separately, carry their own terms, and those terms travel
+with them. The runtime reads them from a path given at run time and never packages
+them.
+
+
+ON THE SPDX IDENTIFIER
+----------------------
+
+First-party recipes declare LICENSE = "CLOSED", which is the OpenEmbedded convention
+for material that is not distributed under an open-source licence. That declaration
+now has this text behind it. Before, it had none, which meant a licence audit of a
+build produced nothing at all for SyMoNeuRaL's own code.
+
+
+REVIEW STATUS
+-------------
+
+This text was drafted to record the position the repository already took in its
+recipes, and to scope it correctly against the acquired material. It has not been
+reviewed by a lawyer. If this software is distributed outside SymonSays LLC, that
+review should happen first — in particular on the covered/not-covered boundary above,
+which is the part most likely to matter.

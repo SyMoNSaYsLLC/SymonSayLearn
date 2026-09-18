@@ -37,6 +37,11 @@ do_install() {
     # it was built from without consulting anything else.
     install -d ${D}${datadir}/symoneural-learn
     install -m 0644 ${S}/SOURCE-TREE ${D}${datadir}/symoneural-learn/SOURCE-TREE
+
+    # The terms travel with the runtime. LICENSE = "CLOSED" tells OpenEmbedded this is
+    # not open source; it does not put the text anywhere an installed root can read it.
+    # Shipping the file is what makes the declaration checkable on a target.
+    install -m 0644 ${S}/LICENSE ${D}${datadir}/symoneural-learn/LICENSE
 }
 
 FILES:${PN} = " \

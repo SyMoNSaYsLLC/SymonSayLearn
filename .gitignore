@@ -182,3 +182,9 @@ work/output/
 work/runtimes/*/hostbuild/build-*/
 work/runtimes/*/hostbuild/**/*.so
 work/runtimes/*/hostbuild/**/*.a
+
+# Host build output produced outside BitBake while proving a runtime on this machine.
+# Regenerable from the pinned source; never committed. The scripts and documents
+# beside it ARE tracked.
+production/build/
+work/runtimes/*/hostbuild/
