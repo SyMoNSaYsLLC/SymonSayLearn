@@ -74,17 +74,20 @@ _OP = RouteClass.OPERATOR_ONLY
 
 REGISTRY: tuple[Endpoint, ...] = (
     # ---- root probes -------------------------------------------------------------
-    Endpoint("GET", "/health", Namespace.ROOT, _PUB, "api", EndpointState.DESIGNED,
-             note="must touch no worker and never be expensive"),
-    Endpoint("GET", "/ready", Namespace.ROOT, _PUB, "api", EndpointState.DESIGNED,
-             note="503 the moment an activation, deactivation or drain starts"),
-    Endpoint("GET", "/version", Namespace.ROOT, _APP, "api", EndpointState.DESIGNED),
+    Endpoint("GET", "/health", Namespace.ROOT, _PUB, "api", EndpointState.BUILT,
+             note="symoneural_api.gateway on 127.0.0.1:9001; public, touches no worker. Proven 2026-09-18."),
+    Endpoint("GET", "/ready", Namespace.ROOT, _PUB, "api", EndpointState.BUILT,
+             note="symoneural_api.gateway on 127.0.0.1:9001; live probe of the chat unit, 503 when it does not answer. Proven 2026-09-18."),
+    Endpoint("GET", "/version", Namespace.ROOT, _APP, "api", EndpointState.BUILT,
+             note="symoneural_api.gateway on 127.0.0.1:9001; gateway version, credential fingerprint, registry and the engine's own rows."),
     Endpoint("GET", "/metrics", Namespace.ROOT, _OP, "api", EndpointState.DESIGNED),
 
     # ---- /v1 dialects ------------------------------------------------------------
-    Endpoint("GET", "/v1/models", Namespace.DIALECT, _APP, "api", EndpointState.DESIGNED,
-             note="lists activatable models too, marked inactive; never activate implicitly"),
-    Endpoint("GET", "/v1/models/{model}", Namespace.DIALECT, _APP, "api", EndpointState.DESIGNED),
+    Endpoint("GET", "/v1/models", Namespace.DIALECT, _APP, "api", EndpointState.BUILT,
+             note="symoneural_api.gateway on 127.0.0.1:9001; projection of models.REGISTRY. Rows carry anthropic_family_tier, "
+                  "without which a conforming client drops every first-party id. Proven 2026-09-18."),
+    Endpoint("GET", "/v1/models/{model}", Namespace.DIALECT, _APP, "api", EndpointState.BUILT,
+             note="symoneural_api.gateway on 127.0.0.1:9001; adds x-symoneural provenance. Proven 2026-09-18."),
     Endpoint("POST", "/v1/chat/completions", Namespace.DIALECT, _APP, "chat",
              EndpointState.DESIGNED, worker="llama-server"),
     Endpoint("POST", "/v1/completions", Namespace.DIALECT, _APP, "chat",
@@ -95,11 +98,14 @@ REGISTRY: tuple[Endpoint, ...] = (
     Endpoint("POST", "/v1/responses/{id}/cancel", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED),
     Endpoint("POST", "/v1/embeddings", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED,
              worker="llama-server", note="404 in the OpenAI envelope unless capabilities.embeddings"),
-    Endpoint("POST", "/v1/messages", Namespace.DIALECT, _APP, "chat", EndpointState.DESIGNED,
-             worker="llama-server", note="Anthropic; full SSE lifecycle"),
+    Endpoint("POST", "/v1/messages", Namespace.DIALECT, _APP, "chat", EndpointState.BUILT,
+             worker="acquired vLLM build (host stand-in, rules 3.10)",
+             note="symoneural_api.gateway on 127.0.0.1:9001; streaming and non-streaming. The client probe shape "
+                  "(max_tokens 1, string content) returned 200 in 0.37 s on 2026-09-18."),
     Endpoint("POST", "/v1/messages/count_tokens", Namespace.DIALECT, _APP, "chat",
-             EndpointState.DESIGNED, worker="llama-server",
-             note="exact if the worker tokenizes, else estimated:true - never a fake count"),
+             EndpointState.BUILT, worker="acquired vLLM build (host stand-in, rules 3.10)",
+             note="symoneural_api.gateway on 127.0.0.1:9001; the engine tokenizes, so the count is exact. An estimate is never "
+                  "returned wearing an exact count's shape. Proven 2026-09-18."),
     # The image rows. sd-server at pin 7f410a37 serves these two in the OpenAI dialect
     # (examples/server/routes_openai.cpp); the estate runs sd-cli per render instead, but
     # the gateway's shape is the dialect's, not the engine's.

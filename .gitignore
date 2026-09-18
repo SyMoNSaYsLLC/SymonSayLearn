@@ -174,3 +174,11 @@ runtimes/api/app/tests/native/test_api
 
 # work/output/ is bitbake's world: tmp, downloads, sstate. Nothing in it is committed.
 work/output/
+
+# Host build trees under work/runtimes/*/hostbuild/. These are compiler output built
+# outside BitBake to exercise a runtime on this machine; they are regenerable from
+# the pinned source and must never be committed. The scripts and documents beside
+# them ARE tracked.
+work/runtimes/*/hostbuild/build-*/
+work/runtimes/*/hostbuild/**/*.so
+work/runtimes/*/hostbuild/**/*.a

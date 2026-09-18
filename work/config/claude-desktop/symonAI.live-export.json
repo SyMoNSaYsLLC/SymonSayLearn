@@ -1,0 +1,8 @@
+{
+  "inferenceProvider": "gateway",
+  "inferenceCredentialKind": "static",
+  "inferenceGatewayBaseUrl": "http://localhost:9001",
+  "inferenceGatewayAuthScheme": "bearer",
+  "inferenceCustomHeaders": {},
+  "inferenceStreamIdleTimeoutSec": 300
+}

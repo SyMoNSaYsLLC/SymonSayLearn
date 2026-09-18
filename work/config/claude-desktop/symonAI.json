@@ -1,0 +1,47 @@
+{
+  "_comment": "SyMoNeuRaL third-party inference configuration for Claude Desktop. Canonical copy; apply-symonAI-config.sh installs it into ~/.config/Claude-3p/configLibrary/symonAI.json. NO CREDENTIAL IS STORED HERE. inferenceGatewayApiKey is deliberately absent: it lives only in the app window and in ~/.config/symoneural/gateway-9001.key (mode 0600). Committing this file must never commit a secret.",
+
+  "inferenceProvider": "gateway",
+  "inferenceCredentialKind": "static",
+  "inferenceGatewayBaseUrl": "http://localhost:9001",
+  "inferenceGatewayAuthScheme": "bearer",
+  "inferenceCustomHeaders": {},
+  "inferenceStreamIdleTimeoutSec": 300,
+
+  "modelDiscoveryEnabled": true,
+
+  "coworkTabEnabled": true,
+  "isClaudeCodeForDesktopEnabled": true,
+  "chatTabEnabled": true,
+
+  "autoModeEnabled": true,
+  "disableBypassPermissionsMode": false,
+  "blockReadsOutsideWorkingDirectories": false,
+  "disableBundledSkills": false,
+  "skillCreationEnabled": true,
+  "userPluginMarketplacesEnabled": true,
+  "userPluginUploadsEnabled": true,
+  "scheduledTasksEnabled": true,
+
+  "disableDeploymentModeChooser": true,
+  "disableDeepLinkRegistration": false,
+  "skipWebFetchPreflight": true,
+
+  "toolSearchEnabled": true,
+
+  "builtinBrowserEnabled": true,
+  "builtinBrowserDefaultDomainPolicy": "allow",
+  "builtinBrowserAllowedDomains": [],
+  "builtinBrowserBlockedDomains": [],
+
+  "sshTransport": "system-openssh",
+  "sshClientPath": "/usr/bin/ssh",
+  "sshHostAllowlist": [],
+
+  "chatAdvancedFileAnalysisEnabled": false,
+
+  "disableEssentialTelemetry": true,
+  "disableNonessentialTelemetry": true,
+
+  "organizationInstructions": "You are operating inside the SyMoNeuRaL estate on the host `symon`. Inference is served by SyMoNeuRaL's own runtimes on this machine. Never propose routing inference to a third-party API or pointing tooling at someone else's hosted model.\n\nThe authoritative rules are ~/.claude/symoneuralrules.md. Read it before acting.\n\nEvidence, not assertion. Work is complete only when its artifact exists on disk or a consumer has exercised it, and the report names the evidence: a path, a hash, or command output. Check exit codes directly (cmd; rc=$?), never through a pipeline. Reproduce a problem before explaining it. When a document and the disk disagree, the disk is correct.\n\nNever do these:\n- git add . or git add -A. Stage explicit paths only.\n- Print, generate or commit a secret. Fingerprints and file locations only.\n- Write into acquired upstream source under upstream/. It is read-only.\n- Use material dated August 2026. It predates the fresh start.\n- Delete Garrett's files. Move or quarantine them and say exactly where they went.\n\nScope: do what was asked. Name adjacent work and stop; do not build it.\n\nStatus: sequence is not status. Never present a status board as current unless you just verified it.\n\nTone: lead with the finding. State failures plainly and show the output. Correct an error in one sentence and continue. Never round a partial result up to a complete one; say which part is done and which is not.\n\nRepository: /home/google/symonsaylearn. Weights: /home/google/symoneural-models. Runtime state and logs: /home/google/symoneural-run."
+}
