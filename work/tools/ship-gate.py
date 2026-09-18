@@ -397,12 +397,40 @@ def main():
                     elif f.name == "license.manifest": census_manifest(rep, unit, f)
                     elif f.suffix in (".gz", ".xz", ".bz2", ".zst", ".tar", ".zip", ".tgz"):
                         members = scan_archive(rep, unit, f)
-                        if any(m[0].endswith("package.json") for m in members) and f.stat().st_size < 2 << 30:
-                            d = tmp / f"x-{unit}-{f.stem}"; d.mkdir(exist_ok=True)
+                        # A unit staged as one archive must be censused exactly like a unit
+                        # staged as a tree. Before this, only a package.json triggered an
+                        # extraction, so packing the native units for release (which the
+                        # cutter requires, since it uploads every loose file separately and
+                        # drops symlinks) silently turned their ELF dependency census into
+                        # "licence closure UNESTABLISHED". The archive is the artifact now,
+                        # so it is opened and walked.
+                        want = (any(m[0].endswith(("package.json", "license.manifest")) for m in members)
+                                or any(not m[0].endswith("/") for m in members))
+                        if want and f.stat().st_size < 2 << 30:
+                            d = tmp / f"x-{unit}-{f.name.replace('.', '_')}"; d.mkdir(parents=True, exist_ok=True)
                             try:
-                                with tarfile.open(f) as t: t.extractall(d, filter="data")
-                                census_node_tree(rep, unit, d)
-                            except Exception as ex: rep.finding(unit, "REVIEW", "census", f"could not extract {f.name} for node census: {ex}")
+                                if zipfile.is_zipfile(f):
+                                    with zipfile.ZipFile(f) as z: z.extractall(d)
+                                else:
+                                    with tarfile.open(f) as tf: tf.extractall(d, filter="data")
+                            except Exception as ex:
+                                rep.finding(unit, "REVIEW", "census", f"could not extract {f.name} for census: {ex}")
+                            else:
+                                meta = next(iter(sorted(d.rglob("cargo-metadata.json"))), None)
+                                for m in sorted(d.rglob("*")):
+                                    if not m.is_file() or m.is_symlink():
+                                        continue
+                                    if m.name == "license.manifest":
+                                        census_manifest(rep, unit, m)
+                                    elif m.suffix == ".whl":
+                                        census_wheel(rep, unit, m, tmp)
+                                    elif m.stat().st_size > 0:
+                                        try: magic = m.open("rb").read(4)
+                                        except Exception: continue
+                                        if magic == b"\x7fELF":
+                                            census_elf(rep, unit, m, meta)
+                                if any(x.name == "package.json" for x in d.rglob("package.json")):
+                                    census_node_tree(rep, unit, d)
                     elif f.stat().st_size > 0 and f.open("rb").read(4) == b"\x7fELF":
                         census_elf(rep, unit, f, f.parent / "cargo-metadata.json"); scan_path_rules(rep, unit, str(rel), top=True)
                     else:

@@ -34,9 +34,17 @@ STAGE=${1:?stage directory, e.g. ~/symoneural-release/v1.0.0}
 DRY=0; [ "${2:-}" = "--dry-run" ] && DRY=1
 VER=$(basename "$STAGE")
 KEEP=${SYM_TREE_KEEP:-$(dirname "$STAGE")/$VER-trees}
-# Any fixed instant works; this one is the stage's own gate report, so a repack of an
-# unchanged stage reproduces byte for byte.
-EPOCH=${SOURCE_DATE_EPOCH:-$(stat -c %Y "$STAGE/SHIP-GATE-REPORT.json" 2>/dev/null || echo 1700000000)}
+# The timestamp has to be fixed AND stable across reruns, which rules out anything the
+# release process itself rewrites. An earlier version anchored it to SHIP-GATE-REPORT.json
+# — but the gate rewrites that file on every run, so a repack after gating produced
+# different bytes from the same input, silently breaking the reproducibility this flag set
+# exists to provide. Each unit's BUILD-RECORD.md is written once when the unit is built and
+# never touched again, so it is the stable anchor; SOURCE_DATE_EPOCH overrides it.
+DEFAULT_EPOCH=${SOURCE_DATE_EPOCH:-}
+unit_epoch() {  # $1 = unit directory
+  [ -n "$DEFAULT_EPOCH" ] && { printf '%s' "$DEFAULT_EPOCH"; return; }
+  if [ -f "$1/BUILD-RECORD.md" ]; then stat -c %Y "$1/BUILD-RECORD.md"; else echo 1700000000; fi
+}
 
 packed=0; skipped=0
 for unit_dir in "$STAGE"/*/; do
@@ -54,6 +62,7 @@ for unit_dir in "$STAGE"/*/; do
     [ $DRY -eq 1 ] && { packed=$((packed+1)); continue; }
 
     tmp=$(mktemp -d) || exit 1
+    EPOCH=$(unit_epoch "$unit_dir")
     # Archive from inside the arch directory so paths are relative to the unit, and
     # keep symlinks as symlinks: tar stores them, `find -type f` never saw them.
     tar --sort=name --mtime="@$EPOCH" --owner=0 --group=0 --numeric-owner \
